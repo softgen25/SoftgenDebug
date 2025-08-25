@@ -1,5 +1,5 @@
 // script.js
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener ('DOMContentLoaded', function() {
     const form = document.getElementById('formularioReporte');
     const steps = document.querySelectorAll('.step');
     let currentStep = 0; // El índice del paso actual (0-indexed)

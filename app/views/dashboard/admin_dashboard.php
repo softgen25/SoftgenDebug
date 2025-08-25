@@ -61,7 +61,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <!-- Barra de Navegación Lateral (Sidebar) -->
     <div class="sidebar">
         <div class="logo text-center">
-            <img src="/softGenn/public/img/Logo completo.png" alt="Logo SoftGen" height="70">
+            <img src="../public/img/Logocompleto.png" alt="Logo SoftGen" height="70">
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">

@@ -15,7 +15,7 @@ $email = $_GET['email'] ?? '';
 <body>
     <header>
         <div class="logo text-center">
-            <img src="/softGenn/public/img/Logo completo.png" class="m-3" alt="Logo SoftGen" height="90px">
+            <img src="/sofGenn/public/img/Logocompleto.png" class="m-3" alt="Logo SoftGen" height="90px">
         </div>
     </header>
 

@@ -19,7 +19,6 @@ body {
 }
 
 
-
 header {
     background-color: #ffffff;
     height: 80px;
@@ -30,9 +29,6 @@ header {
     left: 0;
 }
 
-
-
-
 .step {
     display: none; /* Por defecto, ocultamos todos los pasos */
     padding: 20px 0;
@@ -40,7 +36,6 @@ header {
     margin-top: 20px;
     
 }
-
 
 .step.active {
     display: block; /* Solo mostramos el paso activo */

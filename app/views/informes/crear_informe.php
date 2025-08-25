@@ -1,8 +1,8 @@
 <?php
-if (!isset($_SESSION['id_usuario'])) {
+/**if (!isset($_SESSION['id_usuario'])) {
     header('Location: /softGenn/public/index.php?action=login');
     exit();
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -47,7 +47,7 @@ if (!isset($_SESSION['id_usuario'])) {
     <form id="formularioReporte" action="?action=procesar_reporte" method="post" class="form-container">
         <h2 class="mb-4 text-center">Crear Reporte de Servicio</h2>
         <div class="progress mb-4" style="height: 25px;">
-            <div id="progressBar" class="progress-bar" style="background-color: #135787;" style="color: white;" role="progressbar" style="width: 33.33%;">Paso 1 de 3</div>
+            <div id="progressBar" class="progress-bar" style="background-color: #135787;" style="color: white;" role="progressbar" style="width: 20%;">Paso 1 de 5</div>
         </div>
 
         <!-- PASO 1: DATOS DEL CLIENTE Y UBICACIÓN -->
@@ -97,21 +97,6 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="tipo_servicio" class="form-label">Tipo de servicio</label>
-                    <select class="form-select" name="ser_tipo_servicio" id="tipo_servicio" required>
-                        <option value="">Seleccione un tipo de servicio</option>
-                        <?php if (isset($tipo_servicio) && is_array($tipo_servicio)): ?>
-                        <?php foreach ($tipo_servicio as $servicio):?>
-                            <option value="<?= htmlspecialchars($servicio); ?>">
-                                <?= htmlspecialchars($servicio); ?>
-                            </option>
-                        <?php endforeach; ?>
-                        <?php else: ?>
-                            <option value="" disabled>No hay tipos de servicio disponibles</option>
-                        <?php endif; ?>
-                    </select>
-                </div>
                 <div class="col-md-3 mb-3">
                     <label for="tipo_informe" class="form-label">Tipo informe</label>
                     <select class="form-select" name="ser_tipo_informe" id="tipo_informe" required>
@@ -163,7 +148,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 <div class="col-md-6 mb-3">
                     <div class="col-md-6 mb-3">
                     <label for="localidad" class="form-label">Localidad</label>
-                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: su mama en tanga" required>
+                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required>
                 </div>
                 </div>
             </div>
@@ -183,6 +168,23 @@ if (!isset($_SESSION['id_usuario'])) {
             <h5 class="mb-3">2.Datos del equipo</h5>
             <div id="equipos-container">
                 <div class="equipo-group mb-3">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="tipo_servicio" class="form-label">Tipo de servicio</label>
+                            <select class="form-select" name="ser_tipo_servicio" id="tipo_servicio" required>
+                                <option value="">Seleccione un tipo de servicio</option>
+                                <?php if (isset($tipo_servicio) && is_array($tipo_servicio)): ?>
+                                <?php foreach ($tipo_servicio as $servicio):?>
+                                    <option value="<?= htmlspecialchars($servicio); ?>">
+                                        <?= htmlspecialchars($servicio); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option value="" disabled>No hay tipos de servicio disponibles</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-4"><label class="form-label">Tipo de Equipo</label><input type="text" class="form-control" name="equipos[0][tipo_equipo]" placeholder="Mini split" required></div>
                         <div class="col-md-4"><label class="form-label">Marca</label><input type="text" class="form-control" name="equipos[0][marca]" placeholder="Lg" required></div>
@@ -241,12 +243,12 @@ if (!isset($_SESSION['id_usuario'])) {
     
         <!-- PASO 3: OBSERVACIONES -->
         <div class="step" id="step4"> 
-            <h5 class="md-3 mb-3"> Tipo de servicio </h5>
+            <h5 class="mb-3 mb-3"> 4. Tipo de servicio </h5>
             <div class="row">
                 <h2>Seleccione el estado de los siguientes elementos</h2>
                 <div class="col-md-3 mb-3">
                     <label for="Ejes" class="form-label">Estado de ejes</label>
-                    <select name="rm_ejes" id="ejes" class="form-select" >
+                    <select name="rm_ejes" id="ejes" class="form-select" required >
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -255,7 +257,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="Rodamientos"class="form-label">Rodamientos</label>
-                    <select name="rm_rodamientos" id="rodamientos" class="form-select" >
+                    <select name="rm_rodamientos" id="rodamientos" class="form-select"  required>
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -264,7 +266,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="Chumaceras" class="form-label">Chumaceras</label>
-                    <select name="rm_chumaceras" id="chumaceras" class="form-select" >
+                    <select name="rm_chumaceras" id="chumaceras" class="form-select"  required>
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -273,7 +275,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="Poleas" class="form-label">Poleas</label>
-                    <select name="rm_poleas" id="poleas" class="form-select" >
+                    <select name="rm_poleas" id="poleas" class="form-select" required >
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -284,7 +286,7 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <label for="Correas" class="form-label">Correa</label>
-                    <select name="rm_correas" id="correas" class="form-select" >
+                    <select name="rm_correas" id="correas" class="form-select" required >
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -293,7 +295,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                 <label for="Rejillas" class="form-label">Rejillas</label>
-                    <select name="rm_rejillas" id="rejillas" class="form-select" >
+                    <select name="rm_rejillas" id="rejillas" class="form-select" required >
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -302,7 +304,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                 <label for="Pintura" class="form-label">Pintura</label>
-                    <select name="rm_pintura" id="pintura" class="form-select" >
+                    <select name="rm_pintura" id="pintura" class="form-select" required >
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -311,7 +313,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-3 mb-3">
                 <label for="Ductos" class="form-label">Ductos</label>
-                    <select name="rm_ductos" id="ductos" class="form-select" >
+                    <select name="rm_ductos" id="ductos" class="form-select" required >
                         <option value="1">Bueno</option>
                         <option value="2">Regular</option>
                         <option value="3">Malo</option>
@@ -323,43 +325,38 @@ if (!isset($_SESSION['id_usuario'])) {
                 <div class="col-md-3 mb-3">
                     <label class="form-label" for="ser_hora_entrada">Hora de entrada</label>
                     <br>
-                    <input type="time" class="" name="hora_entrada">
+                    <input type="time" class="" name="hora_entrada" required>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label class="form-label" for="ser_hora_salida">Hora de salida</label>
-<br>
-                    <input type="time" class="" name="hora_salida" id="hora_salida">
+                    <br>
+                    <input type="time" class="" name="hora_salida" id="hora_salida" required>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label class="form-label" for="fecha_servicio">Fecha servicio</label>
                     <br>
-                    <input type="date" name="fecha_servicio" id="fecha_servicio">
+                    <input type="date" name="fecha_servicio" id="fecha_servicio" required>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Observaciones</label>
-                    <input type="text" class="form-control" name="ser_observaciones" placeholder="El dispositivos tine...">
-                </div>
+            <div class="text-center mt-4">
+                <button type="button" class="btn prev-btn mt-3" style="background-color:#135787" style="color: white;"><i class="bi bi-caret-left"></i> Anterior</button>
+                <button type="button" class="btn next-btn mt-3" style="background-color:#135787" style="color: white;"> Siguiente <i class="bi bi-caret-right"></i> </button> 
             </div>
-            <div class="row md-3 mb-3">
-                <div class="text-center mb-4">
-                    <button type="button" class="btn prev-btn mt-3" style="background-color:#135787" style="color: white;"><i class="bi bi-caret-left"></i> Anterior</button>
-                    <button type="button" class="btn next-btn mt-3" style="background-color:#135787" style="color: white;"> Siguiente <i class="bi bi-caret-right"></i> </button> </div>
-                </div>
-            </div>
-            
         </div>
 
         <div class="step" id="step5">
-            <h5 class="mb-3">3. Observaciones Finales</h5>
-            <div class="mb-3">
-                <label for="observaciones" class="form-label">Añade aquí cualquier detalle adicional, recomendación o trabajo realizado.</label>
-                <textarea name="observaciones" id="observaciones" class="form-control" rows="6" required></textarea>
-            </div>
-            <div class="text-center mt-4">
-                <button type="button" class="btn btn-secondary prev-btn"><i class="bi bi-caret-left-fill"></i> Anterior</button>
-                <button type="submit" class="btn btn-success"><i class="bi bi-check-circle-fill"></i> Finalizar y Generar PDF</button>
+            <h5 class="mb-3 mb-3">5. Observaciones Finales</h5>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="mb-3">
+                        <label for="observaciones" class="form-label">Añade aquí cualquier detalle adicional, recomendación o trabajo realizado.</label>
+                        <textarea name="observaciones" id="observaciones" class="form-control" rows="4" required></textarea>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn btn-secondary prev-btn"><i class="bi bi-caret-left-fill"></i> Anterior</button>
+                        <button type="submit" class="btn btn-success"><i class="bi bi-check-circle-fill"></i> Finalizar y Generar PDF</button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -374,6 +371,8 @@ if (!isset($_SESSION['id_usuario'])) {
 </footer>
 <!-- SCRIPT PARA EL FORMULARIO MULTIPASOS -->
 <script>
+    const tiposDeServicio = <?= json_encode($tipo_servicio) ?>;
+    
     document.addEventListener('DOMContentLoaded', function() {
         let currentStep = 0;
         const steps = document.querySelectorAll('.step');

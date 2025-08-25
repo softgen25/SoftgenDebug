@@ -34,7 +34,9 @@ class InformeController {
     private $conn;
     private $clienteModel, $servicio, $ubicacionModel, $servicioModel, $informeModel, $tecnicoModel, $inspeccionGeneralModel, $EmpresaModel;
     
-
+    public function ircreacion() {
+        require_once '../app/views/informes/crear_informe.php';
+    }
     public function __construct(PDO $db) {
         $this->conn = $db;
         $this->clienteModel = new Cliente($this->conn);
@@ -74,6 +76,9 @@ class InformeController {
 
         //mostrar tipo de informe select crear informe
         $tipo_informe = $this->servicioModel->mostrarTipoInforme();
+
+        //mostrar informer
+        //$informes = $this->informeModel->obtenerPorServicioId();
 
         //mostrar empresa selecr crear informe
         $empresas = $this->EmpresaModel->obtenerEmpresa();

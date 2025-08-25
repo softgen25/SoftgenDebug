@@ -17,7 +17,7 @@ if (!isset($token) || !isset($email)) {
 <body>
     <header>
         <div class="logo text-center">
-            <img src="/softGenn/public/img/Logo completo.png" class="m-3" alt="Logo SoftGen" height="90px">
+            <img src="/softGenn/public/img/Logocompleto.png" class="m-3" alt="Logo SoftGen" height="90px">
         </div>
     </header>
 
@@ -33,11 +33,13 @@ if (!isset($token) || !isset($email)) {
                         <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
                         <input type="hidden" name="usu_correo" value="<?php echo htmlspecialchars($email); ?>">
 
+                        <p>El minimo son 6 caracteres</p>
+
                         <div class="mb-3">
-                            <input type="password" class="form-control" placeholder="Nueva Contraseña" name="contrasena" id="nueva_contrasena" required>
+                            <input type="password" class="form-control" placeholder="Nueva Contraseña" name="contrasena" id="nueva_contrasena" required minlength="6" maxlength="12">
                         </div>
                         <div class="mb-3">
-                            <input type="password" class="form-control" placeholder="Confirmar Nueva Contraseña" id="confirmar_contrasena" required>
+                            <input type="password" class="form-control" placeholder="Confirmar Nueva Contraseña" id="confirmar_contrasena" required minlength="6" maxlength="12">
                             <div class="invalid-feedback text-start" id="passwordMismatchError">
                                 Las contraseñas no coinciden.
                             </div>

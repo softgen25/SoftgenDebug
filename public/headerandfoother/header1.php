@@ -1,3 +1,10 @@
+<?php
+// Medida de Seguridad
+    if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 2) {
+    header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+    exit();
+}
+?>
 <style>
     .nav-link {
     font-family: saira;
@@ -77,9 +84,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li><a class="nav-link" href="javascript:void(0);" onclick="window.location.replace('../app/views/dashboard/tecnico_dashboard.php');">Inicio</a></li>
-                        <li><a class="nav-link" href="javascript:void(0);" onclick="window.location.replace('../app/views/informes/crear_informe.php');">Creación</a></li>
-                        <li><a class="nav-link" href="javascript:void(0);" onclick="window.location.replace('../app/views/informes/gestion_informes.php');">Visualización</a></li>
+                        <li><a class="nav-link" href="/softGenn/public/index.php?action=dashboard_tecnico">Inicio</a></li>
+                        <li><a class="nav-link" href="/softGenn/public/index.php?action=crear_informe">Creación</a></li>
+                        <li><a class="nav-link" href="?url=vizualizar.php">Visualización</a></li>
                         <li><a class="nav-link" href="soporte.html">Soporte</a></li>
                     </ul>
                     <ul class="navbar-nav">

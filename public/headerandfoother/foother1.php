@@ -76,10 +76,10 @@
             <div class="col-lg-4 lg-4">
             <h5>Enlaces</h5>
             <ul class="list-unstyled">
-                <li><a href="javascript:void(0);" onclick="window.location.replace('home.php');" class="text-white text-decoration-none">Inicio</a></li>
-                <li><a href="javascript:void(0);" onclick="window.location.replace('creacion.html');" class="text-white text-decoration-none">Creación</a></li>
+                <li><a href="?url=login.php" class="text-white text-decoration-none">Inicio</a></li>
+                <li><a href="?url=crear_informe.php" class="text-white text-decoration-none">Creación</a></li>
                 <li><a href="javascript:void(0);" onclick="window.location.replace('../cliente/visualizacion.html');" class="text-white text-decoration-none">Visualización</a></li>
-                <li><a href="soporte.html" class="text-white text-decoration-none">Soporte</a></li>
+                
             </ul>
             </div>      
         

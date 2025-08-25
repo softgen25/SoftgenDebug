@@ -1,9 +1,9 @@
 <?php
 // Medida de Seguridad
-if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 2) {
+/*if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 2) {
     header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
     exit();
-}
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -73,9 +73,9 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 2) {
                 <div class="card text-center h-100 border-2" style="border-color: #135787">
                     <div class="card-body py-4 shadow">
                         <i class="bi bi-file-earmark-plus-fill fs-1 mb-3"></i>
-                        <h5 class="card-title">Añadir quipo</h5>
-                        <p class="card-text">Registre el nuevo equipo</p>
-                        <a href="#" class="btn stretched-link" style="background-color: #135787; color: white;">Registrar Ahora</a>
+                        <h5 class="card-title">Visualizar</h5>
+                        <p class="card-text">Visualizar informes ya creados </p>
+                        <a href="#" class="btn stretched-link" style="background-color: #135787; color: white;">Vizualizar</a>
 
                     </div>
                 </div>
@@ -107,7 +107,11 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 2) {
                 <table class="table table-striped table-hover bg-white rounded shadow-sm">
                     <thead class="table-light">
                         <tr>
-                            <th># Informe</th><th>Fecha</th><th>Cliente</th><th>Estado</th><th>Acciones</th>
+                            <th># Informe</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>

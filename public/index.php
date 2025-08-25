@@ -66,6 +66,10 @@ switch ($action) {
         $usuarioController->cerrarSesion();
         break;
 
+    case 'ircreacion':
+        $informeController->ircreacion();
+        break;
+
     //Password reset
         case 'solicitar_reset': 
         $usuarioController->mostrarFormularioSolicitud(); 

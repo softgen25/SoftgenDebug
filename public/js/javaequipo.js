@@ -16,10 +16,29 @@
             // Crear un nuevo div para el formulario del equipo
             const nuevoEquipoDiv = document.createElement('div');
             nuevoEquipoDiv.className = 'equipo-group mb-3'; // Clases para el estilo
+
+            let opcionesHTML = '<option value="">Seleccione un tipo de servicio</option>';
+            if (tiposDeServicio && Array.isArray(tiposDeServicio)){
+                tiposDeServicio.forEach(servicio => {
+                    opcionesHTML += `<option value="${servicio}">${servicio}</option>`;
+                    
+                });
+            } else {
+                opcionesHTML += '<option value="" disable> No hay tipos de servicios disponibles</option>';
+            }
             
             // 2. HTML del nuevo formulario. Fíjate que los 'name' coinciden con el original
             // Usamos el 'equipoIndex' para que cada equipo sea único
             nuevoEquipoDiv.innerHTML = `
+                <div class="row">
+                    <div class="col-md-3 md-3 mb-3">
+                        <label for="tipo_servicio" class="form-label">Tipo de servicio</label>
+                        <select class="form-select" name="equipos[${equipoIndex}][ser_tipo_servicio]" id="tipo_servicio" required>
+                            ${opcionesHTML}
+                        </select>
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-between align-items-center">
                     <h6>Nuevo Equipo</h6>
                     <button type="button" class="btn btn-danger btn-sm" onclick="eliminarEquipo(this)">Eliminar</button>
@@ -27,29 +46,29 @@
                 <div class="row mt-2">
                     <div class="col-md-4">
                         <label class="form-label">Tipo de Equipo</label>
-                        <input type="text" class="form-control" name="equipos[${equipoIndex}][tipo_equipo]" required>
+                        <input type="text" class="form-control" name="equipos[${equipoIndex}][tipo_equipo]" placeholder="Mini split" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Marca</label>
-                        <input type="text" class="form-control" name="equipos[${equipoIndex}][marca]" required>
+                        <input type="text" class="form-control" name="equipos[${equipoIndex}][marca]" placeholder="LG" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Modelo</label>
-                        <input type="text" class="form-control" name="equipos[${equipoIndex}][modelo]">
+                        <input type="text" class="form-control" name="equipos[${equipoIndex}][modelo]" placeholder="1004398" required>
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-4">
                         <label class="form-label">Serie</label>
-                        <input type="text" class="form-control" name="equipos[${equipoIndex}][serie]" required>
+                        <input type="text" class="form-control" name="equipos[${equipoIndex}][serie]" placeholder="AAA123" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Refrigerante</label>
-                        <input type="text" class="form-control" name="equipos[${equipoIndex}][refrigerante]" required>
+                        <input type="text" class="form-control" name="equipos[${equipoIndex}][refrigerante]" placeholder="0l124R" required>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label">Ubicación</label>
-                        <input type="text" class="form-control" name="equipos[${equipoIndex}][ubicacion]" required>
+                        <input type="text" class="form-control" name="equipos[${equipoIndex}][ubicacion]" placeholder="Segundo piso" required>
                     </div>
                 </div>
                 <hr class="mt-4">

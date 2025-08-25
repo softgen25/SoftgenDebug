@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('loginForm');
+    const form = document.getElementById('formularioReporte');
 
     // Mantenemos SOLO ESTA definición de showError
     function showError(field, message) {

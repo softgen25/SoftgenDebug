@@ -24,7 +24,6 @@ class UsuarioController {
      * Muestra la vista de login.
      */
     public function mostrarLogin() {
-        // Asumimos que moviste tu archivo login.php a esta nueva ruta.
         require_once '../app/views/usuario/login.php';
     }
 
