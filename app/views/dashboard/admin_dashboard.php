@@ -11,9 +11,17 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - SoftGen</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <!---<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
+    
+
+    <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/jsBoostrap/bootstrap.min.js">
+
     <style>
         body {
             font-family: 'Saira', sans-serif;
@@ -56,55 +64,17 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
         }
     </style>
 </head>
-<body>
-
-    <!-- Barra de Navegación Lateral (Sidebar) -->
-    <div class="sidebar">
-        <div class="logo text-center">
-            <img src="../public/img/Logocompleto.png" alt="Logo SoftGen" height="70">
-        </div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="?url=admin_dashboard">
-                    <i class="bi bi-speedometer2"></i>Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/softGenn/public/index.php?action=gestionar_usuarios">
-                    <i class="bi bi-people-fill"></i>Gestión de Usuarios
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-journal-text"></i>Gestión de Informes
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-building"></i>Gestión de Clientes
-                </a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-tools"></i>Gestión de Equipos
-                </a>
-            </li>
-        </ul>
-        <div class="mt-auto" style="position: absolute; bottom: 20px; width: calc(100% - 40px);">
-            <hr class="bg-secondary">
-            <div class="d-flex align-items-center">
-                <i class="bi bi-person-circle fs-3 me-2"></i>
-                <div>
-                    <strong><?php echo htmlspecialchars($_SESSION['nombre_usuario']); ?></strong><br>
-                    <small><?php echo htmlspecialchars($_SESSION['rol_nombre']); ?></small>
-                </div>
-            </div>
-            <a href="/softGenn/public/index.php?action=cerrar_sesion" class="btn btn-danger w-100 mt-3">
-                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
-            </a>
-        </div>
+<header>
+    <div class="bg-primary">
+        <?php
+            include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php';
+        ?>
     </div>
-
+    
+</header>
+<body>
+    <!-- Barra de Navegación Lateral (Sidebar) -->
+    
     <!-- Contenido Principal -->
     <main class="main-content">
         <h1 class="mb-4">Dashboard de Administración</h1>
@@ -116,7 +86,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Informes Totales</h5>
-                            <p class="card-text fs-2 fw-bold"><?php echo htmlspecialchars($estadisticas['total_informes']); ?></p>
+                            <p class="card-text fs-2 fw-bold"> <h6> Informes realizados </h6> </p> <?php echo htmlspecialchars($estadisticas['total_informes']); ?></p>
                         </div>
                         <i class="bi bi-file-earmark-text-fill fs-1 opacity-50"></i>
                     </div>
@@ -127,7 +97,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Técnicos Activos</h5>
-                            <p class="card-text fs-2 fw-bold"><?php echo htmlspecialchars($estadisticas['total_tecnicos']); ?></p>
+                            <p class="card-text fs-2 fw-bold"> <h6>Técnicos conectados </h6> </p> <?php echo htmlspecialchars($estadisticas['total_tecnicos']); ?></p>
                         </div>
                         <i class="bi bi-person-check-fill fs-1 opacity-50"></i>
                     </div>
@@ -138,7 +108,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Clientes</h5>
-                            <p class="card-text fs-2 fw-bold"><?php echo htmlspecialchars($estadisticas['total_clientes']); ?></p>
+                            <p class="card-text fs-2 fw-bold"> <h6> Clientes vinculados</h6></p><?php echo htmlspecialchars($estadisticas['total_clientes']); ?></p>
                         </div>
                         <i class="bi bi-building fs-1 opacity-50"></i>
                     </div>
@@ -149,7 +119,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="card-title">Pendientes</h5>
-                            <p class="card-text fs-2 fw-bold"><?php echo htmlspecialchars($estadisticas['informes_pendientes']); ?></p>
+                            <p class="card-text fs-2 fw-bold"> <h6>Informes pendientes </h6></p><?php echo htmlspecialchars($estadisticas['informes_pendientes']); ?></p>
                         </div>
                         <i class="bi bi-pen-fill fs-1 opacity-50"></i>
                     </div>
@@ -178,7 +148,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
         </div>
 
         <!-- Tabla de Últimos Informes -->
-        <div class="card stat-card">
+       | <div class="card stat-card">
             <div class="card-header">
                 <h5 class="mb-0">Últimos Informes Registrados</h5>
             </div>
@@ -238,7 +208,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
             const dataEstado = Object.values(datosEstadoPHP);
 
             // Gráfico de Barras: Informes por Tipo
-            const chartTipo = document.getElementById('informesPorTipoChart');
+           /* const chartTipo = document.getElementById('informesPorTipoChart');
             if (chartTipo && labelsTipo.length > 0) {
                 new Chart(chartTipo, {
                     type: 'bar',
@@ -255,7 +225,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
             }
 
             // Gráfico de Dona: Estado de Servicios
-            const chartEstado = document.getElementById('estadoServiciosChart');
+           /* const chartEstado = document.getElementById('estadoServiciosChart');
             if (chartEstado && labelsEstado.length > 0) {
                 new Chart(chartEstado, {
                     type: 'doughnut',
@@ -268,8 +238,9 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     },
                     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
                 });
-            }
+            }*/
         });
     </script>
+    <script src="../public/css/jsBoostrap/bootstrap.min.js"></script> 
 </body>
 </html>

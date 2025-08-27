@@ -97,32 +97,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="tipo_informe" class="form-label">Tipo informe</label>
-                    <select class="form-select" name="ser_tipo_informe" id="tipo_informe" required>
-                        <option value="">Seleccione el tipo de informe</option>
-                        <?php if (isset($tipo_servicio) && is_array($tipo_informe)): ?>
-                        <?php foreach ($tipo_informe as $tinforme):?>
-                            <option value="<?=htmlspecialchars($tinforme); ?>">
-                                <?=htmlspecialchars($tinforme); ?>
-                            </option>
-                        <?php endforeach; ?>
-                        <?php else: ?>
-                            <option value=""disabled>No hay tipos de informes que elegir</option>
-                        <?php endif; ?>
-                    </select>
-                </div>
-
-            </div>
-            
-            <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="sitio" class="form-label">Sitio</label>
-                    <input type="text" class="form-control" id="sitio" name="ubi_sitio" placeholder="Ej: Oficina Principal, Bodega" required>
+                    <input type="text" class="form-control" id="sitio" name="ubi_sitio" placeholder="Ej: Oficina Principal, Bodega" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="ciudad" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" id="ciudad" name="ubi_ciudad" placeholder="Ej: Bucaramanga" required>
+                    <input type="text" class="form-control" id="ciudad" name="ubi_ciudad" placeholder="Ej: Bucaramanga" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>
             </div>
 
@@ -141,14 +122,14 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="barrio" class="form-label">Barrio</label>
-                    <input type="text" class="form-control" id="barrio" name="ubi_barrio" placeholder="Ej: Cabecera" required>
+                    <input type="text" class="form-control" id="barrio" name="ubi_barrio" placeholder="Ej: Cabecera" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>  
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="col-md-6 mb-3">
                     <label for="localidad" class="form-label">Localidad</label>
-                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required>
+                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>
                 </div>
             </div>
@@ -184,6 +165,22 @@
                                 <?php endif; ?>
                             </select>
                         </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="tipo_informe" class="form-label">Tipo informe</label>
+                            <select class="form-select" name="ser_tipo_informe" id="tipo_informe" required>
+                                <option value="">Seleccione el tipo de informe</option>
+                                <?php if (isset($tipo_informe) && is_array($tipo_informe)): ?>
+                                <?php foreach ($tipo_informe as $tinforme):?>
+                                    <option value="<?=htmlspecialchars($tinforme); ?>">
+                                        <?=htmlspecialchars($tinforme); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                                <?php else: ?>
+                                    <option value=""disabled>No hay tipos de informes que elegir</option>
+                                <?php endif; ?>
+                            </select>
+                        </div>
+
                     </div>
                     <div class="row">
                         <div class="col-md-4"><label class="form-label">Tipo de Equipo</label><input type="text" class="form-control" name="equipos[0][tipo_equipo]" placeholder="Mini split" required></div>
@@ -372,56 +369,11 @@
 <!-- SCRIPT PARA EL FORMULARIO MULTIPASOS -->
 <script>
     const tiposDeServicio = <?= json_encode($tipo_servicio) ?>;
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        let currentStep = 0;
-        const steps = document.querySelectorAll('.step');
-        const progressBar = document.getElementById('progressBar');
-
-        function showStep(stepIndex) {
-            steps.forEach((step, index) => {
-                step.classList.toggle('active', index === stepIndex);
-            });
-            const progress = ((stepIndex + 1) / steps.length) * 100;
-            progressBar.style.width = progress + '%';
-            progressBar.textContent = `Paso ${stepIndex + 1} de ${steps.length}`;
-        }
-
-        document.querySelectorAll('.next-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const currentStepInputs = steps[currentStep].querySelectorAll('[required]');
-                let allValid = true;
-                currentStepInputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        allValid = false;
-                        input.classList.add('is-invalid');
-                    } else {
-                        input.classList.remove('is-invalid');
-                    }
-                });
-
-                if (allValid && currentStep < steps.length - 1) {
-                    currentStep++;
-                    showStep(currentStep);
-                } else if (!allValid) {
-                    alert('Por favor, completa todos los campos requeridos en este paso.');
-                }
-            });
-        });
-
-        document.querySelectorAll('.prev-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                if (currentStep > 0) {
-                    currentStep--;
-                    showStep(currentStep);
-                }
-            });
-        });
-
-        showStep(currentStep);
-    });
+    const tiposDeinforme = <?= json_encode( $tipo_informe) ?>;
 </script>
 <script src="../public/js/javaequipo.js"></script>
+<script src="../public/js/formulariojs.js"></script>
+<script src="../public/css/jsBoostrap/bootstrap.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

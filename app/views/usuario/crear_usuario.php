@@ -15,7 +15,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <?php require_once __DIR__ . '/../layouts/admin_header.php'; ?>
+    <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
     <main class="container py-5">
         <h1 class="mb-4">Crear Nuevo Usuario</h1>
@@ -26,27 +26,27 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="usu_nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="usu_nombre" name="usu_nombre" required>
+                            <input type="text" class="form-control" id="usu_nombre" name="usu_nombre" placeholder="Maria"  required >
                         </div>
                         <div class="col-md-6">
                             <label for="usu_apellido" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="usu_apellido" name="usu_apellido" required>
+                            <input type="text" class="form-control" id="usu_apellido" name="usu_apellido" placeholder="Lopez"  required  >
                         </div>
                         <div class="col-md-6">
                             <label for="usu_correo" class="form-label">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="usu_correo" name="usu_correo" required>
+                            <input type="email" class="form-control" id="usu_correo" name="usu_correo" placeholder="marialopez89@gmail.com" required >
                         </div>
                         <div class="col-md-6">
                             <label for="usu_contrasena" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="usu_contrasena" name="usu_contrasena" required>
+                            <input type="password" class="form-control" id="usu_contrasena" name="usu_contrasena" placeholder="L193820p" required  >
                         </div>
                         <div class="col-md-6">
                             <label for="usu_doc_identidad" class="form-label">Documento de Identidad</label>
-                            <input type="text" class="form-control" id="usu_doc_identidad" name="usu_doc_identidad" required>
+                            <input type="text" class="form-control" id="usu_doc_identidad" name="usu_doc_identidad" placeholder="1093820p" required  >
                         </div>
                         <div class="col-md-6">
                             <label for="usu_telefono" class="form-label">Teléfono</label>
-                            <input type="tel" class="form-control" id="usu_telefono" name="usu_telefono" required>
+                            <input type="tel" class="form-control" id="usu_telefono" name="usu_telefono" placeholder="3114567890" required >
                         </div>
                         <div class="col-md-12">
                             <label for="id_rol" class="form-label">Rol</label>

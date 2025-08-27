@@ -16,7 +16,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <?php require_once __DIR__ . '/../layouts/admin_header.php'; // Usamos un header reutilizable ?>
+    <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
     <main class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">

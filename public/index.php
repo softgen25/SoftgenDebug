@@ -23,6 +23,7 @@ require_once __DIR__ .'/../app/models/DashboardModel.php';
 require_once __DIR__ .'/../app/models/Servicio.php'; // Aseguramos que el modelo de servicio esté cargado
 require_once __DIR__. '/../app/models/EmpresaModel.php';
 require_once __DIR__. '/../app/models/equipo.php';
+require_once __DIR__. '/../app/models/Cliente.php';
 
 // Controladores
 require_once __DIR__. '/../app/controllers/UsuarioController.php';
@@ -31,6 +32,7 @@ require_once __DIR__. '/../app/controllers/ServicioController.php';
 require_once __DIR__ . '/../app/controllers/InformeController.php';
 require_once __DIR__. '/../app/controllers/empresacontroller.php';
 require_once __DIR__. '/../app/controllers/equipocontroller.php';
+require_once __DIR__. '/../app/controllers/ClienteController.php';
 
 use App\Controllers\UsuarioController;
 use App\Controllers\DashboardController;
@@ -38,7 +40,7 @@ use App\controllers\ServicioController;
 use app\controllers\InformeController;
 use App\Controllers\EmpresaController;
 use App\Controllers\equipocontroller;
-
+use app\Controllers\ClienteController;
 
 // --- 2. Enrutador Básico ---
 // La acción por defecto, si no se especifica ninguna, será mostrar el login.
@@ -51,6 +53,7 @@ $servicioController = new ServicioController($db);
 $informeController = new InformeController($db);
 $EmpresaController = new EmpresaController($db);
 $equipocontroller = new equipocontroller($db);
+$clienteController = new clienteController($db);
 
 
 // --- 3. Decidir qué acción ejecutar ---
@@ -117,6 +120,28 @@ switch ($action) {
     //case 'gestionar_informes':
         //$servicioController->gestionarInformes();
        // break;
+
+    // --- Rutas de Gestión de Clientes (CRUD) ---
+    case 'gestionar_clientes': 
+        $clienteController->gestionarClientes(); 
+        break;
+    case 'mostrar_crear_cliente': 
+        $clienteController->mostrarFormularioCrear(); 
+        break;
+    case 'crear_cliente': 
+        $clienteController->crearCliente(); 
+        break;
+    case 'mostrar_editar_cliente': 
+        $clienteController->mostrarFormularioEditar(); 
+        break;
+    case 'editar_cliente': 
+        $clienteController->editarCliente(); 
+        break;
+    case 'eliminar_cliente': 
+        $clienteController->eliminarCliente(); 
+        break;
+
+
     case 'crear_informe':
         $informeController->mostrarFormulario();
         break;

@@ -13,6 +13,9 @@ if (!isset($token) || !isset($email)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/softGenn/public/css/iniciosesion.css">
     <link rel="icon" type="image/png" href="/softGenn/public/img/Logo Favicon 16x16.png">
+
+        <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/jsBoostrap/bootstrap.min.js">
 </head>
 <body>
     <header>

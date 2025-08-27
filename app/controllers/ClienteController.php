@@ -1,13 +1,15 @@
 <?php
 // app/controllers/ClienteController.php
 namespace App\Controllers;
+require_once __DIR__ . '/../models/Cliente.php';
+//Cambios hechos por Hi-Im-Harcs
+use app\models\Cliente;
 
-require_once __DIR__ .'/../models/Cliente.php';
-
-use App\Models\Cliente;
 use PDO;
+
 class ClienteController {
 
+    public $db;
     private $clienteModel;
 
     public function __construct(PDO $db) {
@@ -122,3 +124,4 @@ class ClienteController {
         }
     }
 }
+

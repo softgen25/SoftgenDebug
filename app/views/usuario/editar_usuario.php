@@ -18,7 +18,7 @@ if (!isset($usuario)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <?php require_once __DIR__ . '/../layouts/admin_header.php'; ?>
+    <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
     <main class="container py-5">
         <h1 class="mb-4">Editar Usuario: <?php echo htmlspecialchars($usuario['usu_nombre']); ?></h1>

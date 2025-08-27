@@ -46,7 +46,7 @@ $currentAction = $_GET['action'] ?? 'dashboard_admin';
 <div class="sidebar">
     <div class="logo text-center">
         <a href="/softGenn/public/index.php?action=dashboard_admin">
-            <img src="/softGenn/public/img/Logo completo.png" alt="Logo SoftGen" height="70">
+            <img src="../public/img/Logocompleto.png" alt="Logo SoftGen" height="70">
         </a>
     </div>
     <ul class="nav flex-column">
@@ -56,19 +56,19 @@ $currentAction = $_GET['action'] ?? 'dashboard_admin';
             </a>
         </li>
         <li class="nav-item">
-            <!-- CORREGIDO: Lógica para marcar como activo si la acción contiene 'usuario' -->
-            <a class="nav-link <?php echo (str_contains($currentAction, 'usuario')) ? 'active' : ''; ?>" href="/softGenn/public/index.php?action=gestionar_usuarios">
+            
+            <a class="nav-link <?php echo (str_contains($currentAction, 'usuario')) ? 'active' : ''; ?>" href="../public/index.php?action=gestionar_usuarios">
                 <i class="bi bi-people-fill"></i>Gestión de Usuarios
             </a>
         </li>
         <li class="nav-item">
-            <!-- CORREGIDO: Enlace y lógica de 'active' para Gestión de Informes -->
-            <a class="nav-link <?php echo (str_contains($currentAction, 'informe')) ? 'active' : ''; ?>" href="/softGenn/public/index.php?action=gestionar_informes">
+            
+            <a class="nav-link <?php echo (str_contains($currentAction, 'informe')) ? 'active' : ''; ?>" href="../public/index.php?action=gestionar_informes">
                 <i class="bi bi-journal-text"></i>Gestión de Informes
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/softGenn/public/index.php?action=gestionar_clientes">
                 <i class="bi bi-building"></i>Gestión de Clientes
             </a>
         </li>
