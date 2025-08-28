@@ -177,13 +177,25 @@ class UsuarioController {
 
     public function crearUsuario() {
         $this->verificarAdmin();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $datos = $_POST; // Recolectamos todos los datos del formulario
+
+            // 🔹 Validar si el correo ya existe
+            if ($this->usuarioModel->existeCorreo($datos['usu_correo'])) {
+                // Redirigimos con un error
+                header('Location: /softGenn/public/index.php?action=mostrar_crear_usuario&status=correo_existente');
+                exit();
+            }
+
+            // 🔹 Si no existe, lo creamos
             $this->usuarioModel->crearUsuario($datos);
             header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=creado');
             exit();
         }
     }
+
+
 
     public function mostrarFormularioEditar() {
         $this->verificarAdmin();
