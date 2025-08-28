@@ -1,204 +1,168 @@
 <?php
-// app/models/ServicioModel.php
+// ===== app/models/ServicioModel.php (VERSIÓN COMPLETA Y ADAPTADA A TU BD) =====
 namespace App\Models;
-use PDO;
 
-use function PHPSTORM_META\type;
+use PDO;
+use Exception;
 
 class ServicioModel {
     private $db;
-    private $conn;
 
     public function __construct(PDO $db) {
-        //$this->db = getDbConnection();
         $this->db = $db;
     }
 
     /**
-     * Guarda un informe de servicio completo usando una transacción.
-     * Este es el método principal para guardar toda la información del formulario.
-     *
-     * @param array $datos Los datos del formulario ($_POST).
-     * @param array $rutasFotos Un array con las rutas de las fotos guardadas.
-     * @return int|false El ID del nuevo servicio creado, o false si la transacción falla.
+     * Obtiene los valores permitidos del campo ENUM 'ser_tipo_servicio'.
+     * @return array Una lista de los tipos de servicio.
      */
-
-    public function crear(array $data) {
-        $query = "INSERT INTO servicio (id_cliente, id_tecnico, id_ubicacion, ser_tipo_servicio, ser_tipo_informe, ser_observaciones, fecha_servicio, ser_hora_entrada, ser_hora_salida) 
-                  VALUES (:id_cliente, :id_tecnico, :id_ubicacion, :ser_tipo_servicio, :ser_tipo_informe, :ser_observaciones, :fecha_servicio, :ser_hora_entrada, :ser_hora_salida)";
-        
-        $stmt = $this->db->prepare($query);
-
-        $stmt->bindValue(":id_cliente", $data['id_cliente'], PDO::PARAM_INT);
-        $stmt->bindValue(":id_tecnico", $data['id_tecnico'], PDO::PARAM_INT);
-        $stmt->bindValue(":id_ubicacion", $data['id_ubicacion'], PDO::PARAM_INT);
-        $stmt->bindValue(":ser_tipo_servicio", $data['ser_tipo_servicio']);
-        $stmt->bindValue(":ser_tipo_informe", $data['ser_tipo_informe']);
-        $stmt->bindValue(":ser_observaciones", $data['ser_observaciones']);
-        $stmt->bindValue(":ser_hora_entrada", $data['ser_hora_entrada']);
-        $stmt->bindValue(":ser_hora_salida", $data['ser_hora_salida']);
-        $stmt->bindValue(":fecha_servicio", $data['fecha_servicio']);
-
-        if ($stmt->execute()) {
-            return $this->db->lastInsertId();
-        }return false;
-    }  
-    public function obtenerPorId(int $id): ?array {
-        $query = "SELECT * FROM servicio WHERE id_servicio = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $result ?: null;
-    }
-
-    public function mostrarTipoServicio(): array{
-        $query = "SHOW COLUMNS from servicio WHERE Field = 'ser_tipo_servicio'";
-
+    public function mostrarTipoServicio(): array {
+        $query = "SHOW COLUMNS FROM servicio WHERE Field = 'ser_tipo_servicio'";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($row){
-            $enumList = str_replace("'", "", substr($row['Type'], 5, -1));
-            return explode( ',', $enumList);
+        if ($row && isset($row['Type'])) {
+            preg_match_all("/'([^']+)'/", $row['Type'], $matches);
+            return $matches[1] ?? [];
         }
         return [];
     }
 
-    public function mostrarTipoInforme(): array{
-        $query = "SHOw COLUMNS from servicio WHERE Field = 'ser_tipo_informe'";
+    /**
+     * Obtiene los valores permitidos del campo ENUM 'ser_tipo_informe'.
+     * @return array Una lista de los tipos de informe.
+     */
+    public function mostrarTipoInforme(): array {
+        $query = "SHOW COLUMNS FROM servicio WHERE Field = 'ser_tipo_informe'";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if($row){
-            $enumList = str_replace("'", "", substr($row['Type'], 5, -1 ));
-            return explode(',', $enumList);
+        if ($row && isset($row['Type'])) {
+            preg_match_all("/'([^']+)'/", $row['Type'], $matches);
+            return $matches[1] ?? [];
         }
-        return[];
-    }
-    public function guardarInformeCompleto($datos, $rutasFotos) {
-        try {
-            // 1. Iniciar la transacción para asegurar la integridad de los datos.
-            $this->db->beginTransaction();
-
-            // 2. Crear la ubicación del servicio.
-            $stmtUbicacion = $this->db->prepare("INSERT INTO ubicacion (ubi_sitio) VALUES (?)");
-            $stmtUbicacion->execute([$datos['cliente']['direccion'] ?? 'N/A']);
-            $ubicacionId = $this->db->lastInsertId();
-
-            // 3. Crear el cliente, vinculándolo a la ubicación recién creada.
-            $cliente = $datos['cliente'];
-            $stmtCliente = $this->db->prepare("INSERT INTO cliente (razon_social, nit, correo, telefono, id_ubicacion, contacto_nombre) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmtCliente->execute([
-                $cliente['razon_social'], $cliente['nit'], $cliente['correo'],
-                $cliente['contacto_telefono'], $ubicacionId, $cliente['contacto_nombre']
-            ]);
-            $clienteId = $this->db->lastInsertId();
-
-            // 4. Crear el registro de inspección general (checklist).
-            $inspeccion = $datos['inspeccion_general'] ?? [];
-            $stmtInspeccion = $this->db->prepare(
-                "INSERT INTO inspeccion_general (ig_amperios, ig_voltaje, ig_temp_suministro, ig_temp_retorno, ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-            );
-            $stmtInspeccion->execute([
-                $inspeccion['ig_amperios'] ?? null, $inspeccion['ig_voltaje'] ?? null,
-                $inspeccion['ig_temp_suministro'] ?? null, $inspeccion['ig_temp_retorno'] ?? null,
-                isset($inspeccion['goteos']) ? 1 : 0, isset($inspeccion['gabinete']) ? 1 : 0,
-                isset($inspeccion['filtro']) ? 1 : 0, isset($inspeccion['drenaje']) ? 1 : 0,
-                isset($inspeccion['serpentin']) ? 1 : 0, isset($inspeccion['vibracion']) ? 1 : 0,
-                isset($inspeccion['tablero_electrico']) ? 1 : 0, isset($inspeccion['aislamiento_gabinete']) ? 1 : 0,
-                isset($inspeccion['flujo_aire']) ? 1 : 0
-            ]);
-            $inspeccionId = $this->db->lastInsertId();
-
-            // 5. Obtener ID del técnico a partir del usuario de la sesión.
-            $stmtTecnicoId = $this->db->prepare("SELECT id_tecnico FROM tecnico WHERE id_usuario = ?");
-            $stmtTecnicoId->execute([$_SESSION['id_usuario']]);
-            $tecnicoId = $stmtTecnicoId->fetchColumn();
-            if (!$tecnicoId) { 
-                throw new Exception("El usuario actual no es un técnico registrado en la tabla 'tecnico'."); 
-            }
-
-            // 6. Crear el registro principal del servicio.
-            // Se combinan fecha y hora para el formato DATETIME de la BD.
-            $hora_entrada = $datos['ser_fecha'] . ' ' . $datos['ser_hora_entrada'];
-            $hora_salida = $datos['ser_fecha'] . ' ' . $datos['ser_hora_salida'];
-            $stmtServicio = $this->db->prepare(
-                "INSERT INTO servicio (id_cliente, id_tecnico, id_ubicacion, id_inspeccion_general, tipo_informe, ser_tipo_servicio, ser_observaciones, ser_estado, ser_firma_cliente, ser_firma_tecnico, ser_fecha, ser_hora_entrada, ser_hora_salida) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, 'Pendiente', ?, ?, ?, ?, ?)"
-            );
-            $stmtServicio->execute([
-                $clienteId, $tecnicoId, $ubicacionId, $inspeccionId,
-                $datos['tipo_informe'], $datos['ser_tipo_servicio'],
-                $datos['ser_observaciones'], $datos['ser_firma_tecnico'],
-                $datos['ser_firma_cliente'], $datos['ser_fecha'],
-                $hora_entrada, $hora_salida
-            ]);
-            $servicioId = $this->db->lastInsertId();
-
-            // 7. Guardar los equipos y vincularlos al servicio.
-            if (!empty($datos['equipos']) && is_array($datos['equipos'])) {
-                $stmtEquipo = $this->db->prepare("INSERT INTO equipo (equi_tipo_equipo, equi_marca, equi_modelo, equi_serie, equi_ubicacion, equi_cantidad) VALUES (?, ?, ?, ?, ?, 1)");
-                $stmtVinculo = $this->db->prepare("INSERT INTO servicio_equipo (id_servicio, id_equipo) VALUES (?, ?)");
-                foreach ($datos['equipos'] as $equipo) {
-                    $stmtEquipo->execute([$equipo['equi_tipo_equipo'], $equipo['equi_marca'], $equipo['equi_modelo'], $equipo['equi_serie'], $equipo['equi_ubicacion']]);
-                    $equipoId = $this->db->lastInsertId();
-                    $stmtVinculo->execute([$servicioId, $equipoId]);
-                }
-            }
-        
-            // 8. Guardar las rutas de las fotos.
-            if (!empty($rutasFotos)) {
-                $stmtFoto = $this->db->prepare("INSERT INTO foto_servicio (id_servicio, ruta_foto, descripcion) VALUES (?, ?, ?)");
-                foreach ($rutasFotos as $foto) {
-                    $stmtFoto->execute([$servicioId, $foto['ruta'], $foto['descripcion']]);
-                }
-            }
-            // 9. Si todo salió bien, confirmar todos los cambios en la base de datos.
-            $this->db->commit();
-            return $servicioId;
-        } 
-        catch (Exception $e) {
-             //10. Si algo falló, revertir todos los cambios.
-             $this->db->rollBack();
-            // Esto es crucial para la depuración. El mensaje real del error se guardará en los logs de PHP.
-            error_log("Error al guardar informe: " . $e->getMessage());
-            return false;
-        }
+        return [];
     }
 
     /**
-     * Obtiene todos los datos necesarios para generar el PDF de un informe.
+     * Guarda el informe completo siguiendo la lógica de tu base de datos actual.
+     * Crea los registros dependientes primero y luego los vincula en la tabla 'servicio'.
+     */
+    public function guardarInformeCompleto($datos, $rutasFotos) {
+    $this->db->beginTransaction();
+    try {
+        // PASO 1: Crear la Ubicación y obtener su ID.
+        $stmtUbicacion = $this->db->prepare("INSERT INTO ubicacion (ubi_sitio, ubi_ciudad, ubi_departamento, ubi_barrio, ubi_localidad, ubi_calle) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmtUbicacion->execute([ $datos['ubi_sitio'], $datos['ubi_ciudad'], $datos['ubi_departamento'], $datos['ubi_barrio'], $datos['ubi_localidad'], $datos['ubi_calle'] ]);
+        $ubicacionId = $this->db->lastInsertId();
+
+        // PASO 2: Crear la Inspección General y obtener su ID.
+        $stmtInspeccion = $this->db->prepare("INSERT INTO inspeccion_general (ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_refigerante, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire, ig_amperios, ig_voltaje, ig_temp_suministro, ig_temp_retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmtInspeccion->execute([
+            isset($datos['ig_goteras']) ? 1 : 0, isset($datos['ig_gabinete']) ? 1 : 0,
+            isset($datos['ig_filtro']) ? 1 : 0, isset($datos['ig_drenaje']) ? 1 : 0,
+            isset($datos['ig_serpentin']) ? 1 : 0, isset($datos['ig_refrigerante']) ? 1 : 0,
+            isset($datos['ig_vibracion']) ? 1 : 0, isset($datos['ig_tablero_electrico']) ? 1 : 0,
+            isset($datos['ig_aislamiento_gabinete']) ? 1 : 0, isset($datos['ig_flujo_aire']) ? 1 : 0,
+            $datos['ig_amperios'], $datos['ig_voltaje'],
+            $datos['ig_temp_suministro'], $datos['ig_temp_retorno']
+        ]);
+        $inspeccionId = $this->db->lastInsertId();
+        
+        // PASO 3: Obtener ID del técnico.
+        $stmtTecnicoId = $this->db->prepare("SELECT id_tecnico FROM tecnico WHERE id_usuario = ?");
+        $stmtTecnicoId->execute([$_SESSION['id_usuario']]);
+        $tecnicoId = $stmtTecnicoId->fetchColumn();
+        if (!$tecnicoId) { throw new Exception("El usuario actual no es un técnico registrado."); }
+
+        // CORRECCIÓN DE HORA Y FECHA
+        $fechaServicio = $datos['ser_fecha']; // <-- CORRECCIÓN AQUÍ: Usamos el nuevo nombre del campo.
+        $horaEntradaCompleta = $fechaServicio . ' ' . $datos['ser_hora_entrada'];
+        $horaSalidaCompleta = $fechaServicio . ' ' . $datos['ser_hora_salida'];
+
+        // PASO 4: Crear el SERVICIO principal.
+        $stmtServicio = $this->db->prepare("INSERT INTO servicio (id_cliente, id_tecnico, id_ubicacion, id_inspeccion_general, ser_tipo_servicio, ser_tipo_informe, ser_fecha, ser_hora_entrada, ser_hora_salida, ser_observaciones, ser_firma_tecnico, ser_firma_cliente) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmtServicio->execute([
+            $datos['id_cliente'], $tecnicoId, $ubicacionId, $inspeccionId,
+            $datos['ser_tipo_servicio'], $datos['ser_tipo_informe'], $fechaServicio,
+            $horaEntradaCompleta, $horaSalidaCompleta,
+            $datos['ser_observaciones'], $datos['ser_firma_tecnico'], $datos['ser_firma_cliente']
+        ]);
+        $servicioId = $this->db->lastInsertId();
+
+        // PASO 5: Crear la Revisión Mecánica.
+        $stmtRevision = $this->db->prepare("INSERT INTO revision_mecanica (id_servicio, rm_ejes, rm_rodamientos, rm_chumaceras, rm_poleas, rm_correas, rm_rejillas, rm_pintura, rm_ductos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmtRevision->execute([
+            $servicioId, $datos['rm_ejes'], $datos['rm_rodamientos'], $datos['rm_chumaceras'], $datos['rm_poleas'],
+            $datos['rm_correas'], $datos['rm_rejillas'], $datos['rm_pintura'], $datos['rm_ductos']
+        ]);
+        $revisionId = $this->db->lastInsertId();
+
+        // PASO 6: ACTUALIZAR el servicio para añadir el ID de la revisión.
+        $stmtUpdateServicio = $this->db->prepare("UPDATE servicio SET id_revision_mecanica = ? WHERE id_servicio = ?");
+        $stmtUpdateServicio->execute([$revisionId, $servicioId]);
+
+        // PASO 7: Guardar los equipos.
+        if (!empty($datos['equipos']) && is_array($datos['equipos'])) {
+            $stmtEquipo = $this->db->prepare("INSERT INTO equipo (equi_tipo_equipo, equi_marca, equi_modelo, equi_serie, equi_ubicacion, equi_cantidad) VALUES (?, ?, ?, ?, ?, 1)");
+            $stmtVinculo = $this->db->prepare("INSERT INTO servicio_equipo (id_servicio, id_equipo) VALUES (?, ?)");
+            foreach ($datos['equipos'] as $equipo) {
+                $stmtEquipo->execute([ $equipo['equi_tipo_equipo'], $equipo['equi_marca'], $equipo['equi_modelo'], $equipo['equi_serie'], $equipo['equi_ubicacion'] ]);
+                $equipoId = $this->db->lastInsertId();
+                $stmtVinculo->execute([$servicioId, $equipoId]);
+            }
+        }
+        
+        $this->db->commit();
+        return $servicioId;
+
+    } catch (Exception $e) {
+        $this->db->rollBack();
+        error_log("Error al guardar informe: " . $e->getMessage());
+        return false;
+    }
+}
+
+    /**
+     * Obtiene los datos completos para el PDF, adaptado a tu estructura de BD.
      */
     public function obtenerInformeCompletoPorId($id) {
         $resultado = [];
+        // 1. Obtener el servicio principal
         $stmtInforme = $this->db->prepare("SELECT s.*, ub.ubi_sitio as cliente_direccion FROM servicio s LEFT JOIN ubicacion ub ON s.id_ubicacion = ub.id_ubicacion WHERE s.id_servicio = ?");
         $stmtInforme->execute([$id]);
         $resultado['informe'] = $stmtInforme->fetch(PDO::FETCH_ASSOC);
         if (!$resultado['informe']) return false;
 
+        // 2. Obtener los datos relacionados usando los IDs del servicio
+        $idCliente = $resultado['informe']['id_cliente'];
+        $idTecnico = $resultado['informe']['id_tecnico'];
+        $idInspeccion = $resultado['informe']['id_inspeccion_general'];
+        $idRevision = $resultado['informe']['id_revision_mecanica'];
+
         $stmtCliente = $this->db->prepare("SELECT * FROM cliente WHERE id_cliente = ?");
-        $stmtCliente->execute([$resultado['informe']['id_cliente']]);
+        $stmtCliente->execute([$idCliente]);
         $resultado['cliente'] = $stmtCliente->fetch(PDO::FETCH_ASSOC);
 
         $stmtTecnico = $this->db->prepare("SELECT u.* FROM usuario u JOIN tecnico t ON u.id_usuario = t.id_usuario WHERE t.id_tecnico = ?");
-        $stmtTecnico->execute([$resultado['informe']['id_tecnico']]);
+        $stmtTecnico->execute([$idTecnico]);
         $resultado['tecnico'] = $stmtTecnico->fetch(PDO::FETCH_ASSOC);
 
         $stmtEquipos = $this->db->prepare("SELECT e.* FROM equipo e JOIN servicio_equipo se ON e.id_equipo = se.id_equipo WHERE se.id_servicio = ?");
         $stmtEquipos->execute([$id]);
         $resultado['equipos'] = $stmtEquipos->fetchAll(PDO::FETCH_ASSOC);
 
-        $stmtFotos = $this->db->prepare("SELECT * FROM foto_servicio WHERE id_servicio = ?");
-        $stmtFotos->execute([$id]);
-        $resultado['fotos'] = $stmtFotos->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Añadir datos de la inspección general
         $stmtInspeccion = $this->db->prepare("SELECT * FROM inspeccion_general WHERE id_inspeccion_general = ?");
-        $stmtInspeccion->execute([$resultado['informe']['id_inspeccion_general']]);
+        $stmtInspeccion->execute([$idInspeccion]);
         $resultado['inspeccion'] = $stmtInspeccion->fetch(PDO::FETCH_ASSOC);
+        
+        $stmtRevision = $this->db->prepare("SELECT * FROM revision_mecanica WHERE id_revision_mecanica = ?");
+        $stmtRevision->execute([$idRevision]);
+        
+        $revisionData = $stmtRevision->fetch(PDO::FETCH_ASSOC);
+        if ($revisionData) {
+            $resultado['informe'] = array_merge($resultado['informe'], $revisionData);
+        }
 
         return $resultado;
     }
