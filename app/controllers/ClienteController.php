@@ -46,17 +46,23 @@ class ClienteController {
     /**
      * Procesa los datos del formulario de creación.
      */
+    //Creacion cliente verifica correo
     public function crearCliente() {
         $this->verificarAdmin();
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $datos = $_POST;
-            $exito = $this->clienteModel->crear($datos);
 
-            if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado');
-            } else {
-                header('Location: /softGenn/public/index.php?action=mostrar_crear_cliente&error=1');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $datos = $_POST; // Recolectamos todos los datos del formulario
+
+            // 🔹 Validar si el correo ya existe
+            if ($this->clienteModel->existeCorreoCliente($datos['contacto_correo'])) {
+                // Redirigimos con un error
+                header('Location: /softGenn/public/index.php?action=mostrar_crear_cliente&status=correo_existente_cliente');
+                exit();
             }
+
+            // 🔹 Si no existe, lo creamos
+            $this->clienteModel->crearCliente($datos);
+            header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado');
             exit();
         }
     }
