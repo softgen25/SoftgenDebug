@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="public/img/Logo favicon 1.0.png">
     <link rel="icon" type="image/png" sizes="180x180" href="public/img/Logo Favicon 180x180.png">
 
-        <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/jsBoostrap/bootstrap.min.js">
 </head>
 </head>

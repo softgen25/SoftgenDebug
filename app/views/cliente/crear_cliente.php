@@ -11,8 +11,17 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) { /* ... */ }
 <body>
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
+
        <main class="container py-5">
         <h1 class="mb-4">Crear Nuevo Cliente</h1>
+        <!--Alerta de verificarCorreo-->
+        <?php if (isset($_GET['status']) && $_GET['status'] === 'correo_existente_cliente'): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                El correo ya está registrado. Intenta con otro.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        <?php endif; ?> 
         <div class="card shadow-sm">
             <div class="card-body">
                 <form action="/softGenn/public/index.php?action=crear_cliente" method="POST">

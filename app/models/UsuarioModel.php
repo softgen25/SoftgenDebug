@@ -13,6 +13,15 @@ class UsuarioModel {
         $this->db = $db;
     }
 
+    //Verifica si existe correo
+    public function existeCorreo($correo) {
+        $sql = "SELECT COUNT(*) FROM usuario WHERE usu_correo = :correo";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':correo', $correo, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0; // true si existe
+    }
+
     // --- Métodos de Lectura (Read) ---
 
     public function buscarPorCorreo($correo) {

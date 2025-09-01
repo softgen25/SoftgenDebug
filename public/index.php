@@ -1,13 +1,14 @@
 <?php
 // public/index.php
-namespace Public;
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+
 use App\Models\EmpresaModel;
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 // Iniciar la sesión al principio de todo
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -21,16 +22,17 @@ require_once __DIR__. '/../config/config.php';
 require_once __DIR__ . '/../app/models/UsuarioModel.php';
 require_once __DIR__ .'/../app/models/Tecnico.php'; // Modelo para la gestión de técnicos
 require_once __DIR__ .'/../app/models/DashboardModel.php';
-require_once __DIR__ .'/../app/models/Servicio.php'; // Aseguramos que el modelo de servicio esté cargado
+require_once __DIR__ .'/../app/models/ServicioModel.php'; // Aseguramos que el modelo de servicio esté cargado
 require_once __DIR__. '/../app/models/EmpresaModel.php';
 require_once __DIR__. '/../app/models/equipo.php';
 require_once __DIR__. '/../app/models/Cliente.php';
+
+
 
 // Controladores
 require_once __DIR__. '/../app/controllers/UsuarioController.php';
 require_once __DIR__. '/../app/controllers/DashboardController.php' ;
 require_once __DIR__. '/../app/controllers/ServicioController.php';
-require_once __DIR__ . '/../app/controllers/InformeController.php';
 require_once __DIR__. '/../app/controllers/empresacontroller.php';
 require_once __DIR__. '/../app/controllers/equipocontroller.php';
 require_once __DIR__. '/../app/controllers/ClienteController.php';
@@ -39,7 +41,6 @@ require_once __DIR__. '/../app/controllers/visualizacioncontroller.php'; // <-- 
 use App\Controllers\UsuarioController;
 use App\Controllers\DashboardController;
 use App\controllers\ServicioController;
-use app\controllers\InformeController;
 use App\Controllers\EmpresaController;
 use App\Controllers\equipocontroller;
 use app\Controllers\ClienteController;
@@ -53,7 +54,6 @@ $action = $_GET['action'] ?? 'login';
 $usuarioController = new UsuarioController($db);
 $dashboardController = new DashboardController($db);
 $servicioController = new ServicioController($db);
-$informeController = new InformeController($db);
 $EmpresaController = new EmpresaController($db);
 $equipocontroller = new equipocontroller($db);
 $clienteController = new clienteController($db);
@@ -147,21 +147,16 @@ switch ($action) {
 
 
     case 'crear_informe':
-        $informeController->mostrarFormulario();
-        break;
-        
-    case 'procesar_reporte':
-        $informeController->procesarYGuardarReporte();
-        break;
-    
-    case 'listarequipo':
-        $equipocontroller->listarEquipos();
+        $servicioController->mostrarFormularioCrear();
         break;
 
     case 'guardar_informe':
+        // Esta acción es llamada por el <form action="...">
         $servicioController->guardarInforme();
         break;
+
     case 'generar_pdf':
+        // Esta acción se llama después de guardar exitosamente
         $servicioController->generarPdf();
         break;
 

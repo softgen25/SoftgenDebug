@@ -96,6 +96,15 @@ class Cliente {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    //Verifica si existe correo
+    public function existeCorreoCliente($correoCliente) {
+        $sql = "SELECT COUNT(*) FROM cliente WHERE contacto_correo = :correoCliente";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':correoCliente', $correoCliente, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0; // true si existe
+    }
+
     /**
      * Crea un nuevo cliente y su ubicación asociada dentro de una transacción.
      */
