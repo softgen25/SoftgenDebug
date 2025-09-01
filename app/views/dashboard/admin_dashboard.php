@@ -18,8 +18,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     
 
     <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
-
-    <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/jsBoostrap/bootstrap.min.js">
 
     <style>

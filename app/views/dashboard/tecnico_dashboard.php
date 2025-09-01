@@ -75,7 +75,7 @@
                         <i class="bi bi-file-earmark-plus-fill fs-1 mb-3"></i>
                         <h5 class="card-title">Visualizar</h5>
                         <p class="card-text">Visualizar informes ya creados </p>
-                        <a href="#" class="btn stretched-link" style="background-color: #135787; color: white;">Vizualizar</a>
+                        <a href="/softGenn/public/index.php?action=ver_historial" class="btn stretched-link" style="background-color: #135787; color: white;">Vizualizar</a>
 
                     </div>
                 </div>
@@ -111,6 +111,7 @@
                             <th>Fecha</th>
                             <th>Cliente</th>
                             <th>Estado</th>
+                            <th>Tecnico</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -133,8 +134,9 @@
                                         ?>
                                         <span class="badge <?php echo $badge_class; ?>"><?php echo $estado; ?></span>
                                     </td>
+                                    <td><?php echo htmlspecialchars($informe['nombre_tecnico'] ?? 'N/A') ?></td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-outline-primary" title="Ver Detalles"><i class="bi bi-eye-fill"></i></a>
+                                        <a href="/softGenn/public/index.php?action=mostrar_visualización" class="btn btn-sm btn-outline-primary" title="Ver Detalles"><i class="bi bi-eye-fill"></i></a>
                                         <a href="#" class="btn btn-sm btn-outline-secondary" title="Descargar PDF"><i class="bi bi-file-earmark-pdf-fill"></i></a>
                                     </td>
                                 </tr>

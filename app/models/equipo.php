@@ -23,7 +23,7 @@
         $query = "insert into". $this->equipo ."(equi_tipo_equipo, equi_marca, equi_modelo, equi_serie, equi_cantidad) values (:equi_tipo_equipo, :equi_marca, :equi_modelo, :equi_serie, :equi_cantidad)";
 
         $stmt = $this->db->prepare($query);
-        //intección sql
+        //inyección sql
         $equi_tipo_equipo = htmlspecialchars(strip_tags($equi_tipo_equipo));
         $equi_marca = htmlspecialchars(strip_tags($equi_marca));
         $equi_modelo = htmlspecialchars(strip_tags($equi_modelo));

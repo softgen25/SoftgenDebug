@@ -120,9 +120,12 @@ class DashboardModel {
                     s.id_servicio,
                     s.ser_fecha,
                     s.ser_estado,
-                    c.razon_social AS nombre_cliente
+                    c.razon_social AS nombre_cliente,
+                    concat(u.usu_nombre, '', u.usu_apellido) AS nombre_tecnico
                 FROM servicio s
                 LEFT JOIN cliente c ON s.id_cliente = c.id_cliente
+                LEFT JOIN tecnico t ON s.id_tecnico = t.id_tecnico
+                LEFT JOIN usuario u ON t.id_usuario = u.id_usuario
                 WHERE s.id_tecnico = ?
                 ORDER BY s.ser_fecha DESC, s.id_servicio DESC
                 LIMIT ?";

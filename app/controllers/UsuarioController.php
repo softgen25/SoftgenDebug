@@ -116,46 +116,32 @@ class UsuarioController {
     /**
      * Procesa la creación de un nuevo técnico desde el panel de administrador.
      */
+    
     public function crearTecnico() {
-        // --- PASO DE SEGURIDAD ---
-        // Verificamos si el usuario logueado es un Administrador (rol 1).
-        if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            $this->redireccionarConError('dashboard', 'Acceso no autorizado.');
-            return;
-        }
-
+        // ...
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // 1. Recoger los datos del formulario del panel de admin.
-            $datosNuevoUsuario = [
-                'nombre' => $_POST['nombre'],
-                'apellido' => $_POST['apellido'],
-                'correo' => $_POST['correo'],
-                'contrasena' => $_POST['contrasena'],
-                'doc_identidad' => $_POST['doc_identidad'],
-                'telefono' => $_POST['telefono']
-            ];
-            //Holaa
+            // ...
+            
             // Instanciamos los modelos.
             $usuarioModel = new UsuarioModel($this->db);
-            $tecnicoModel = new Tecnico($this->db);
+            $tecnicoModel = new Tecnico($this->db); // <-- ¡Instanciación correcta!
 
-            // 2. Llamar al modelo para crear el registro en la tabla 'usuario'.
             // El rol para un técnico es 2.
+            $datosNuevoUsuario['id_rol'] = 2;
             $nuevoUsuarioId = $usuarioModel->crearUsuario($datosNuevoUsuario);
 
             if ($nuevoUsuarioId) {
-                // 3. Si el usuario se creó, ahora creamos el registro en la tabla 'tecnico'.
-                // Asumimos que la empresa es la 1, esto se puede hacer dinámico después.
+                // Ahora, usando la instancia del modelo Tecnico, llamamos al método corregido.
                 $tecnicoModel->crearTecnico($nuevoUsuarioId); 
 
-                // 4. Redirigir al panel de admin con un mensaje de éxito.
+                // Redirigir al panel de admin con un mensaje de éxito.
                 header('Location: index.php?action=admin_dashboard&status=tecnico_creado');
                 exit();
             } else {
                 $this->redireccionarConError('admin_dashboard', 'Error al crear el usuario.');
             }
         }
-    } 
+    }
 
         public function gestionarUsuarios() {
         $this->verificarAdmin();
@@ -222,6 +208,16 @@ class UsuarioController {
             exit();
         }
     }
+     private function verificartecnico(){
+        if (session_start() == PHP_SESSION_NONE) {session_start();}
+        if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] !=2){
+            header('location: /softgen/public/index.php?action=login&error=' . urlencode('Access no autorizado'));
+            exit();
+        }
+
+     }
+
+
 
     // Mostrar formulario de solicitud de restablecimiento de contraseña
     public function mostrarFormularioSolicitud() {

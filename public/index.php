@@ -1,7 +1,8 @@
 <?php
 // public/index.php
 namespace Public;
-
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 use App\Models\EmpresaModel;
 
 ini_set('display_errors', 1);
@@ -33,6 +34,7 @@ require_once __DIR__ . '/../app/controllers/InformeController.php';
 require_once __DIR__. '/../app/controllers/empresacontroller.php';
 require_once __DIR__. '/../app/controllers/equipocontroller.php';
 require_once __DIR__. '/../app/controllers/ClienteController.php';
+require_once __DIR__. '/../app/controllers/visualizacioncontroller.php'; // <-- AÑADE ESTA LÍNEA
 
 use App\Controllers\UsuarioController;
 use App\Controllers\DashboardController;
@@ -41,6 +43,7 @@ use app\controllers\InformeController;
 use App\Controllers\EmpresaController;
 use App\Controllers\equipocontroller;
 use app\Controllers\ClienteController;
+use app\Controllers\visualizacioncontroller;
 
 // --- 2. Enrutador Básico ---
 // La acción por defecto, si no se especifica ninguna, será mostrar el login.
@@ -54,6 +57,7 @@ $informeController = new InformeController($db);
 $EmpresaController = new EmpresaController($db);
 $equipocontroller = new equipocontroller($db);
 $clienteController = new clienteController($db);
+$visualizacioncontroller = new visualizacioncontroller($db);
 
 
 // --- 3. Decidir qué acción ejecutar ---
@@ -159,6 +163,14 @@ switch ($action) {
         break;
     case 'generar_pdf':
         $servicioController->generarPdf();
+        break;
+
+    /*case 'mostrar_visualizacion':
+        $visualizacioncontroller->mostrarvisualizacion();
+        break;*/
+
+    case 'ver_historial':
+        $visualizacioncontroller->mostrarHistorial();
         break;
 
     default:

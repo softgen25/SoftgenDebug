@@ -90,6 +90,12 @@ class UsuarioModel {
         return $stmt->execute([$datos['id_rol'], $datos['usu_nombre'], $datos['usu_apellido'], $datos['usu_doc_identidad'], $datos['usu_telefono'], $datos['usu_correo'], $contrasenaHasheada]);
     }
 
+    public function guardartecnico($datostecnico){
+        $sql = "INSERT INTO tecnico (id_rol, id_usuario, id_tecnico) VALUES (?, ?, ?)";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$datostecnico['id_rol'], $datostecnico['id_usuario'], $datostecnico['id_tecnico']]);
+    }
+
     // --- Método de Actualización (Update) ---
 
     public function actualizarUsuario($id, $datos) {

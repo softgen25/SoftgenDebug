@@ -2,23 +2,35 @@
 
 namespace App\Controllers;
 
-require_once __DIR__. '../../models/visualizacionmodel.php';
+require_once __DIR__. '/../models/visualizacionmodel.php';
+// ... otros controladores
+
 
 use PDO;
-use app\Models\VisualizacionModel;
+use App\Models\VisualizacionModel;
 
-class visualizacioncontroller{
+class Visualizacioncontroller{
     private $db;
     private $visualizacionModel;
+    private $datosHistorial;
 
 
     public function __construct(PDO $db){
-        $this->visualizacionModel = new visualizacionModel($db);
+        $this->visualizacionModel = new VisualizacionModel($db);
+        
     }
 
     public function mostrarvisualizacion(){
-        require_once '../app/view/usuario/visualizacion.php';
+        require_once __DIR__. '/../views/usuario/visualiza.php';
     }
+
+    public function mostrarHistorial(){
+        $datosHistorial = $this->visualizacionModel->obtenerHistorialDeCambios();
+
+        require_once __DIR__. '/../views/usuario/visualiza.php';
+    }
+
+    
 }
 
 
