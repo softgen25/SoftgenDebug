@@ -12,7 +12,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) { /* ... */ }
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
 
-       <main class="container py-5">
+    <main class="container py-5">
         <h1 class="mb-4">Crear Nuevo Cliente</h1>
         <!--Alerta de verificarCorreo-->
         <?php if (isset($_GET['status']) && $_GET['status'] === 'correo_existente_cliente'): ?>

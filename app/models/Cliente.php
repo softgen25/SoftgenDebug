@@ -48,7 +48,7 @@ class Cliente {
         $params = [];
 
         if (!empty($busqueda)) {
-            $sqlBusqueda = "WHERE c.razon_social LIKE ? OR c.nit LIKE ? OR c.contacto_nombre LIKE ?";
+            $sqlBusqueda = "WHERE c.razon_social LIKE ? OR c.cli_nit LIKE ? OR c.contacto_nombre LIKE ?";
             $searchTerm = "%$busqueda%";
             $params = [$searchTerm, $searchTerm, $searchTerm];
         }
@@ -108,7 +108,7 @@ class Cliente {
     /**
      * Crea un nuevo cliente y su ubicación asociada dentro de una transacción.
      */
-    public function crear($datos) {
+    public function crearCliente($datos) {
     try {
         $this->db->beginTransaction();
 
@@ -120,7 +120,7 @@ class Cliente {
         // 2. Crear cliente
         $stmtCliente = $this->db->prepare(
             "INSERT INTO cliente (razon_social, cli_nit, id_ubicacion, contacto_nombre, contacto_correo, contacto_telefono) 
-             VALUES (?, ?, ?, ?, ?, ?)"
+            VALUES (?, ?, ?, ?, ?, ?)"
         );
         $stmtCliente->execute([
             $datos['razon_social'] ?? null,
@@ -162,8 +162,8 @@ public function actualizar($id, $datos) {
         // 2. Actualizar los datos del cliente (sin correo porque no existe en la tabla)
         $stmtCliente = $this->db->prepare(
             "UPDATE cliente 
-             SET razon_social = ?, cli_nit = ?, contacto_telefono = ?, contacto_nombre = ?
-             WHERE id_cliente = ?"
+            SET razon_social = ?, cli_nit = ?, contacto_telefono = ?, contacto_nombre = ?
+            WHERE id_cliente = ?"
         );
 
         $stmtCliente->execute([
