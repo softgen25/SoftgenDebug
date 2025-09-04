@@ -75,7 +75,7 @@
                         <i class="bi bi-file-earmark-plus-fill fs-1 mb-3"></i>
                         <h5 class="card-title">Visualizar</h5>
                         <p class="card-text">Visualizar informes ya creados </p>
-                        <a href="/softGenn/public/index.php?action=ver_historial" class="btn stretched-link" style="background-color: #135787; color: white;">Vizualizar</a>
+                        <a href="/softGenn/public/index.php?action=ver_historial" class="btn stretched-link" style="background-color: #135787; color: white;">Visualizar</a>
 
                     </div>
                 </div>

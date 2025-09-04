@@ -124,15 +124,21 @@ class UsuarioModel {
     // --- Método de Eliminación (Delete) ---
 
     public function eliminarUsuario($id) {
-        $stmtTecnico = $this->db->prepare("DELETE FROM tecnico WHERE id_usuario = ?");
-        $stmtTecnico->execute([$id]);
+        $sql = "DELETE FROM usuario WHERE id_usuario = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$id]);
+    }
 
-        $stmtUsuario = $this->db->prepare("DELETE FROM usuario WHERE id_usuario = ?");
-        return $stmtUsuario->execute([$id]);
+    private function verificarAdmin() {
+        if (session_status() == PHP_SESSION_NONE) { session_start(); }
+        if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
+            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            exit();
+        }
     }
     // --- Método para verificar contraseña ---
 
-            public function guardarTokenReset($email, $token) {
+    public function guardarTokenReset($email, $token) {
         // MUY IMPORTANTE: Guardamos un HASH del token, no el token en texto plano.
         $tokenHash = password_hash($token, PASSWORD_DEFAULT);
         $expiraEn = date('Y-m-d H:i:s', strtotime('+1 hour')); // El token es válido por 1 hora.

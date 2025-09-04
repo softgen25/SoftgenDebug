@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let pcionesHTML = '<option value="">Seleccione un tipo de informe</option>';
         // Se corrige la variable a 'tiposDeinforme' para que coincida con el archivo PHP
-        if (tiposDeinforme && Array.isArray(tiposDeinforme)){
-            tiposDeinforme.forEach(tinforme => {
+        if (tiposDeInforme && Array.isArray(tiposDeInforme)){
+                tiposDeInforme.forEach(tinforme => {
                 pcionesHTML += `<option value="${tinforme}">${tinforme}</option>`;
                 
             });

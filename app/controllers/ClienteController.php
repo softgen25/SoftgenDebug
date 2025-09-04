@@ -61,7 +61,7 @@ class ClienteController {
             }
 
             // 🔹 Si no existe, lo creamos
-            $this->clienteModel->crearCliente($datos);
+            $this->clienteModel->crear($datos);
             header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado');
             exit();
         }

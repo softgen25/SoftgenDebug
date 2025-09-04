@@ -6,6 +6,7 @@ use PDO;
 class VisualizacionModel{
     private $db;
 
+
     public function __construct(PDO $db){
         $this->db = $db;
     }
@@ -40,4 +41,14 @@ class VisualizacionModel{
                 
 
     }
+
+    public function eliminarinforme($id){
+        $sql = "DELETE FROM informe where id_informe = ?";
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute([$id]);
+    }
+
+
+
+
 }

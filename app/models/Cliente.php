@@ -72,7 +72,7 @@ class Cliente {
         $sqlBusqueda = '';
         $params = [];
         if (!empty($busqueda)) {
-            $sqlBusqueda = "WHERE razon_social LIKE ? OR cli_nit LIKE ? OR contacto_nombre LIKE ?";
+            $sqlBusqueda = "WHERE c.razon_social LIKE ? OR c.cli_nit LIKE ? OR c.contacto_nombre LIKE ?";
             $searchTerm = "%$busqueda%";
             $params = [$searchTerm, $searchTerm, $searchTerm];
         }
@@ -113,8 +113,8 @@ class Cliente {
         $this->db->beginTransaction();
 
         // 1. Crear ubicación
-        $stmtUbicacion = $this->db->prepare("INSERT INTO ubicacion (ubi_sitio) VALUES (?)");
-        $stmtUbicacion->execute([$datos['direccion']]);
+        $stmtUbicacion = $this->db->prepare("INSERT INTO ubicacion (ubi_sitio, ubi_ciudad) VALUES (?, ?)");
+        $stmtUbicacion->execute([$datos['direccion'], 'ValorPorDefectoDeCiudad']);
         $ubicacionId = $this->db->lastInsertId(); // <-- Corregido, no array
 
         // 2. Crear cliente

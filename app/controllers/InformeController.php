@@ -3,25 +3,13 @@
 // ===== app/controllers/InformeController.php =====
 // ESTE ES EL CONTROLADOR MÁS IMPORTANTE.
 // Unifica el guardado de datos y la generación del PDF.
-namespace app\controllers;
+namespace App\Controllers;
 
 // CORRECCIÓN: Se incluyen todos los modelos necesarios y Dompdf.
-require_once __DIR__ . '/../models/Cliente.php';
-require_once __DIR__ . '/../models/Ubicacion.php';
-require_once __DIR__ . '/../models/Servicio.php';
-require_once __DIR__ . '/../models/UsuarioModel.php';
-require_once __DIR__ . '/../models/inspeccion_general.php';
-require_once __DIR__ . '/../models/Informe.php';
-require_once __DIR__ . '/../models/Tecnico.php';
-require_once __DIR__.  '/../models/EmpresaModel.php';
-require_once __DIR__ . '/../models/ServicioModel.php';
-
 
 use App\Models\Cliente;
 use App\Models\Ubicacion;
-use App\models\Servicio;
-use App\Models\UsuarioModel;
-use App\models\inspeccion_general;
+use App\Models\inspeccion_general;
 use App\Models\Informe;
 use App\Models\Tecnico;
 use App\Models\ServicioModel;
@@ -32,21 +20,22 @@ use PDO;
 
 class InformeController {
     private $conn;
-    private $clienteModel, $servicio, $ubicacionModel, $servicioModel, $informeModel, $tecnicoModel, $inspeccionGeneralModel, $EmpresaModel;
+    private $clienteModel, $ubicacionModel, $servicioModel, $informeModel, $tecnicoModel, $inspeccionGeneralModel, $EmpresaModel;
     
-    public function ircreacion() {
-        require_once '../app/views/informes/crear_informe.php';
-    }
+    
     public function __construct(PDO $db) {
         $this->conn = $db;
         $this->clienteModel = new Cliente($this->conn);
         $this->ubicacionModel = new Ubicacion($this->conn);
         $this->servicioModel = new ServicioModel($this->conn);
-        $this->servicio = new servicio($this->conn);
         $this->informeModel = new Informe($this->conn);
         $this->tecnicoModel = new Tecnico($this->conn);
         $this->inspeccionGeneralModel = new inspeccion_general($this->conn);
         $this->EmpresaModel = new EmpresaModel($this->conn);
+    }
+
+    public function ircreacion() {
+        require_once '../app/views/informes/crear_informe.php';
     }
 
     public function mostrarFormulario() {
@@ -87,6 +76,37 @@ class InformeController {
 
         // 3. Cargar la vista con las variables correctas ($clientes y $departamentos).
         require __DIR__ . '/../views/informes/crear_informe.php';
+    }
+
+    public function gestionarInformes(){
+        $pagina = $_GET['pagina'] ?? 1;
+        $busqueda = $_GET['busqueda']?? '';
+        $porpagina = 10;
+
+        $informes = $this->informeModel->obtenerpaginados($pagina, $porpagina, $busqueda);
+        $totalinformes = $this->informeModel->contarTodos($busqueda);
+        $totalPaginas = ceil($totalinformes / $porpagina);
+
+        require __DIR__ . '../app/views/informes/visualiza.php';
+
+    }
+
+    public function eliminarinforme(){
+        if(!isset ($_GET['id'])){
+            header('Location: /softGenn/public/index.php?action=mostrar_historial&error=id_not_fund');
+            exit();
+        }
+        $id = $_GET['id'];
+
+        $visualizacionModel = new \App\Models\VisualizacionModel($this->conn);
+        $exito = $visualizacionModel->eliminarinforme($id);
+
+        if ($exito){
+            header('Location: //softGenn/public/index.php?action=mostrar_historial&status=eliminado');
+        } else {
+            header('Location: /softGenn/public/index.php?action=mostrar_historial&error=deletion_failed');
+        }
+        exit();
     }
 
 
