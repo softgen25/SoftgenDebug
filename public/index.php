@@ -19,13 +19,15 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once __DIR__. '/../config/config.php'; 
 
 // Modelos
-require_once __DIR__ . '/../app/models/UsuarioModel.php';
+require_once __DIR__ .'/../app/models/UsuarioModel.php';
 require_once __DIR__ .'/../app/models/Tecnico.php'; // Modelo para la gestión de técnicos
 require_once __DIR__ .'/../app/models/DashboardModel.php';
-require_once __DIR__ .'/../app/models/ServicioModel.php'; // Aseguramos que el modelo de servicio esté cargado
+require_once __DIR__ .'/../app/models/ServicioModel.php';
+require_once __DIR__ .'/../app/models/Informe.php'; // Aseguramos que el modelo de servicio esté cargado
 require_once __DIR__. '/../app/models/EmpresaModel.php';
 require_once __DIR__. '/../app/models/equipo.php';
 require_once __DIR__. '/../app/models/Cliente.php';
+require_once __DIR__. '/../app/models/visualizacionmodel.php';
 
 
 
@@ -33,14 +35,17 @@ require_once __DIR__. '/../app/models/Cliente.php';
 require_once __DIR__. '/../app/controllers/UsuarioController.php';
 require_once __DIR__. '/../app/controllers/DashboardController.php' ;
 require_once __DIR__. '/../app/controllers/ServicioController.php';
+require_once __DIR__. '/../app/controllers/InformeController.php';
 require_once __DIR__. '/../app/controllers/empresacontroller.php';
 require_once __DIR__. '/../app/controllers/equipocontroller.php';
 require_once __DIR__. '/../app/controllers/ClienteController.php';
 require_once __DIR__. '/../app/controllers/visualizacioncontroller.php'; // <-- AÑADE ESTA LÍNEA
+require_once __DIR__. '/../app/controllers/visualizacioncontroller.php';
 
 use App\Controllers\UsuarioController;
 use App\Controllers\DashboardController;
 use App\controllers\ServicioController;
+use app\controllers\InformeController;
 use App\Controllers\EmpresaController;
 use App\Controllers\equipocontroller;
 use app\Controllers\ClienteController;
@@ -120,6 +125,10 @@ switch ($action) {
         $usuarioController->eliminarUsuario();
         break;
 
+    case 'irsoporte':
+        $usuarioController->irsoporte();
+        break;
+
     // --- Rutas de Gestión de Informes ---
     //case 'gestionar_informes':
         //$servicioController->gestionarInformes();
@@ -155,10 +164,18 @@ switch ($action) {
         $servicioController->guardarInforme();
         break;
 
+    case 'gestionar_informes':
+        $informeController->gestionarInformes();
+        break;
+
     case 'generar_pdf':
         // Esta acción se llama después de guardar exitosamente
         $servicioController->generarPdf();
         break;
+
+   /* case 'eliminar_informe':
+        $visualizacioncontroller->eliminarinforme();
+        break; */
 
     /*case 'mostrar_visualizacion':
         $visualizacioncontroller->mostrarvisualizacion();

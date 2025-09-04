@@ -33,5 +33,50 @@ class Informe {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function contarTodos($busqueda = '') {
+        $sqlBusqueda = '';
+        $params = [];
+        if (!empty($busqueda)) {
+            $sqlBusqueda = "WHERE s.id_servicio ? OR h.id_tecnico LIKE ? OR h.estado_anterior LIKE ? OR h.estado_nuevo";
+            $params = ["%$busqueda%", "%$busqueda%", "%$busqueda%"];
+        }
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM usuario $sqlBusqueda");
+        $stmt->execute($params);
+        return $stmt->fetchColumn();
+    }
+
+        public function obtenerpaginados($pagina, $porPagina, $busqueda = '') {
+        $offset = ($pagina - 1) * $porPagina;
+        $sqlBusqueda = '';
+        $params = [];
+        $paramIndex = 1;
+
+        if (!empty($busqueda)) {
+            $sqlBusqueda = "WHERE s.id_servicio LIKE ? h.id_tecnico_responsable LIKE ? OR h.estado_anterior LIKE ? OR h.estado_nuevo";
+            $params = ["%$busqueda%", "%$busqueda%", "%$busqueda%"];
+        }
+
+        $sql = "SELECT u.*, r.rol_nombre 
+                FROM servicio u 
+                JOIN rol r ON u.id_rol = r.id_rol 
+                $sqlBusqueda
+                ORDER BY s.id_servicio DESC 
+                LIMIT ? OFFSET ?";
+
+        $stmt = $this->db->prepare($sql);
+
+        // Vincular los parámetros de búsqueda (si existen)
+        foreach ($params as $value) {
+            $stmt->bindValue($paramIndex++, $value);
+        }
+
+        // Vincular los parámetros de paginación (LIMIT y OFFSET) como enteros
+        $stmt->bindValue($paramIndex++, $porPagina, PDO::PARAM_INT);
+        $stmt->bindValue($paramIndex, $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

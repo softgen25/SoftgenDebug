@@ -326,17 +326,9 @@ if (!isset($_SESSION['id_usuario'])) {
     const tiposDeServicio = <?= json_encode($tipos_servicio ?? []) ?>;
     const tiposDeInforme = <?= json_encode($tipos_informe ?? []) ?>;
 </script>
-<script src="../public/js/javaequipo.js"></script>
+<script src="../public/css/jsBoostrap/bootstrap.min.js"></script>
 <script src="../public/js/formulariojs.js"></script>
-<<<<<<< HEAD
-<script src="/public/css/jsBoostrap/bootstrap.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-=======
-<script src="../public/js/bootstrap.bundle.min.js"></script>
->>>>>>> refs/remotes/origin/funcionesDebug
+<script src="../public/css/jsBoostrap/bootstrap.min.js "></script>
 
 </body>
 </html>

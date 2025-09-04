@@ -83,6 +83,19 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
             </ul>
         </nav>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            const error_msg = urlParams.get('error_msg');
+
+            if (status === 'error' && error_msg) {
+                alert(decodeURIComponent(error_msg));
+            } else if (status === 'eliminado') {
+                alert('Usuario eliminado exitosamente.');
+            }
+        });
+</script>
 </body>
 </html>
 

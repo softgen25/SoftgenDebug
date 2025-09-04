@@ -86,8 +86,8 @@
                     <ul class="navbar-nav me-auto">
                         <li><a class="nav-link" href="/softGenn/public/index.php?action=dashboard_tecnico">Inicio</a></li>
                         <li><a class="nav-link" href="/softGenn/public/index.php?action=crear_informe">Creación</a></li>
-                        <li><a class="nav-link" href="?url=vizualizar.php">Visualización</a></li>
-                        <li><a class="nav-link" href="soporte.html">Soporte</a></li>
+                        <li><a class="nav-link" href="/softGenn/public/index.php?action=ver_historial">Visualización</a></li>
+                        <li><a class="nav-link" href="/softGenn/public/index.php?action=irsoporte">Soporte</a></li>
                     </ul>
                     <ul class="navbar-nav">
                         <li><a class="nav-link" href="?url=login">Cerrar sesion</a></li>

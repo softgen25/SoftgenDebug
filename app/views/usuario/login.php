@@ -48,7 +48,7 @@
 
                         <div class="mb-3 col-12">
                             <div class="password-wrapper">
-                                <input type="password" id="passwordField" class="form-control" placeholder="Contraseña" name="contrasena" required>
+                                <input type="password" id="passwordField" class="form-control" placeholder="Contraseña" name="contrasena" required minlength="6" maxlength="12">
                                 <span class="toggle-password" id="togglePassword" style="position: absolute;">👁</span>
                             </div>
                         </div>

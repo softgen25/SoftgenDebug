@@ -47,7 +47,7 @@ if (!isset($usuario)) {
                         </div>
                         <div class="col-md-6">
                             <label for="usu_doc_identidad" class="form-label">Documento de Identidad</label>
-                            <input type="text" class="form-control" id="usu_doc_identidad" name="usu_doc_identidad" value="<?php echo htmlspecialchars($usuario['usu_doc_identidad']); ?>" required>
+                            <input type="text" class="form-control" id="usu_doc_identidad" name="usu_doc_identidad" value="<?php echo htmlspecialchars($usuario['usu_doc_identidad']); ?>">
                         </div>
                         <div class="col-md-6">
                             <label for="usu_telefono" class="form-label">Teléfono</label>

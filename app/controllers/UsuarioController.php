@@ -84,6 +84,10 @@ class UsuarioController {
         }
     }
 
+    public function irsoporte(){
+        require_once '../../app/views/usuario/soporte.php';
+    }
+
 
     
 
@@ -143,7 +147,7 @@ class UsuarioController {
         }
     }
 
-        public function gestionarUsuarios() {
+    public function gestionarUsuarios() {
         $this->verificarAdmin();
         $pagina = $_GET['pagina'] ?? 1;
         $busqueda = $_GET['busqueda'] ?? '';
@@ -207,10 +211,24 @@ class UsuarioController {
         $this->verificarAdmin();
         $id = $_GET['id'] ?? null;
         if ($id) {
-            $this->usuarioModel->eliminarUsuario($id);
+            header('Location: /softGenn/public/index.php?actioin=gestionar_usuarios&status=error&error_msg=' . urlencode('Id de usuario no definido.'));
+            exit();
         }
-        header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=eliminado');
-        exit();
+        try {
+            
+            $this->usuarioModel->eliminarUsuario($id);
+            // redirigir mensaje
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=eliminado');
+            exit();
+        } catch (\PDOException $e) {
+            $error_msg = 'Ocurrió un error inesperado al intentar eliminar el usuario.';
+            // Step 4: Catch the integrity constraint violation error.
+            if ($e->getCode() === '23000') {
+                $error_msg = 'No se puede eliminar este usuario porque está relacionado con uno o más servicios. Elimine los servicios relacionados primero.';
+            }
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode($error_msg));
+            exit();
+        }       
     }
 
     private function verificarAdmin() {
