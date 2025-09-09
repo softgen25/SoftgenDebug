@@ -77,7 +77,7 @@ class Cliente {
             $params = [$searchTerm, $searchTerm, $searchTerm];
         }
 
-        $sql = "SELECT COUNT(*) FROM cliente $sqlBusqueda";
+        $sql = "SELECT COUNT(*) FROM cliente c $sqlBusqueda";
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchColumn();
