@@ -189,4 +189,33 @@ switch ($action) {
         // Si la acción no coincide con ninguna, redirigir al login por seguridad.
         header('Location: /softGenn/public/index.php?action=login');
         exit();
+
+
+     case 'gestionar_empresas':
+            $EmpresaController->gestionarEmpresas();
+            break;
+
+        case 'mostrar_crear_empresa':
+            $EmpresaController->mostrarFormularioCrear();
+            break;
+
+        case 'crear_empresa':
+        $EmpresaController->crearEmpresa();
+        break;
+
+        case 'mostrar_editar_empresa':
+            $EmpresaController->mostrarFormularioEditar();
+            break;
+
+        case 'editar_empresa':
+            $EmpresaController->editarEmpresa();
+            break;
+
+        case 'eliminar_empresa':
+            $EmpresaController->eliminarEmpresa();
+            break;
+        case '':
+        // Si la acción no coincide con ninguna, redirigir al login por seguridad.
+        header('Location: /softGenn/public/index.php?action=login');
+        exit();   
 }

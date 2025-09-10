@@ -15,10 +15,12 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <!---<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    
-
+    <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/jsBoostrap/bootstrap.min.js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.1/chart.min.js"
+        integrity="sha512-5vwN8yor2fFT9pgPS9p9R7AszYaNn0LkQElTXIsZFCL7ucT8zDCAqlQXDdaqgA1mZP47hdvztBMsIoFxq/FyyQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <style>
         body {
@@ -60,6 +62,47 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
             border-radius: 0.5rem;
             box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075);
         }
+
+        .stat-card-link {
+            text-decoration: none; /* Quita el subrayado del enlace */
+            transition: transform 0.2s ease-in-out; /* Animación suave */
+        }
+
+        .stat-card-link:hover .stat-card {
+            transform: translateY(-5px); /* Eleva la tarjeta al pasar el ratón */
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15); /* Sombra más pronunciada */
+        }
+
+        /* estilos.css de las tarjetas*/
+
+        .bg-custom-informes {
+        background-color: #4AA9D9 !important; /* Reemplaza con tu código de color */
+        }
+
+        .bg-custom-tecnicos {
+        background-color: #135787 !important; /* Reemplaza con tu código de color */
+        }
+
+        .bg-custom-clientes {
+        background-color: #4AA9D9 !important; /* Reemplaza con tu código de color */
+        }
+
+        .bg-custom-pendientes {
+        background-color: #135787 !important; /* Reemplaza con tu código de color */
+        }
+
+        /* Opcional: Asegura que el texto sea visible en colores oscuros */
+        .text-dark {
+            color: #212529 !important;
+        }
+        .text-white {
+            color: #fff !important;
+        }
+
+        /* Opcional: Estilo para que los enlaces no tengan subrayado */
+        .stat-card-link {
+            text-decoration: none;
+        }
     </style>
 </head>
 <header>
@@ -70,7 +113,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     </div>
     
 </header>
-<body>
+<body style="background-color: #ececec;">
     <!-- Barra de Navegación Lateral (Sidebar) -->
     
     <!-- Contenido Principal -->
@@ -78,75 +121,179 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
         <h1 class="mb-4">Dashboard de Administración</h1>
 
         <!-- Tarjetas de Estadísticas -->
-        <div class="row g-4 mb-4">
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-primary text-white stat-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Informes Totales</h5>
-                            <p class="card-text fs-2 fw-bold"> <h6> Informes realizados </h6> </p> <?php echo htmlspecialchars($estadisticas['total_informes']); ?></p>
-                        </div>
-                        <i class="bi bi-file-earmark-text-fill fs-1 opacity-50"></i>
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <a href="/softGenn/public/index.php?action=gestionar_informes" class="stat-card-link">
+            <div class="card bg-custom-informes text-white stat-card">
+                <div class="card-body d-flex justify-content-between align-items-center shadow-sm">
+                    <div>
+                        <h3 class="fs-2 fw-bold mb-0"><?php echo htmlspecialchars($estadisticas['total_informes']); ?></h3>
+                        <p class="mb-0 opacity-75">Informes realizados</p>
                     </div>
+                    <i class="bi bi-file-earmark-text-fill fs-1 opacity-50"></i>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-success text-white stat-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Técnicos Activos</h5>
-                            <p class="card-text fs-2 fw-bold"> <h6>Técnicos conectados </h6> </p> <?php echo htmlspecialchars($estadisticas['total_tecnicos']); ?></p>
-                        </div>
-                        <i class="bi bi-person-check-fill fs-1 opacity-50"></i>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <a href="../public/index.php?action=gestionar_usuarios" class="stat-card-link">
+            <div class="card bg-custom-tecnicos text-white stat-card">
+                <div class="card-body d-flex justify-content-between align-items-center shadow-sm">
+                    <div>
+                        <h3 class="fs-2 fw-bold mb-0"><?php echo htmlspecialchars($estadisticas['total_tecnicos']); ?></h3>
+                        <p class="mb-0 opacity-75">Técnicos conectados</p>
                     </div>
+                    <i class="bi bi-person-check-fill fs-1 opacity-50"></i>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-info text-white stat-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Clientes</h5>
-                            <p class="card-text fs-2 fw-bold"> <h6> Clientes vinculados</h6></p><?php echo htmlspecialchars($estadisticas['total_clientes']); ?></p>
-                        </div>
-                        <i class="bi bi-building fs-1 opacity-50"></i>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <a href="/softGenn/public/index.php?action=gestionar_clientes" class="stat-card-link">
+            <div class="card bg-custom-clientes text-white stat-card">
+                <div class="card-body d-flex justify-content-between align-items-center shadow-sm">
+                    <div>
+                        <h3 class="fs-2 fw-bold mb-0"><?php echo htmlspecialchars($estadisticas['total_clientes']); ?></h3>
+                        <p class="mb-0 opacity-75">Clientes vinculados</p>
                     </div>
+                    <i class="bi bi-building fs-1 opacity-50"></i>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="card bg-warning text-dark stat-card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">Pendientes</h5>
-                            <p class="card-text fs-2 fw-bold"> <h6>Informes pendientes </h6></p><?php echo htmlspecialchars($estadisticas['informes_pendientes']); ?></p>
-                        </div>
-                        <i class="bi bi-pen-fill fs-1 opacity-50"></i>
+        </a>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+        <a href="/softGenn/public/index.php?action=gestionar_informes" class="stat-card-link">
+            <div class="card bg-custom-pendientes text-white stat-card"> <div class="card-body d-flex justify-content-between align-items-center shadow-sm">
+                    <div>
+                        <h3 class="fs-2 fw-bold mb-0"><?php echo htmlspecialchars($estadisticas['informes_pendientes']); ?></h3>
+                        <p class="mb-0 opacity-75">Informes pendientes</p>
                     </div>
+                    <i class="bi bi-pen-fill fs-1 opacity-50"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+        <!-- Gráficos y Acciones Críticas -->
+<div class="container-fluid">
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card stat-card" style="height: 500px;">
+                <div class="card-body d-flex flex-column shadow">
+                    <h5 class="card-title">Informes por Tipo de Servicio</h5>
+                    <div class="flex-grow-1" style="position: relative;">
+                        <canvas id="informesChart"></canvas> 
+                    </div>
+                    <button onclick="actualizar()" class="btn mt-3 w-50 align-self-center mb-3" style="background-color: #135787; color: #ffff;">Actualizar tabla</button>
                 </div>
             </div>
         </div>
 
-        <!-- Gráficos y Acciones Críticas -->
-        <div class="row g-4 mb-4">
-            <div class="col-lg-8">
-                <div class="card stat-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Informes por Tipo de Servicio</h5>
-                        <canvas id="informesPorTipoChart"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card stat-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Estado de Servicios</h5>
+        <div class="col-lg-6">
+            <div class="card stat-card">
+                <div class="card-body d-flex flex-column shadow">
+                    <h5 class="card-title">Estado de Servicios</h5>
+                    <div style="position: relative; max-width: 400px; margin: 0 auto;">
                         <canvas id="estadoServiciosChart"></canvas>
                     </div>
+                    <button onclick="actualizar()" class="btn mt-3 mb-3 w-50 align-self-center" style="background-color: #135787; color: #ffff;">Actualizar tabla</button>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<script>
+    var ctx1 = document.getElementById('informesChart').getContext('2d');
+var informesBarChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+        labels: ['Refigerante Variable', 'Expansion directa', 'Condesado por agua', 'Ventilacion mecanica', 'otro'],
+        datasets: [{
+            label: 'Refigerante Variable',
+            data: [1, 0, 0, 0, 0], // El valor '1' está en la posición 0, las demás en 0
+            backgroundColor: "#135787"
+        },
+        {
+            label: 'Expansion directa',
+            data: [0, 3, 0, 0, 0], // El valor '3' está en la posición 1, las demás en 0
+            backgroundColor: "#03144F"
+        },
+        {
+            label: 'Condesado por agua',
+            data: [0, 0, 2, 0, 0], // El valor '2' está en la posición 2, las demás en 0
+            backgroundColor: '#4AA9D9'
+        },
+        {
+            label: 'Ventilacion mecanica',
+            data: [0, 0, 0, 4, 0], // El valor '4' está en la posición 3, las demás en 0
+            backgroundColor: "#8fb3e2"
+        },
+        {
+            label: 'otro',
+            data: [0, 0, 0, 0, 2], // El valor '2' está en la posición 4, las demás en 0
+            backgroundColor: '#31487A'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+});
+
+    var ctx2 = document.getElementById('estadoServiciosChart').getContext('2d'); 
+    var estadoPieChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['Pendiente', 'Firmado', 'Rechazado'],
+            datasets: [{
+                label: 'Estado',
+                data: [3, 2, 1],
+                backgroundColor: [
+                    '#1f2124',
+                    '#393d42',
+                    '#6a6e73'
+                ],
+                hoverBackgroundColor: [
+                    '#1f2124',
+                    '#393d42',
+                    '#6a6e73'
+                ],
+                bodercolor: '#ffffff',
+                borderWidth: 2
+            }]          
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'top',
+                }
+            }
+        }
+    });
+    
+    function actualizar() {
+        informesBarChart.update();
+        estadoDoughnutChart.update();
+        console.log("Gráficos actualizados");
+    }
+</script>
 
         <!-- Tabla de Últimos Informes -->
-       | <div class="card stat-card">
+        <div class="card stat-card shadow">
             <div class="card-header">
                 <h5 class="mb-0">Últimos Informes Registrados</h5>
             </div>

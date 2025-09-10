@@ -16,14 +16,15 @@ if (!isset($usuario)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Usuario - SoftGen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #ececec;">
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
     <main class="container py-5">
         <h1 class="mb-4">Editar Usuario: <?php echo htmlspecialchars($usuario['usu_nombre']); ?></h1>
 
-        <div class="card shadow-sm">
+        <div class="card shadow">
             <div class="card-body">
                 <form action="/softGenn/public/index.php?action=editar_usuario" method="POST">
                     <input type="hidden" name="id_usuario" value="<?php echo htmlspecialchars($usuario['id_usuario']); ?>">
@@ -62,7 +63,7 @@ if (!isset($usuario)) {
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Actualizar Usuario</button>
+                        <button type="submit" class="btn" style="background-color: #135787; color: #ffff;">Actualizar Usuario</button>
                         <a href="/softGenn/public/index.php?action=gestionar_usuarios" class="btn btn-secondary">Cancelar</a>
                     </div>
                 </form>
