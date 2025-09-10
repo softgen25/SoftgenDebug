@@ -200,7 +200,7 @@ switch ($action) {
             break;
 
         case 'crear_empresa':
-        $EmpresaController->crearEmpresa();
+            $EmpresaController->crearEmpresa();
         break;
 
         case 'mostrar_editar_empresa':

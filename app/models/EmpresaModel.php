@@ -10,6 +10,14 @@ class EmpresaModel {
         $this->db = $db;
     }
 
+    public function existeCorreoEmpresa($correoEmpresa) {
+        $sql = "SELECT COUNT(*) FROM empresa WHERE emp_correo = :correoEmpresa";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':correoEmpresa', $correoEmpresa, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0; // true si existe
+    }
+
     /**
      * Obtiene todas las empresas de la base de datos.
      * @return array Una lista de todas las empresas.
@@ -75,7 +83,7 @@ class EmpresaModel {
     /**
      * Crea una nueva empresa dentro de una transacción para mayor seguridad.
      */
-    public function crear($datos) {
+    public function crearEmpresa($datos) {
         try {
             $this->db->beginTransaction();
 

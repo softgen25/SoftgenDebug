@@ -10,7 +10,16 @@
 <?php include '../public/headerandfoother/admin_header.php'; ?>
 <body style="background-color: #ececec;">
     <div class="container mt-5">
+
         <h1>Crear Nueva Empresa</h1>
+        <!--Alerta de verificarCorreo-->
+        <?php if (isset($_GET['status']) && $_GET['status'] === 'correo_existente_empresa'): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                El correo ya está registrado. Intenta con otro.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+            </div>
+        <?php endif; ?>
         <div class="card shadow">
             <div class="card-body">
                 <form action="index.php?action=crear_empresa" method="POST">

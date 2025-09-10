@@ -74,24 +74,20 @@ class EmpresaController {
      */
     public function crearEmpresa() {
         $this->verificarAdmin();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
-            // CORRECCIÓN DE SEGURIDAD: Crear un array con solo los datos esperados.
-            // Nunca pasar $_POST directamente al modelo.
-            $datos = [
-                'emp_razon_social' => $_POST['emp_razon_social'] ?? null,
-                'emp_nit' => $_POST['emp_nit'] ?? null,
-                'emp_correo' => $_POST['emp_correo'] ?? null,
-                'emp_telefono' => $_POST['emp_telefono'] ?? null
-            ];
+            $datos = $_POST; // Recolectamos todos los datos del formulario
 
-            $exito = $this->empresaModel->crear($datos);
-
-            if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_empresas&status=creado');
-            } else {
-                header('Location: /softGenn/public/index.php?action=mostrar_crear_empresa&error=1');
+            // 🔹 Validar si el correo ya existe
+            if ($this->empresaModel->existeCorreoEmpresa($datos['emp_correo'])) {
+                // Redirigimos con un error
+                header('Location: /softGenn/public/index.php?action=mostrar_crear_empresa&status=correo_existente_empresa');
+                exit();
             }
+
+            // 🔹 Si no existe, lo creamos
+            $this->empresaModel->crearEmpresa($datos);
+            header('Location: /softGenn/public/index.php?action=gestionar_empresas&status=creado');
             exit();
         }
     }
