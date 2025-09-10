@@ -26,7 +26,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                 <i class="bi bi-plus-circle-fill me-2"></i>Crear Nuevo Usuario
             </a>
         </div>
-
+        <div class="card shadow pt-3 pb-3 pe-3 ps-3" >
         <!-- Formulario de Búsqueda -->
         <form action="index.php" method="get" class="mb-4">
             <input type="hidden" name="action" value="gestionar_usuarios">
@@ -37,7 +37,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
         </form>
 
         <!-- Tabla de Usuarios -->
-        <div class="table-responsive shadow rounded">
+        <div class="table-responsive rounded">
             <table class="table table-hover align-middle">
                 <thead class="table-primary">
                     <tr>
@@ -71,6 +71,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <?php endif; ?>
                 </tbody>
             </table>
+        </div>
         </div>
         <br>
         <!-- Paginación -->
