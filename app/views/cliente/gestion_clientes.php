@@ -27,14 +27,28 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
         </div>
 
         <!-- Mensajes de alerta para el usuario -->
-        <?php if (isset($_GET['status']) && $_GET['status'] == 'creado'): ?>
-            <div class="alert alert-success">Cliente creado exitosamente.</div>
-        <?php endif; ?>
-        <?php if (isset($_GET['status']) && $_GET['status'] == 'editado'): ?>
-            <div class="alert alert-success">Cliente actualizado exitosamente.</div>
-        <?php endif; ?>
-        <?php if (isset($_GET['error']) && $_GET['error'] == 'eliminar_fallido'): ?>
-            <div class="alert alert-danger">No se puede eliminar el cliente porque tiene informes de servicio asociados.</div>
+        <?php if (isset($_GET['status'])): ?>
+            <?php if ($_GET['status'] === 'creado_cliente'): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ✅ Cliente creado correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php elseif ($_GET['status'] === 'cliente_eliminado'): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    ✅ Cliente eliminado correctamente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php elseif ($_GET['status'] === 'eliminar_fallido'): ?>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ⚠️ No puedes eliminar este cliente porque tiene servicios asociados.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php elseif ($_GET['status'] === 'error'): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ❌ Ocurrió un error inesperado al intentar eliminar el cliente.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
 
         <div class="card shadow">

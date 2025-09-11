@@ -211,14 +211,14 @@ if (!isset($_SESSION['id_usuario'])) {
         <div class="step" id="step3">
             <h5 class="mb-3">3. Detalles de Inspección General (Checklist)</h5>
             <div class="row">
-                <div class="col-md-4 col-6 mb-2"><input class="form-check-input" type="checkbox" value="1" name="ig_goteras"><label class="form-check-label ms-2">Goteras</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_goteos"  value="1" ><label class="form-check-label ms-2">Goteras</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_gabinete" value="1"> <label class="form-check-label ms-2">Gabinete</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_filtro" value="1"> <label class="form-check-label ms-2">Filtro</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_drenaje" value="1"> <label class="form-check-label ms-2">Drenaje</label></div>
-                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_serpentina" value="1"> <label class="form-check-label ms-2">Serpentina</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_serpentin" value="1"> <label class="form-check-label ms-2">Serpentin</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_refrigerante" value="1"> <label class="form-check-label ms-2">Fuga de Refrigerante</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_vibracion" value="1"> <label class="form-check-label ms-2">Vibración Anormal</label></div>
-                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_tablero_electronico" value="1"> <label class="form-check-label ms-2">Tablero Electrónico</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_tablero_electrico" value="1"> <label class="form-check-label ms-2">Tablero Electrico</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_aislamiento_gabinete" value="1"> <label class="form-check-label ms-2">Aislamiento</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_flujo_aire" value="1"> <label class="form-check-label ms-2">Flujo de Aire</label></div>
             </div>

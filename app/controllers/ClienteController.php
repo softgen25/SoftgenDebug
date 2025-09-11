@@ -62,7 +62,7 @@ class ClienteController {
 
             // 🔹 Si no existe, lo creamos
             $this->clienteModel->crearCliente($datos);
-            header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado');
+            header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
             exit();
         }
     }
@@ -109,7 +109,7 @@ class ClienteController {
         if ($id) {
             $exito = $this->clienteModel->eliminar($id);
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=eliminado');
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
             } else {
                 // Este error ocurre si el cliente tiene informes asociados
                 header('Location: /softGenn/public/index.php?action=gestionar_clientes&error=eliminar_fallido');

@@ -22,6 +22,25 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <main class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Gestión de Usuarios y Técnicos</h1>
+            <!--Alerta de usuario creado-->
+            <?php if (isset($_GET['status'])): ?>
+                <?php if ($_GET['status'] === 'creado_usuario'): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ✅ Usuario creado correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php elseif ($_GET['status'] === 'eliminado'): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        🗑️ Usuario eliminado correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php elseif ($_GET['status'] === 'error' && isset($_GET['error_msg'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ❌ <?php echo htmlspecialchars($_GET['error_msg']); ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
             <a href="index.php?action=mostrar_crear_usuario" class="btn" style="background-color: #135787; color: #ffff;">
                 <i class="bi bi-plus-circle-fill me-2"></i>Crear Nuevo Usuario
             </a>

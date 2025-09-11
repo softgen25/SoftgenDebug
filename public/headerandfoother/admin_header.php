@@ -88,11 +88,6 @@ $currentAction = $_GET['action'] ?? 'dashboard_admin';
                 <i class="bi bi-building"></i>Gestión de Empresas
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="bi bi-tools"></i>Gestión de Equipos
-            </a>
-        </li>
     </ul>
     <div class="mt-auto" style="position: absolute; bottom: 20px; width: calc(100% - 40px);">
         <hr style="color: #6c757d;">

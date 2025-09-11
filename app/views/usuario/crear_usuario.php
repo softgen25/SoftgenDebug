@@ -18,16 +18,18 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
 <body style="background-color: #ececec;">
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
+    
     <main class="container py-5">
         <h1 class="mb-4">Crear Nuevo Usuario</h1>
-        <!--Alerta de verificarCorreo-->
-        <?php if (isset($_GET['status']) && $_GET['status'] === 'correo_existente'): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-                El correo ya está registrado. Intenta con otro.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        <?php endif; ?>
+        <!--Alerta usuario error correo ya creado-->
+            <?php if (isset($_GET['status'])): ?> 
+                <?php if ($_GET['status'] === 'correo_existente'): ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        ⚠️ El correo ingresado ya está registrado. Intenta con otro.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
 
         <div class="card shadow">
             <div class="card-body">
@@ -73,5 +75,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

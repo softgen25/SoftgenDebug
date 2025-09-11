@@ -74,7 +74,7 @@ $currentAction = $_GET['action'] ?? 'dashboard_admin';
         </li>
          <li class="nav-item">
             <a class="nav-link" href="#">
-                <i class="bi bi-tools"></i>Gestión de Equipos
+                <i class="bi bi-building"></i>Gestión de Equipos
             </a>
         </li>
     </ul>
