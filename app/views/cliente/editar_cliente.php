@@ -8,13 +8,14 @@ if (!isset($cliente)) { die('Error: Datos del cliente no encontrados.'); }
     <meta charset="UTF-8">
     <title>Editar Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #ececec;">
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
     <main class="container py-5">
         <h1 class="mb-4">Editar Cliente: <?php echo htmlspecialchars($cliente['razon_social']); ?></h1>
-        <div class="card shadow-sm">
+        <div class="card shadow">
             <div class="card-body">
                 <form action="/softGenn/public/index.php?action=editar_cliente" method="POST">
                     <input type="hidden" name="id_cliente" value="<?php echo htmlspecialchars($cliente['id_cliente']); ?>">
@@ -27,7 +28,7 @@ if (!isset($cliente)) { die('Error: Datos del cliente no encontrados.'); }
                         <div class="col-md-6"><label for="contacto_telefono" class="form-label">Contacto teléfono*</label><input type="telefono" class="form-control" id="contacto_telefono" name="contacto_telefono" required></div>
                     </div>
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Actualizar Cliente</button>
+                        <button type="submit" class="btn" style="background-color: #135787; color: #ffff;">Actualizar Cliente</button>
                         <a href="/softGenn/public/index.php?action=gestionar_clientes" class="btn btn-secondary">Cancelar</a>
                     </div>
                 </form>

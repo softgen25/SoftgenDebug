@@ -7,8 +7,9 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) { /* ... */ }
     <meta charset="UTF-8">
     <title>Crear Nuevo Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #ececec;">
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
 
@@ -22,7 +23,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) { /* ... */ }
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
             </div>
         <?php endif; ?> 
-        <div class="card shadow-sm">
+        <div class="card shadow">
             <div class="card-body">
                 <form action="/softGenn/public/index.php?action=crear_cliente" method="POST">
                     <div class="row g-3">
@@ -34,7 +35,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) { /* ... */ }
                         <div class="col-md-6"><label for="contacto_telefono" class="form-label">Contacto teléfono</label><input type="telefono" class="form-control" id="contacto_telefono" name="contacto_telefono" placeholder="324569770" minlength="10" maxlength="10" required></div>
                     </div>
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                        <button type="submit" class="btn" style="background-color: #135787; color: #ffff;">Guardar Cliente</button>
                         <a href="/softGenn/public/index.php?action=gestionar_clientes" class="btn btn-secondary">Cancelar</a>
                     </div>
                 </form>

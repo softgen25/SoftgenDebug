@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../public/css/iniciosesion.css">
 
     <link rel="icon" type="image/png" sizes="16x16" href="public/img/Logo Favicon 16x16.png">
@@ -23,7 +24,7 @@
         <img src="../public/img/Logocompleto.png" class="m-3" alt="Logo SoftGen" height="90px">
     </div>
 </header>
-<body>
+<body style="background-color: #ececec">
     <div class="container pt-5">
         <div class="row justify-content-center">
             <div class="col-md-4">

@@ -14,10 +14,13 @@ if (!isset($_SESSION['id_usuario'])) {
     <title>Crear Reporte</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
+    
+    
     <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    
 
 
     <link rel="stylesheet" href="../public/css/estiloequipo.css">
@@ -28,13 +31,15 @@ if (!isset($_SESSION['id_usuario'])) {
     <link rel="icon" type="image/png" sizes="16x16" href="../public/img/Logo Favicon 16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../public/img/Logo favicon 1.0.png">
     <link rel="icon" type="image/png" sizes="180x180" href="../public/img/Logo Favicon 180x180.png">
+        
     
     <style>
         .step { display: none; }
         .step.active { display: block; }
+        body {font-family: 'Saira'}
     </style>
 </head>
-<body>
+<body  style="background-color: #ececec;">
     
 <header>
     <div class="bg-primary">
@@ -45,7 +50,7 @@ if (!isset($_SESSION['id_usuario'])) {
     </div>
 </header>
 
-<div class="container mt-5 mb-5 shadow-lg p-4 rounded">
+<div class="container mt-5 mb-5 shadow p-4 rounded"  style="background-color: #ffffffff;">
     <!-- 
         CORRECCIÓN 1: La acción apunta a 'guardar_informe' y se añade 'enctype' para la subida de archivos.
     -->
@@ -132,7 +137,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
             </div>
             <div class="text-center mt-4">
-                <button type="button" class="btn next-btn" style="background-color:#135787;">Siguiente <i class="bi bi-caret-right-fill"></i></button>
+                <button type="button" class="btn next-btn" style="background-color:#135787; color: #ffffff">Siguiente <i class="bi bi-caret-right-fill"></i></button>
             </div>
         </div>
 
@@ -197,8 +202,8 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
             </div>
             <div class="text-center mt-4">
-                <button type="button" class="btn prev-btn" style="background-color:#135787;"><i class="bi bi-caret-left-fill"></i> Anterior</button>
-                <button type="button" class="btn next-btn" style="background-color:#135787;">Siguiente <i class="bi bi-caret-right-fill"></i></button>
+                <button type="button" class="btn prev-btn" style="background-color:#135787; color: #ffffff"><i class="bi bi-caret-left-fill"></i> Anterior</button>
+                <button type="button" class="btn next-btn" style="background-color:#135787; color: #ffffff">Siguiente <i class="bi bi-caret-right-fill"></i></button>
             </div>
         </div>
 
@@ -206,14 +211,14 @@ if (!isset($_SESSION['id_usuario'])) {
         <div class="step" id="step3">
             <h5 class="mb-3">3. Detalles de Inspección General (Checklist)</h5>
             <div class="row">
-                <div class="col-md-4 col-6 mb-2"><input class="form-check-input" type="checkbox" value="1" name="ig_goteras"><label class="form-check-label ms-2">Goteras</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_goteos"  value="1" ><label class="form-check-label ms-2">Goteras</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_gabinete" value="1"> <label class="form-check-label ms-2">Gabinete</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_filtro" value="1"> <label class="form-check-label ms-2">Filtro</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_drenaje" value="1"> <label class="form-check-label ms-2">Drenaje</label></div>
-                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_serpentina" value="1"> <label class="form-check-label ms-2">Serpentina</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_serpentin" value="1"> <label class="form-check-label ms-2">Serpentin</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_refrigerante" value="1"> <label class="form-check-label ms-2">Fuga de Refrigerante</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_vibracion" value="1"> <label class="form-check-label ms-2">Vibración Anormal</label></div>
-                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_tablero_electronico" value="1"> <label class="form-check-label ms-2">Tablero Electrónico</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_tablero_electrico" value="1"> <label class="form-check-label ms-2">Tablero Electrico</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_aislamiento_gabinete" value="1"> <label class="form-check-label ms-2">Aislamiento</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_flujo_aire" value="1"> <label class="form-check-label ms-2">Flujo de Aire</label></div>
             </div>
@@ -226,8 +231,8 @@ if (!isset($_SESSION['id_usuario'])) {
                 <div class="col-md-3 mb-3"><label class="form-label">Temp. Retorno (°C)</label><input type="number" step="0.01" class="form-control" name="ig_temp_retorno" placeholder="Ej: 25.0" required></div>
             </div>
             <div class="text-center mt-4">
-                <button type="button" class="btn prev-btn" style="background-color:#135787;"><i class="bi bi-caret-left-fill"></i> Anterior</button>
-                <button type="button" class="btn next-btn" style="background-color:#135787;">Siguiente <i class="bi bi-caret-right-fill"></i></button>
+                <button type="button" class="btn prev-btn" style="background-color:#135787; color: #ffffff"><i class="bi bi-caret-left-fill"></i> Anterior</button>
+                <button type="button" class="btn next-btn" style="background-color:#135787; color: #ffffff">Siguiente <i class="bi bi-caret-right-fill"></i></button>
             </div>
         </div>
     
@@ -287,8 +292,8 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
             </div>
             <div class="text-center mt-4">
-                <button type="button" class="btn prev-btn" style="background-color:#135787;"><i class="bi bi-caret-left"></i> Anterior</button>
-                <button type="button" class="btn next-btn" style="background-color:#135787;">Siguiente <i class="bi bi-caret-right"></i></button> 
+                <button type="button" class="btn prev-btn" style="background-color:#135787; color: #ffffff"><i class="bi bi-caret-left"></i> Anterior</button>
+                <button type="button" class="btn next-btn" style="background-color:#135787; color: #ffffff">Siguiente <i class="bi bi-caret-right"></i></button> 
             </div>
         </div>
 
@@ -304,8 +309,8 @@ if (!isset($_SESSION['id_usuario'])) {
             </div>
             <!-- Aquí puedes añadir los campos para las firmas y las fotos en el futuro -->
             <div class="text-center mt-4">
-                <button type="button" class="btn prev-btn" style="background-color:#6c757d;"><i class="bi bi-caret-left-fill"></i> Anterior</button>
-                <button type="submit" class="btn" style="background-color: #198754;"><i class="bi bi-check-circle-fill"></i> Finalizar y Generar PDF</button>
+                <button type="button" class="btn prev-btn" style="background-color:#6c757d; color: #ffffff"><i class="bi bi-caret-left-fill"></i> Anterior</button>
+                <button type="submit" class="btn" style="background-color: #198754; color: #ffffff"><i class="bi bi-check-circle-fill"></i> Finalizar y Generar PDF</button>
             </div>
         </div>
     </form>

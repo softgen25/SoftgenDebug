@@ -14,31 +14,51 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #ececec;">
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
     <main class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Gestión de Usuarios y Técnicos</h1>
-            <a href="index.php?action=mostrar_crear_usuario" class="btn btn-primary">
+            <!--Alerta de usuario creado-->
+            <?php if (isset($_GET['status'])): ?>
+                <?php if ($_GET['status'] === 'creado_usuario'): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ✅ Usuario creado correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php elseif ($_GET['status'] === 'eliminado'): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        🗑️ Usuario eliminado correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php elseif ($_GET['status'] === 'error' && isset($_GET['error_msg'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        ❌ <?php echo htmlspecialchars($_GET['error_msg']); ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+            <a href="index.php?action=mostrar_crear_usuario" class="btn" style="background-color: #135787; color: #ffff;">
                 <i class="bi bi-plus-circle-fill me-2"></i>Crear Nuevo Usuario
             </a>
         </div>
-
+        <div class="card shadow pt-3 pb-3 pe-3 ps-3" >
         <!-- Formulario de Búsqueda -->
         <form action="index.php" method="get" class="mb-4">
             <input type="hidden" name="action" value="gestionar_usuarios">
             <div class="input-group">
                 <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre, apellido o correo..." value="<?php echo htmlspecialchars($busqueda ?? ''); ?>">
-                <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i> Buscar</button>
+                <button class="btn" style="background-color: #135787; color: #ffff;" type="submit"><i class="bi bi-search"></i> Buscar</button>
             </div>
         </form>
 
         <!-- Tabla de Usuarios -->
-        <div class="table-responsive">
+        <div class="table-responsive rounded">
             <table class="table table-hover align-middle">
-                <thead class="table-dark">
+                <thead class="table-primary">
                     <tr>
                         <th>ID</th>
                         <th>Nombre Completo</th>
@@ -71,7 +91,8 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                 </tbody>
             </table>
         </div>
-
+        </div>
+        <br>
         <!-- Paginación -->
         <nav>
             <ul class="pagination justify-content-center">
