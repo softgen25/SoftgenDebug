@@ -63,7 +63,7 @@ class ClienteController {
 
             $this->clienteModel->crearCliente($datos);
             header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
-            funcionesDebug
+            funcionesDebug;
             exit();
         }
     }

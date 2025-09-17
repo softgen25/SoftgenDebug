@@ -214,39 +214,22 @@ class UsuarioController {
     public function eliminarUsuario() {
         $this->verificarAdmin();
         $id = $_GET['id'] ?? null;
-         plantilla-informe
             // Step 4: Catch the integrity constraint violation error.
             if ($e->getCode() === '23000') {
                 $error_msg = 'No se puede eliminar este usuario porque está relacionado con uno o más servicios. Elimine los servicios relacionados primero.';
             }
-
-
-            // Error por restricciones de integridad (FK, etc.)
-            if ($e->getCode() === '23000') {
-                $error_msg = 'No se puede eliminar este usuario porque está relacionado con uno o más servicios. Elimine los servicios relacionados primero.';
-            }
-
-         funcionesDebug
-            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode($error_msg));
-            exit();
-        }       
-    }
+        }
 
     private function verificarAdmin() {
-        if (session_status() == PHP_SESSION_NONE) { session_start(); }
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
             header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }
-     private function verificartecnico(){
-        if (session_start() == PHP_SESSION_NONE) {session_start();}
-        if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] !=2){
-            header('location: /softgen/public/index.php?action=login&error=' . urlencode('Access no autorizado'));
-            exit();
-        }
-
-     }
 
 
 
@@ -320,4 +303,3 @@ class UsuarioController {
         }
     }
 }
-
