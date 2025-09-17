@@ -16,7 +16,6 @@ class ClienteController {
         // Asumimos que ClienteModel.php ya está cargado en index.php
         $this->clienteModel = new Cliente($db);
     }
-
     /**
      * Muestra la lista de clientes con paginación y búsqueda.
      */
@@ -61,8 +60,10 @@ class ClienteController {
             }
 
             // 🔹 Si no existe, lo creamos
+
             $this->clienteModel->crearCliente($datos);
             header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
+            funcionesDebug
             exit();
         }
     }

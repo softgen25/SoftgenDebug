@@ -100,11 +100,11 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="sitio" class="form-label">Sitio</label>
-                    <input type="text" class="form-control" id="sitio" name="ubi_sitio" placeholder="Ej: Oficina Principal, Bodega" required>
+                    <input type="text" class="form-control" id="sitio" name="ubi_sitio" placeholder="Ej: Oficina Principal, Bodega" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="ciudad" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" id="ciudad" name="ubi_ciudad" placeholder="Ej: Bucaramanga" required>
+                    <input type="text" class="form-control" id="ciudad" name="ubi_ciudad" placeholder="Ej: Bucaramanga" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>
             </div>
             <div class="row">
@@ -123,13 +123,13 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="barrio" class="form-label">Barrio</label>
-                    <input type="text" class="form-control" id="barrio" name="ubi_barrio" placeholder="Ej: Cabecera" required>
+                    <input type="text" class="form-control" id="barrio" name="ubi_barrio" placeholder="Ej: Cabecera" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>  
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="localidad" class="form-label">Localidad</label>
-                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required>
+                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="calle" class="form-label">Dirección (Calle, Carrera, Número)</label>
