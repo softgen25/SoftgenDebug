@@ -16,7 +16,6 @@ class ClienteController {
         // Asumimos que ClienteModel.php ya está cargado en index.php
         $this->clienteModel = new Cliente($db);
     }
-
     /**
      * Muestra la lista de clientes con paginación y búsqueda.
      */

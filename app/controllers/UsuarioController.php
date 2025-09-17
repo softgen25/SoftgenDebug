@@ -27,6 +27,10 @@ class UsuarioController {
         require_once '../app/views/usuario/login.php';
     }
 
+    public function soporte(){
+        require_once '../app/views/usuario/soporte';
+    }
+
     /**
      * Procesa la solicitud de inicio de sesión del formulario.
      */

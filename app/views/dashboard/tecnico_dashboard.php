@@ -80,6 +80,17 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="card text-center h-100 border-2" style="border-color: #135787">
+                    <div class="card-body py-4 shadow">
+                        <i class="bi bi-file-earmark-plus-fill fs-1 mb-3"></i>
+                        <h5 class="card-title">Soporte</h5>
+                        <p class="card-text">Datos de técnicos</p>
+                        <!-- ENLACE FUNCIONAL -->
+                        <a href="/softGenn/public/index.php?action=soporte" class="btn stretched-link" style="background-color: #135787; color: white">Ir soporte</a>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-3">
                 <div class="card text-center bg-light h-100 stat-card">
                     <div class="card-body shadow">

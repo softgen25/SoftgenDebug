@@ -14,97 +14,8 @@ function estadoMecanico($value) {
 <head>
     <meta charset="UTF-8">
     <title>Informe de Servicio #<?= htmlspecialchars($informe['id_servicio'] ?? 'N/A') ?></title>
-    <style>
-        /* --- ESTILOS GENERALES Y FUENTES --- */
-        @page {
-            margin-header: 15mm;
-            margin-footer: 15mm;
-            header: html_myHeader;
-            footer: html_myFooter;
-        }
-        body {
-            font-family: 'Saira', sans-serif;
-            font-size: 11px;
-            color: #333;
-        }
-        h1, h2, h3, h4 {
-            font-weight: 600;
-            color: #135787;
-        }
-        h2 {
-            font-size: 16px;
-            border-bottom: 2px solid #135787;
-            padding-bottom: 5px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        
-        /* --- ESTRUCTURA Y CONTENEDORES --- */
-        .container {
-            width: 100%;
-        }
-        .section {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-        }
-        .section-light {
-            background-color: #f9f9f9;
-        }
+    <link rel="stylesheet" href="../public/css/reporte.css">
 
-        /* --- TABLAS --- */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #135787;
-            color: white;
-            font-weight: 600;
-        }
-        .table-striped tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .table-bordered th, .table-bordered td {
-            border: 1px solid #ddd;
-        }
-
-        /* --- LAYOUT DE DOS COLUMNAS --- */
-        .two-columns {
-            width: 100%;
-        }
-        .col-left {
-            width: 48%;
-            float: left;
-        }
-        .col-right {
-            width: 48%;
-            float: right;
-        }
-        .clear {
-            clear: both;
-        }
-        
-        /* --- CLASES DE UTILIDAD --- */
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-        .label { font-weight: 600; color: #555; }
-        .data-box {
-            padding: 10px;
-            background-color: #eef4f8;
-            border-left: 4px solid #135787;
-            margin-bottom: 10px;
-        }
-        .data-box p { margin: 0; padding: 2px 0; }
-
-    </style>
 </head>
 <body>
 
@@ -195,7 +106,7 @@ function estadoMecanico($value) {
         <div class="two-columns">
             <div class="col-left">
                 <table class="table-bordered">
-                    <tr><td class="label">Goteras</td> <td><?= checkmark($inspeccion['ig_goteras'] ?? 0) ?></td></tr>
+                    <tr><td class="label">Goteras</td> <td><?= checkmark($inspeccion['ig_goteos'] ?? 0) ?></td></tr>
                     <tr><td class="label">Gabinete</td> <td><?= checkmark($inspeccion['ig_gabinete'] ?? 0) ?></td></tr>
                     <tr><td class="label">Filtro</td> <td><?= checkmark($inspeccion['ig_filtro'] ?? 0) ?></td></tr>
                     <tr><td class="label">Drenaje</td> <td><?= checkmark($inspeccion['ig_drenaje'] ?? 0) ?></td></tr>
