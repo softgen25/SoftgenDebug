@@ -13,22 +13,25 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     <title>Crear Nuevo Usuario - SoftGen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="background-color: #ececec;">
     <?php include '/../xampp/htdocs/softgenn/public/headerandfoother/admin_header.php'; ?>
 
+    
     <main class="container py-5">
         <h1 class="mb-4">Crear Nuevo Usuario</h1>
-        <!--Alerta de verificarCorreo-->
-        <?php if (isset($_GET['status']) && $_GET['status'] === 'correo_existente'): ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-                El correo ya está registrado. Intenta con otro.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        <?php endif; ?>
+        <!--Alerta usuario error correo ya creado-->
+            <?php if (isset($_GET['status'])): ?> 
+                <?php if ($_GET['status'] === 'correo_existente'): ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        ⚠️ El correo ingresado ya está registrado. Intenta con otro.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
 
-        <div class="card shadow-sm">
+        <div class="card shadow">
             <div class="card-body">
                 <form action="/softGenn/public/index.php?action=crear_usuario" method="POST">
                     <div class="row g-3">
@@ -65,12 +68,13 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                         </div>
                     </div>
                     <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Guardar Usuario</button>
+                        <button type="submit" class="btn" style="background-color: #135787; color: #ffff;">Guardar Usuario</button>
                         <a href="/softGenn/public/index.php?action=gestionar_usuarios" class="btn btn-secondary">Cancelar</a>
                     </div>
                 </form>
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

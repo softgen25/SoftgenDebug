@@ -12,6 +12,7 @@ $currentAction = $_GET['action'] ?? 'dashboard_admin';
     <title>Gestión de Informes - SoftGen</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body></body>
 <style>
@@ -82,9 +83,9 @@ $currentAction = $_GET['action'] ?? 'dashboard_admin';
                 <i class="bi bi-building"></i>Gestión de Clientes
             </a>
         </li>
-         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="bi bi-tools"></i>Gestión de Equipos
+        <li class="nav-item">
+            <a class="nav-link" href="/softGenn/public/index.php?action=gestionar_empresas">
+                <i class="bi bi-building"></i>Gestión de Empresas
             </a>
         </li>
     </ul>

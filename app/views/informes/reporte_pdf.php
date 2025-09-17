@@ -110,10 +110,10 @@ function estadoMecanico($value) {
                     <tr><td class="label">Gabinete</td> <td><?= checkmark($inspeccion['ig_gabinete'] ?? 0) ?></td></tr>
                     <tr><td class="label">Filtro</td> <td><?= checkmark($inspeccion['ig_filtro'] ?? 0) ?></td></tr>
                     <tr><td class="label">Drenaje</td> <td><?= checkmark($inspeccion['ig_drenaje'] ?? 0) ?></td></tr>
-                    <tr><td class="label">Serpentina</td> <td><?= checkmark($inspeccion['ig_serpentina'] ?? 0) ?></td></tr>
+                    <tr><td class="label">Serpentin</td> <td><?= checkmark($inspeccion['ig_serpentin'] ?? 0) ?></td></tr>
                     <tr><td class="label">Fuga de Refrigerante</td> <td><?= checkmark($inspeccion['ig_refrigerante'] ?? 0) ?></td></tr>
                     <tr><td class="label">Vibración Anormal</td> <td><?= checkmark($inspeccion['ig_vibracion'] ?? 0) ?></td></tr>
-                    <tr><td class="label">Tablero Electrónico</td> <td><?= checkmark($inspeccion['ig_tablero_electronico'] ?? 0) ?></td></tr>
+                    <tr><td class="label">Tablero Electrico</td> <td><?= checkmark($inspeccion['ig_tablero_electrico'] ?? 0) ?></td></tr>
                     <tr><td class="label">Aislamiento</td> <td><?= checkmark($inspeccion['ig_aislamiento_gabinete'] ?? 0) ?></td></tr>
                     <tr><td class="label">Flujo de Aire</td> <td><?= checkmark($inspeccion['ig_flujo_aire'] ?? 0) ?></td></tr>
                 </table>

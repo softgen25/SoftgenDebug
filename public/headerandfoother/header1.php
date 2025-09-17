@@ -74,7 +74,7 @@
     }
 </style>
 <header>
-        <nav class="navbar navbar-expand-lg" >
+        <nav class="navbar navbar-expand-lg shadow" >
             <div class="container-fluid pt-2 sm">
                 <a class="navbar-brand" href="/../softgenn/public/index.php?action=iniciar_sesion">
                     <img src="/softGenn/public/img/Logocompleto.png" alt="SOFTGEN Logo" width="180">

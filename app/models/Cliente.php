@@ -77,7 +77,7 @@ class Cliente {
             $params = [$searchTerm, $searchTerm, $searchTerm];
         }
 
-        $sql = "SELECT COUNT(*) FROM cliente $sqlBusqueda";
+        $sql = "SELECT COUNT(*) FROM cliente c $sqlBusqueda";
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         return $stmt->fetchColumn();
@@ -108,7 +108,7 @@ class Cliente {
     /**
      * Crea un nuevo cliente y su ubicación asociada dentro de una transacción.
      */
-    public function crear($datos) {
+    public function crearCliente($datos) {
     try {
         $this->db->beginTransaction();
 
@@ -120,7 +120,7 @@ class Cliente {
         // 2. Crear cliente
         $stmtCliente = $this->db->prepare(
             "INSERT INTO cliente (razon_social, cli_nit, id_ubicacion, contacto_nombre, contacto_correo, contacto_telefono) 
-             VALUES (?, ?, ?, ?, ?, ?)"
+            VALUES (?, ?, ?, ?, ?, ?)"
         );
         $stmtCliente->execute([
             $datos['razon_social'] ?? null,
@@ -162,8 +162,8 @@ public function actualizar($id, $datos) {
         // 2. Actualizar los datos del cliente (sin correo porque no existe en la tabla)
         $stmtCliente = $this->db->prepare(
             "UPDATE cliente 
-             SET razon_social = ?, cli_nit = ?, contacto_telefono = ?, contacto_nombre = ?
-             WHERE id_cliente = ?"
+            SET razon_social = ?, cli_nit = ?, contacto_telefono = ?, contacto_nombre = ?
+            WHERE id_cliente = ?"
         );
 
         $stmtCliente->execute([
@@ -179,7 +179,7 @@ public function actualizar($id, $datos) {
 
     } catch (Exception $e) {
         $this->db->rollBack();
-        error_log("Error al actualizar cliente: " . $e->getMessage());
+        error_log("Error al actualizar clien    te: " . $e->getMessage());
         return false;
     }
 }
@@ -190,16 +190,8 @@ public function actualizar($id, $datos) {
      * Esto es una medida de seguridad para mantener la integridad de los datos.
      */
     public function eliminar($id) {
-        try {
-            // No necesitamos una transacción compleja aquí porque las restricciones
-            // de la base de datos (foreign keys) se encargarán de la seguridad.
-            $stmt = $this->db->prepare("DELETE FROM cliente WHERE id_cliente = ?");
-            return $stmt->execute([$id]);
-        } catch (PDOException $e) {
-            // Capturar el error de restricción de clave foránea
-            error_log("Error al eliminar cliente: " . $e->getMessage());
-            return false;
-        }
+    $stmt = $this->db->prepare("DELETE FROM cliente WHERE id_cliente = ?");
+    return $stmt->execute([$id]);
     }
 }
 ?>
