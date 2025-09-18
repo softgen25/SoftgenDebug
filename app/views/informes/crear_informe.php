@@ -216,7 +216,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_filtro" value="1"> <label class="form-check-label ms-2">Filtro</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_drenaje" value="1"> <label class="form-check-label ms-2">Drenaje</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_serpentin" value="1"> <label class="form-check-label ms-2">Serpentin</label></div>
-                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_refrigerante" value="1"> <label class="form-check-label ms-2">Fuga de Refrigerante</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_refrigerante" value="1"> <label class="form-check-label ms-2">Estado de Refrigerante</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_vibracion" value="1"> <label class="form-check-label ms-2">Vibración Anormal</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_tablero_electrico" value="1"> <label class="form-check-label ms-2">Tablero Electrico</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_aislamiento_gabinete" value="1"> <label class="form-check-label ms-2">Aislamiento</label></div>

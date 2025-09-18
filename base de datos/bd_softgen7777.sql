@@ -113,7 +113,7 @@ CREATE TABLE `inspeccion_general` (
   `ig_filtro` tinyint(1) NOT NULL DEFAULT 0,
   `ig_drenaje` tinyint(1) NOT NULL DEFAULT 0,
   `ig_serpentin` tinyint(1) NOT NULL DEFAULT 0,
-  `ig_refigerante` tinyint(1) NOT NULL DEFAULT 0,
+  `ig_refrigerante` tinyint(1) NOT NULL DEFAULT 0,
   `ig_vibracion` tinyint(1) NOT NULL DEFAULT 0,
   `ig_amperios` decimal(6,2) DEFAULT NULL,
   `ig_voltaje` decimal(6,2) DEFAULT NULL,

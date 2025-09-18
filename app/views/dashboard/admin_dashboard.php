@@ -211,9 +211,9 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
 var informesBarChart = new Chart(ctx1, {
     type: 'bar',
     data: {
-        labels: ['Refigerante Variable', 'Expansion directa', 'Condesado por agua', 'Ventilacion mecanica', 'otro'],
+        labels: ['Refrigerante Variable', 'Expansion directa', 'Condesado por agua', 'Ventilacion mecanica', 'otro'],
         datasets: [{
-            label: 'Refigerante Variable',
+            label: 'Refrigerante Variable',
             data: [1, 0, 0, 0, 0], // El valor '1' está en la posición 0, las demás en 0
             backgroundColor: "#135787"
         },
