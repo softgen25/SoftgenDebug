@@ -190,8 +190,10 @@ public function actualizar($id, $datos) {
      * Esto es una medida de seguridad para mantener la integridad de los datos.
      */
     public function eliminar($id) {
-    $stmt = $this->db->prepare("DELETE FROM cliente WHERE id_cliente = ?");
-    return $stmt->execute([$id]);
+        $sql = "DELETE FROM cliente WHERE id_cliente = ?";
+        $stmt = $this->db->prepare($sql);
+        // Deja que PDO lance la excepción si falla (por ejemplo, FK 1451).
+        return $stmt->execute([$id]);
     }
 }
 ?>
