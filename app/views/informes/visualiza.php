@@ -98,15 +98,7 @@
             </div>
         </div> 
     </div> 
-    <nav>
-        <ul class="pagination justify-content-center">
-            <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-                <li class="page-item <?php echo ($paginaActual == $i) ? 'active' : ''; ?>">
-                    <a class="page-link" href="index.php?action=gestionar_informes=<?php echo $i; ?>&busqueda=<?php echo htmlspecialchars($busqueda ?? ''); ?>"><?php echo $i; ?></a>
-                </li>
-            <?php endfor; ?>
-        </ul>
-    </nav>
+    
     <footer>
         <div class="bg-primary">
             <?php
