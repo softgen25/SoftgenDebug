@@ -4,11 +4,16 @@
 
 namespace App\Controllers;
 
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__. '../../models/UsuarioModel.php';
 require_once __DIR__. '../../models/Tecnico.php';
 
+
 use App\Models\Tecnico;
 use App\Models\UsuarioModel;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use PDO;
 
 class UsuarioController {
@@ -259,35 +264,62 @@ class UsuarioController {
     }
 
     public function procesarSolicitud() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['usu_correo'];
-            $usuario = $this->usuarioModel->buscarPorCorreo($email);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = $_POST['usu_correo'];
+        $usuario = $this->usuarioModel->buscarPorCorreo($email);
 
-            if ($usuario) {
-                // Generar un token seguro
-                $token = bin2hex(random_bytes(16));
-                
-                // Guardar el token en la BD
-                $this->usuarioModel->guardarTokenReset($email, $token);
+        if ($usuario) {
+            // Generar un token seguro
+            $token = bin2hex(random_bytes(16));
+            
+            // Guardar el token en la BD
+            $this->usuarioModel->guardarTokenReset($email, $token);
 
-                // Enviar el correo electrónico
-                $enlace = "/softGenn/public/index.php?action=mostrar_formulario_reset&token=" . $token;
-                $asunto = "Recuperación de Contraseña - SoftGen";
-                $cuerpo = "Hola, haz clic en el siguiente enlace para restablecer tu contraseña: " . $enlace;
-                
-                // --- IMPORTANTE: LÓGICA DE ENVÍO DE CORREO ---
-                // La función mail() de PHP puede no funcionar en un entorno local como XAMPP.
-                // Se recomienda usar una librería como PHPMailer.
-                // mail($email, $asunto, $cuerpo);
+            // Preparar datos del correo
+            $enlace = "/softGenn/public/index.php?action=mostrar_formulario_reset&token=" . $token;
+            $asunto = "Recuperación de Contraseña - SoftGen";
 
-                // Por ahora, para pruebas, mostraremos el enlace en pantalla.
-                echo "Correo enviado (simulación). <a href='$enlace'>Haz clic aquí para resetear</a>";
-            } else {
-                // Redirigir con error si el correo no existe
-                header('Location: /softGenn/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
+            // ---------- Envío de correo con PHPMailer ----------
+            try {
+                // Cargar PHPMailer
+                $mail = new PHPMailer(true);
+
+                // Configuración del servidor SMTP
+                $mail->isSMTP();
+                $mail->Host = 'smtp.hostinger.com';   // Servidor SMTP de Hostinger
+                $mail->SMTPAuth = true;
+                $mail->Username = 'softgen@softgenproject.pro'; // TU correo en Hostinger
+                $mail->Password = 'Softgen123*';        // Contraseña de ese correo
+                $mail->SMTPSecure = 'ssl';                // o 'tls' si usas puerto 587
+                $mail->Port = 465;                        // 465 = SSL, 587 = TLS
+
+                // Remitente y destinatario
+                $mail->setFrom('softgen@softgenproject.pro', 'Soporte SoftGen');
+                $mail->addAddress($email);
+
+                // Contenido
+                $mail->isHTML(true);
+                $mail->Subject = $asunto;
+                $mail->Body    = "
+                    <p>Hola,</p>
+                    <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
+                    <p><a href='https://tudominio.com$enlace'>$enlace</a></p>
+                    <p>Este enlace expirará en 1 hora.</p>
+                ";
+
+                // Enviar
+                $mail->send();
+                echo "Te hemos enviado un correo con las instrucciones para restablecer tu contraseña.";
+            } catch (Exception $e) {
+                echo "No se pudo enviar el correo. Error: {$mail->ErrorInfo}";
             }
+
+        } else {
+            // Redirigir con error si el correo no existe
+            header('Location: /softGenn/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
         }
     }
+}
 
     public function mostrarFormularioReset() {
         $token = $_GET['token'] ?? '';
