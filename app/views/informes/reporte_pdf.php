@@ -14,107 +14,17 @@ function estadoMecanico($value) {
 <head>
     <meta charset="UTF-8">
     <title>Informe de Servicio #<?= htmlspecialchars($informe['id_servicio'] ?? 'N/A') ?></title>
-    <style>
-        /* --- ESTILOS GENERALES Y FUENTES --- */
-        @page {
-            margin-header: 15mm;
-            margin-footer: 15mm;
-            header: html_myHeader;
-            footer: html_myFooter;
-        }
-        body {
-            font-family: 'Saira', sans-serif;
-            font-size: 11px;
-            color: #333;
-        }
-        h1, h2, h3, h4 {
-            font-weight: 600;
-            color: #135787;
-        }
-        h2 {
-            font-size: 16px;
-            border-bottom: 2px solid #135787;
-            padding-bottom: 5px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        
-        /* --- ESTRUCTURA Y CONTENEDORES --- */
-        .container {
-            width: 100%;
-        }
-        .section {
-            margin-bottom: 20px;
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-        }
-        .section-light {
-            background-color: #f9f9f9;
-        }
+    <link rel="stylesheet" href="../public/css/reporte.css">
 
-        /* --- TABLAS --- */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #135787;
-            color: white;
-            font-weight: 600;
-        }
-        .table-striped tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        .table-bordered th, .table-bordered td {
-            border: 1px solid #ddd;
-        }
-
-        /* --- LAYOUT DE DOS COLUMNAS --- */
-        .two-columns {
-            width: 100%;
-        }
-        .col-left {
-            width: 48%;
-            float: left;
-        }
-        .col-right {
-            width: 48%;
-            float: right;
-        }
-        .clear {
-            clear: both;
-        }
-        
-        /* --- CLASES DE UTILIDAD --- */
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-        .label { font-weight: 600; color: #555; }
-        .data-box {
-            padding: 10px;
-            background-color: #eef4f8;
-            border-left: 4px solid #135787;
-            margin-bottom: 10px;
-        }
-        .data-box p { margin: 0; padding: 2px 0; }
-
-    </style>
 </head>
 <body>
-
     <!-- ENCABEZADO PERSONALIZADO PARA MPDF -->
-    <htmlpageheader name="myHeader">
+    <htmlpageheader class="encabezado mb-4" name="myHeader"  >
         <table width="100%">
             <tr>
                 <td width="50%" style="vertical-align: middle;">
                     <!-- Asegúrate de que la ruta a tu logo sea correcta -->
-                    <img src="../../public/img/Logo_reporte.png" width="180" alt="Logo">
+                    <img src="../public/img/Logocompleto.png" width="190" alt="Logo">
                 </td>
                 <td width="50%" style="text-align: right; vertical-align: middle;">
                     <h1>INFORME DE SERVICIO TÉCNICO</h1>
@@ -123,24 +33,14 @@ function estadoMecanico($value) {
                 </td>
             </tr>
         </table>
-        <hr>
     </htmlpageheader>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- PIE DE PÁGINA PERSONALIZADO PARA MPDF -->
-    <htmlpagefooter name="myFooter">
-        <hr>
-        <table width="100%">
-            <tr>
-                <td width="33%">SoftGenn</td>
-                <td width="33%" align="center">Página {PAGENO} de {nbpg}</td>
-                <td width="33%" style="text-align: right;">www.softgenn.com</td>
-            </tr>
-        </table>
-    </htmlpagefooter>
-
     <!-- CUERPO DEL DOCUMENTO -->
     <div class="container">
-
         <h2>1. Información General</h2>
         <div class="two-columns section section-light">
             <div class="col-left">
@@ -163,7 +63,7 @@ function estadoMecanico($value) {
             <div class="clear"></div>
         </div>
 
-        <h2>2. Equipo(s) Intervenido(s)</h2>
+        <h2 >2. Equipo(s) Intervenido(s)</h2>
         <?php if (!empty($equipos)): ?>
             <table class="table-striped">
                 <thead>
@@ -190,6 +90,7 @@ function estadoMecanico($value) {
         <?php else: ?>
             <p>No se registraron equipos para este servicio.</p>
         <?php endif; ?>
+        <br>
 
         <h2>3. Checklist de Inspección y Mediciones</h2>
         <div class="two-columns">
@@ -210,18 +111,25 @@ function estadoMecanico($value) {
             <div class="col-right">
                 <div class="data-box">
                     <h4>Mediciones Eléctricas y de Temperatura</h4>
-                    <p><span class="label">Amperaje (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios'] ?? 'N/A') ?></p>
-                    <p><span class="label">Voltaje (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje'] ?? 'N/A') ?></p>
+                    <p><span class="label">Amperaje 1 (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios1'] ?? 'N/A') ?></p>
+                    <p><span class="label">Amperaje 2 (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios2'] ?? 'N/A') ?></p>
+                    <p><span class="label">Amperaje 3 (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios3'] ?? 'N/A') ?></p>
+                    <p><span class="label">Voltaje 1 (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje1'] ?? 'N/A') ?></p>
+                    <p><span class="label">Voltaje 2 (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje2'] ?? 'N/A') ?></p>
+                    <p><span class="label">Voltaje 3 (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje3'] ?? 'N/A') ?></p>
                     <p><span class="label">Temp. Suministro (°C):</span> <?= htmlspecialchars($inspeccion['ig_temp_suministro'] ?? 'N/A') ?></p>
                     <p><span class="label">Temp. Retorno (°C):</span> <?= htmlspecialchars($inspeccion['ig_temp_retorno'] ?? 'N/A') ?></p>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
+        <br>
 
-        <h2>4. Revisión Mecánica</h2>
-        <table class="table-bordered table-striped">
-             <thead>
+        <div class="spacer"></div>
+
+        <h2>4. Revisión Mecánica </h2>
+        <table class="tabla-4 table-bordered table-striped">
+            <thead>
                 <tr>
                     <th>Componente</th><th>Estado</th>
                     <th>Componente</th><th>Estado</th>
@@ -264,6 +172,17 @@ function estadoMecanico($value) {
             </div>
             <div class="clear"></div>
         </div>
+
+    <htmlpagefooter name="myFooter">
+        <hr>
+        <table width="100%">
+            <tr>
+                <td width="33%">SoftGenn</td>
+                <td width="33%" align="center">Página {PAGENO} de {nbpg}</td>
+                <td width="33%" style="text-align: right;">www.softgenn.com</td>
+            </tr>
+        </table>
+    </htmlpagefooter>
 
     </div>
 </body>

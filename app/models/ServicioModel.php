@@ -57,15 +57,21 @@ class ServicioModel {
         $ubicacionId = $this->db->lastInsertId();
 
         // PASO 2: Crear la Inspección General y obtener su ID.
-        $stmtInspeccion = $this->db->prepare("INSERT INTO inspeccion_general (ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_refrigerante, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire, ig_amperios, ig_voltaje, ig_temp_suministro, ig_temp_retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmtInspeccion = $this->db->prepare("INSERT INTO inspeccion_general (ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_refrigerante, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire, ig_amperios1, ig_amperios2, ig_amperios3, ig_voltaje1, ig_voltaje2, ig_voltaje3, ig_temp_suministro, ig_temp_retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmtInspeccion->execute([
             isset($datos['ig_goteos']) ? 1 : 0, isset($datos['ig_gabinete']) ? 1 : 0,
             isset($datos['ig_filtro']) ? 1 : 0, isset($datos['ig_drenaje']) ? 1 : 0,
             isset($datos['ig_serpentin']) ? 1 : 0, isset($datos['ig_refrigerante']) ? 1 : 0,
             isset($datos['ig_vibracion']) ? 1 : 0, isset($datos['ig_tablero_electrico']) ? 1 : 0,
             isset($datos['ig_aislamiento_gabinete']) ? 1 : 0, isset($datos['ig_flujo_aire']) ? 1 : 0,
-            $datos['ig_amperios'], $datos['ig_voltaje'],
-            $datos['ig_temp_suministro'], $datos['ig_temp_retorno']
+            $datos['ig_amperios1'],
+            $datos['ig_amperios2'], 
+            $datos['ig_amperios3'],  
+            $datos['ig_voltaje1'],
+            $datos['ig_voltaje2'],
+            $datos['ig_voltaje3'],
+            $datos['ig_temp_suministro'], 
+            $datos['ig_temp_retorno']
         ]);
         $inspeccionId = $this->db->lastInsertId();
         

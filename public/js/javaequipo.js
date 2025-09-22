@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
         
         // 3. Añadir el nuevo formulario al contenedor
-        container.appendChild(nuevoEquipoDiv);
+       // container.appendChild(nuevoEquipoDiv);
 
         // --- INICIO DE CÓDIGO AÑADIDO PARA LA VALIDACIÓN EN TIEMPO REAL ---
         // Obtiene los nuevos campos de entrada dentro del div recién creado

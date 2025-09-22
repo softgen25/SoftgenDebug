@@ -65,9 +65,9 @@ class UsuarioController {
 
                 // --- ¡NUEVA LÓGICA DE REDIRECCIÓN! ---
                 if ($usuario['id_rol'] == 1) { // 1 = Administrador
-                    header('Location: /softGenn/public/index.php?action=dashboard_admin');
+                    header('Location: /softgenn/public/index.php?action=dashboard_admin');
                 } else if ($usuario['id_rol'] == 2) { // 2 = Tecnico
-                    header('Location: /softGenn/public/index.php?action=dashboard_tecnico');
+                    header('Location: /softgenn/public/index.php?action=dashboard_tecnico');
                 } else {
                     // Para otros roles o por si acaso
                     header('Location: index.php?action=login&error=' . urlencode('Rol no reconocido.'));
@@ -174,13 +174,13 @@ class UsuarioController {
             // 🔹 Validar si el correo ya existe
             if ($this->usuarioModel->existeCorreo($datos['usu_correo'])) {
                 // Redirigimos con un error
-                header('Location: /softGenn/public/index.php?action=mostrar_crear_usuario&status=correo_existente');
+                header('Location: /softgenn1/public/index.php?action=mostrar_crear_usuario&status=correo_existente');
                 exit();
             }
 
             // 🔹 Si no existe, lo creamos
             $this->usuarioModel->crearUsuario($datos);
-            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=creado_usuario');
+            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=creado_usuario');
             exit();
         }
     }
@@ -202,7 +202,7 @@ class UsuarioController {
             $id = $_POST['id_usuario'];
             $datos = $_POST;
             $this->usuarioModel->actualizarUsuario($id, $datos);
-            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=editado');
+            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=editado');
             exit();
         }
     }
@@ -213,7 +213,7 @@ class UsuarioController {
 
         // Validar que venga el id
         if (!$id) {
-            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode('Id de usuario no definido.'));
+            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode('Id de usuario no definido.'));
             exit();
         }
 
@@ -221,7 +221,7 @@ class UsuarioController {
             $this->usuarioModel->eliminarUsuario($id);
 
             // Redirigir con éxito
-            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=eliminado');
+            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=eliminado');
             exit();
         } catch (\PDOException $e) {
             $error_msg = 'Ocurrió un error inesperado al intentar eliminar el usuario.';
@@ -231,7 +231,7 @@ class UsuarioController {
                 $error_msg = 'No se puede eliminar este usuario porque está relacionado con uno o más servicios. Elimine los servicios relacionados primero.';
             }
 
-            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode($error_msg));
+            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode($error_msg));
             exit();
         }       
     }
@@ -239,14 +239,14 @@ class UsuarioController {
     private function verificarAdmin() {
         if (session_status() == PHP_SESSION_NONE) { session_start(); }
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softgenn1/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }
      private function verificartecnico(){
         if (session_start() == PHP_SESSION_NONE) {session_start();}
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] !=2){
-            header('location: /softgen/public/index.php?action=login&error=' . urlencode('Access no autorizado'));
+            header('location: /softgenn1/public/index.php?action=login&error=' . urlencode('Access no autorizado'));
             exit();
         }
 
@@ -285,7 +285,7 @@ class UsuarioController {
                 echo "Correo enviado (simulación). <a href='$enlace'>Haz clic aquí para resetear</a>";
             } else {
                 // Redirigir con error si el correo no existe
-                header('Location: /softGenn/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
+                header('Location: /softgenn1/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
             }
         }
     }
@@ -317,7 +317,7 @@ class UsuarioController {
                 // Eliminamos el token para que no se pueda volver a usar.
                 $this->usuarioModel->eliminarToken($email);
                 
-                header('Location: /softGenn/public/index.php?action=login&status=reset_exitoso');
+                header('Location: /softgenn1/public/index.php?action=login&status=reset_exitoso');
             } else {
                 die("Error de validación. Inténtalo de nuevo.");
             }

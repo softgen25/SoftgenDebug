@@ -81,13 +81,13 @@ class EmpresaController {
             // 🔹 Validar si el correo ya existe
             if ($this->empresaModel->existeCorreoEmpresa($datos['emp_correo'])) {
                 // Redirigimos con un error
-                header('Location: /softGenn/public/index.php?action=mostrar_crear_empresa&status=correo_existente_empresa');
+                header('Location: /softgenn/public/index.php?action=mostrar_crear_empresa&status=correo_existente_empresa');
                 exit();
             }
 
             // 🔹 Si no existe, lo creamos
             $this->empresaModel->crearEmpresa($datos);
-            header('Location: /softGenn/public/index.php?action=gestionar_empresas&status=creado');
+            header('Location: /softgenn/public/index.php?action=gestionar_empresas&status=creado');
             exit();
         }
     }
@@ -125,9 +125,9 @@ class EmpresaController {
             $exito = $this->empresaModel->actualizar($id, $datos);
 
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_empresas&status=editado');
+                header('Location: /softgenn/public/index.php?action=gestionar_empresas&status=editado');
             } else {
-                header('Location: /softGenn/public/index.php?action=mostrar_editar_empresa&id=' . $id . '&error=1');
+                header('Location: /softgenn/public/index.php?action=mostrar_editar_empresa&id=' . $id . '&error=1');
             }
             exit();
         }
@@ -142,12 +142,12 @@ class EmpresaController {
         if ($id) {
             $exito = $this->empresaModel->eliminar($id);
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_empresas&status=eliminado');
+                header('Location: /softgenn/public/index.php?action=gestionar_empresas&status=eliminado');
             } else {
-                header('Location: /softGenn/public/index.php?action=gestionar_empresas&error=eliminar_fallido');
+                header('Location: /softgenn/public/index.php?action=gestionar_empresas&error=eliminar_fallido');
             }
         } else {
-            header('Location: /softGenn/public/index.php?action=gestionar_empresas');
+            header('Location: /softgenn/public/index.php?action=gestionar_empresas');
         }
         exit();
     }
@@ -159,7 +159,7 @@ class EmpresaController {
         }
         
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softgenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }

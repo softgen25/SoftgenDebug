@@ -93,7 +93,7 @@ class InformeController {
 
     public function eliminarinforme(){
         if(!isset ($_GET['id'])){
-            header('Location: /softGenn/public/index.php?action=mostrar_historial&error=id_not_fund');
+            header('Location: /softgenn/public/index.php?action=mostrar_historial&error=id_not_fund');
             exit();
         }
         $id = $_GET['id'];
@@ -102,9 +102,9 @@ class InformeController {
         $exito = $visualizacionModel->eliminarinforme($id);
 
         if ($exito){
-            header('Location: //softGenn/public/index.php?action=mostrar_historial&status=eliminado');
+            header('Location: /softgenn/public/index.php?action=mostrar_historial&status=eliminado');
         } else {
-            header('Location: /softGenn/public/index.php?action=mostrar_historial&error=deletion_failed');
+            header('Location: /softgennpublic/index.php?action=mostrar_historial&error=deletion_failed');
         }
         exit();
     }
