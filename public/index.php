@@ -125,9 +125,6 @@ switch ($action) {
         $usuarioController->eliminarUsuario();
         break;
 
-    case 'irsoporte':
-        $usuarioController->irsoporte();
-        break;
 
     // --- Rutas de Gestión de Informes ---
     //case 'gestionar_informes':

@@ -1,0 +1,97 @@
+:root {
+    --sidebar-bg: #135787;
+    --sidebar-text: #ecf0f1;
+    --sidebar-active: #fff;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    font-family: saira;
+}
+
+.username {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 15px 20px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+#agregar {
+    background-color: #E4F7FF;
+    border-color: #E4F7FF;
+    color: #135787;
+}
+
+.btn.btn-primary {
+    background-color: #E4F7FF;
+}
+
+
+
+.a {
+    background-color: white;
+    border-color: transparent;
+}
+
+#cuadro {
+    background-color: #E4F7FF;
+}
+
+.card-body-custom {
+    padding: 20px;
+}
+
+.status-completed {
+    font-weight: bold;
+}
+
+.status-ongoing {
+    font-weight: bold;
+}
+
+.status-denied {
+    font-weight: bold;
+}
+
+.divider {
+    border-top: 1px solid #eee;
+    margin: 15px 0;
+}
+
+.large-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.secondary-text {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.date-display {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
