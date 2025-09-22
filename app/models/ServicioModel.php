@@ -12,8 +12,7 @@ class ServicioModel {
         $this->db = $db;
     }
 
-    /**
-     * Obtiene los valores permitidos del campo ENUM 'ser_tipo_servicio'.
+    /** * Obtiene los valores permitidos del campo ENUM 'ser_tipo_servicio'.
      * @return array Una lista de los tipos de servicio.
      */
     public function mostrarTipoServicio(): array {
@@ -28,10 +27,8 @@ class ServicioModel {
         return [];
     }
 
-    /**
-     * Obtiene los valores permitidos del campo ENUM 'ser_tipo_informe'.
-     * @return array Una lista de los tipos de informe.
-     */
+    /** * Obtiene los valores permitidos del campo ENUM 'ser_tipo_informe'.
+     * @return array Una lista de los tipos de informe.*/
     public function mostrarTipoInforme(): array {
         $query = "SHOW COLUMNS FROM servicio WHERE Field = 'ser_tipo_informe'";
         $stmt = $this->db->prepare($query);
@@ -44,10 +41,8 @@ class ServicioModel {
         return [];
     }
 
-    /**
-     * Guarda el informe completo siguiendo la lógica de tu base de datos actual.
-     * Crea los registros dependientes primero y luego los vincula en la tabla 'servicio'.
-     */
+    /*Guarda el informe completo siguiendo la lógica de tu base de datos actual.
+     * Crea los registros dependientes primero y luego los vincula en la tabla 'servicio'.*/
     public function guardarInformeCompleto($datos, $rutasFotos) {
     $this->db->beginTransaction();
     try {
@@ -123,9 +118,7 @@ class ServicioModel {
     }
 }
 
-    /**
-     * Obtiene los datos completos para el PDF, adaptado a tu estructura de BD.
-     */
+    /* Obtiene los datos completos para el PDF, adaptado a tu estructura de BD. */
     public function obtenerInformeCompletoPorId($id) {
         $resultado = [];
         // 1. Obtener el servicio principal
@@ -166,4 +159,93 @@ class ServicioModel {
 
         return $resultado;
     }
+/* Obtiene una lista de informes con paginación y búsqueda. */
+    public function obtenerInformesConPaginacion($busqueda, $pagina, $limitePorPagina): array
+{
+    $offset = ($pagina - 1) * $limitePorPagina;
+
+    // Consulta base
+    $sql = "SELECT 
+            s.id_servicio,
+            s.ser_fecha,
+            s.ser_tipo_servicio,
+            c.razon_social AS nombre_cliente,
+            u.usu_nombre AS nombre_tecnico,
+            u.usu_apellido AS apellido_tecnico,
+            c.contacto_nombre AS contacto,
+            u.usu_nombre,
+            u.usu_apellido,
+            s.ser_observaciones
+        FROM servicio s
+        INNER JOIN cliente c ON s.id_cliente = c.id_cliente
+        INNER JOIN tecnico t ON s.id_tecnico = t.id_tecnico
+        INNER JOIN usuario u ON t.id_usuario = u.id_usuario";
+
+    $params = [];
+
+    // Si hay búsqueda, añadimos WHERE
+    if (!empty($busqueda)) {
+        $sql .= " WHERE c.razon_social LIKE ?
+                       OR c.contacto_nombre LIKE ?
+                       OR u.usu_nombre LIKE ?
+                       OR u.usu_apellido LIKE ?";
+        $like = "%$busqueda%";
+        $params = [$like, $like, $like, $like];
+    }
+
+    // Orden y paginación
+    $sql .= " ORDER BY s.ser_fecha DESC LIMIT " . (int)$offset . ", " . (int)$limitePorPagina;
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute($params);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+    /*Cuenta el número total de informes con la misma lógica de búsqueda.*/
+    public function contarInformes($busqueda, $limitePorPagina): int
+{
+    $sql = "SELECT COUNT(*) 
+            FROM servicio s
+            INNER JOIN cliente c ON s.id_cliente = c.id_cliente
+            INNER JOIN usuario u ON s.id_tecnico = u.id_usuario";
+
+    $params = [];
+
+    if (!empty($busqueda)) {
+        $sql .= " WHERE c.razon_social LIKE ?
+                       OR c.contacto_nombre LIKE ?
+                       OR u.usu_nombre LIKE ?
+                       OR u.usu_apellido LIKE ?";
+        $like = "%$busqueda%";
+        $params = [$like, $like, $like, $like];
+    }
+
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute($params);
+
+    $totalInformes = (int)$stmt->fetchColumn();
+    return (int)ceil($totalInformes / $limitePorPagina);
+}
+
+public function obtenerConteoPorTipoServicio(): array
+{
+    $sql = "SELECT ser_tipo_servicio AS tipo, COUNT(*) AS total
+            FROM servicio
+            GROUP BY ser_tipo_servicio";
+    $stmt = $this->db->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function obtenerConteoPorEstado(): array
+{
+    $sql = "SELECT ser_estado AS estado, COUNT(*) AS total
+            FROM servicio
+            GROUP BY ser_estado";
+    $stmt = $this->db->query($sql);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 }

@@ -23,7 +23,6 @@ require_once __DIR__ .'/../app/models/UsuarioModel.php';
 require_once __DIR__ .'/../app/models/Tecnico.php'; // Modelo para la gestión de técnicos
 require_once __DIR__ .'/../app/models/DashboardModel.php';
 require_once __DIR__ .'/../app/models/ServicioModel.php';
-require_once __DIR__ .'/../app/models/Informe.php'; // Aseguramos que el modelo de servicio esté cargado
 require_once __DIR__. '/../app/models/EmpresaModel.php';
 require_once __DIR__. '/../app/models/equipo.php';
 require_once __DIR__. '/../app/models/Cliente.php';
@@ -35,21 +34,18 @@ require_once __DIR__. '/../app/models/visualizacionmodel.php';
 require_once __DIR__. '/../app/controllers/UsuarioController.php';
 require_once __DIR__. '/../app/controllers/DashboardController.php' ;
 require_once __DIR__. '/../app/controllers/ServicioController.php';
-require_once __DIR__. '/../app/controllers/InformeController.php';
 require_once __DIR__. '/../app/controllers/empresacontroller.php';
 require_once __DIR__. '/../app/controllers/equipocontroller.php';
 require_once __DIR__. '/../app/controllers/ClienteController.php';
-require_once __DIR__. '/../app/controllers/visualizacioncontroller.php'; // <-- AÑADE ESTA LÍNEA
-require_once __DIR__. '/../app/controllers/visualizacioncontroller.php';
+require_once __DIR__. '/../app/controllers/inspecciongeneralcontroller.php';
 
 use App\Controllers\UsuarioController;
 use App\Controllers\DashboardController;
 use App\controllers\ServicioController;
-use app\controllers\InformeController;
 use App\Controllers\EmpresaController;
 use App\Controllers\equipocontroller;
 use app\Controllers\ClienteController;
-use app\Controllers\visualizacioncontroller;
+use app\controllers\inspecciongeneralcontroller;
 
 // --- 2. Enrutador Básico ---
 // La acción por defecto, si no se especifica ninguna, será mostrar el login.
@@ -62,8 +58,7 @@ $servicioController = new ServicioController($db);
 $EmpresaController = new EmpresaController($db);
 $equipocontroller = new equipocontroller($db);
 $clienteController = new clienteController($db);
-$visualizacioncontroller = new visualizacioncontroller($db);
-
+$inspecciongeneralcontroller = new inspecciongeneralcontroller($db);
 
 // --- 3. Decidir qué acción ejecutar ---
 switch ($action) {
@@ -159,14 +154,9 @@ switch ($action) {
         $servicioController->mostrarFormularioCrear();
         break;
 
-    case 'guardar_informe':
-        // Esta acción es llamada por el <form action="...">
-        $servicioController->guardarInforme();
-        break;
-
-    case 'gestionar_informes':
-        $informeController->gestionarInformes();
-        break;
+    /* case 'gestionar_informes':
+        $ServicioController->gestionarInformes();
+        break; */
 
     case 'generar_pdf':
         // Esta acción se llama después de guardar exitosamente
@@ -180,16 +170,6 @@ switch ($action) {
     /*case 'mostrar_visualizacion':
         $visualizacioncontroller->mostrarvisualizacion();
         break;*/
-
-    case 'ver_historial':
-        $visualizacioncontroller->mostrarHistorial();
-        break;
-
-    default:
-        // Si la acción no coincide con ninguna, redirigir al login por seguridad.
-        header('Location: /softGenn/public/index.php?action=login');
-        exit();
-
 
      case 'gestionar_empresas':
             $EmpresaController->gestionarEmpresas();
@@ -214,6 +194,15 @@ switch ($action) {
         case 'eliminar_empresa':
             $EmpresaController->eliminarEmpresa();
             break;
+
+        case 'gestionar_informes':
+            $servicioController->gestionarInformes();
+            break;
+
+        case 'graficas_informes':
+            $servicioController->graficasInformes();
+        break;
+
         case '':
         // Si la acción no coincide con ninguna, redirigir al login por seguridad.
         header('Location: /softGenn/public/index.php?action=login');

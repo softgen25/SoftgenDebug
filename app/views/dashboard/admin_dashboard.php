@@ -181,7 +181,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
 <div class="container-fluid">
     <div class="row g-4 mb-4">
         <div class="col-lg-6">
-            <div class="card stat-card" style="height: 500px;">
+            <div class="card stat-card" style="height: 435px;">
                 <div class="card-body d-flex flex-column shadow">
                     <h5 class="card-title">Informes por Tipo de Servicio</h5>
                     <div class="flex-grow-1" style="position: relative;">
@@ -206,91 +206,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
     </div>
 </div>
 
-<script>
-    var ctx1 = document.getElementById('informesChart').getContext('2d');
-var informesBarChart = new Chart(ctx1, {
-    type: 'bar',
-    data: {
-        labels: ['Refrigerante Variable', 'Expansion directa', 'Condesado por agua', 'Ventilacion mecanica', 'otro'],
-        datasets: [{
-            label: 'Refrigerante Variable',
-            data: [1, 0, 0, 0, 0], // El valor '1' está en la posición 0, las demás en 0
-            backgroundColor: "#135787"
-        },
-        {
-            label: 'Expansion directa',
-            data: [0, 3, 0, 0, 0], // El valor '3' está en la posición 1, las demás en 0
-            backgroundColor: "#03144F"
-        },
-        {
-            label: 'Condesado por agua',
-            data: [0, 0, 2, 0, 0], // El valor '2' está en la posición 2, las demás en 0
-            backgroundColor: '#4AA9D9'
-        },
-        {
-            label: 'Ventilacion mecanica',
-            data: [0, 0, 0, 4, 0], // El valor '4' está en la posición 3, las demás en 0
-            backgroundColor: "#8fb3e2"
-        },
-        {
-            label: 'otro',
-            data: [0, 0, 0, 0, 2], // El valor '2' está en la posición 4, las demás en 0
-            backgroundColor: '#31487A'
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1
-                }
-            }
-        }
-    }
-});
-
-    var ctx2 = document.getElementById('estadoServiciosChart').getContext('2d'); 
-    var estadoPieChart = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: ['Pendiente', 'Firmado', 'Rechazado'],
-            datasets: [{
-                label: 'Estado',
-                data: [3, 2, 1],
-                backgroundColor: [
-                    '#1f2124',
-                    '#393d42',
-                    '#6a6e73'
-                ],
-                hoverBackgroundColor: [
-                    '#1f2124',
-                    '#393d42',
-                    '#6a6e73'
-                ],
-                bodercolor: '#ffffff',
-                borderWidth: 2
-            }]          
-        },
-        options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                position: 'top',
-                }
-            }
-        }
-    });
-    
-    function actualizar() {
-        informesBarChart.update();
-        estadoDoughnutChart.update();
-        console.log("Gráficos actualizados");
-    }
-</script>
 
         <!-- Tabla de Últimos Informes -->
         <div class="card stat-card shadow">
@@ -351,41 +266,134 @@ var informesBarChart = new Chart(ctx1, {
             const datosEstadoPHP = <?php echo json_encode($estadisticas['informes_por_estado'] ?? []); ?>;
             const labelsEstado = Object.keys(datosEstadoPHP);
             const dataEstado = Object.values(datosEstadoPHP);
-
-            // Gráfico de Barras: Informes por Tipo
-           /* const chartTipo = document.getElementById('informesPorTipoChart');
-            if (chartTipo && labelsTipo.length > 0) {
-                new Chart(chartTipo, {
-                    type: 'bar',
-                    data: {
-                        labels: labelsTipo,
-                        datasets: [{
-                            label: 'Nº de Informes',
-                            data: dataTipo,
-                            backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#0dcaf0', '#6f42c1', '#fd7e14']
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                });
-            }
-
-            // Gráfico de Dona: Estado de Servicios
-           /* const chartEstado = document.getElementById('estadoServiciosChart');
-            if (chartEstado && labelsEstado.length > 0) {
-                new Chart(chartEstado, {
-                    type: 'doughnut',
-                    data: {
-                        labels: labelsEstado,
-                        datasets: [{
-                            data: dataEstado,
-                            backgroundColor: ['#198754', '#ffc107', '#dc3545', '#6c757d'] // Colores para Firmado, Pendiente, Rechazado, etc.
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } } }
-                });
-            }*/
         });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Variables para los gráficos (serán Chart instances)
+    let informesBarChart = null;
+    let estadoDoughnutChart = null;
+
+    // Crea/actualiza gráfico de barras
+    function renderInformesChart(labels, data) {
+        const ctx = document.getElementById('informesChart').getContext('2d');
+        // Si ya existe, actualizamos
+        if (informesBarChart) {
+            informesBarChart.data.labels = labels;
+            informesBarChart.data.datasets[0].data = data;
+            informesBarChart.update();
+            return;
+        }
+
+        informesBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Nº de Informes',
+                    data: data,
+                    backgroundColor: [
+                        '#135787', '#03144F', '#4AA9D9', '#8fb3e2', '#31487A',
+                        '#0d6efd', '#198754', '#ffc107', '#fd7e14'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    // Crea/actualiza gráfico de dona
+    function renderEstadoChart(labels, data) {
+        const ctx = document.getElementById('estadoServiciosChart').getContext('2d');
+        if (estadoDoughnutChart) {
+            estadoDoughnutChart.data.labels = labels;
+            estadoDoughnutChart.data.datasets[0].data = data;
+            estadoDoughnutChart.update();
+            return;
+        }
+
+        estadoDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: ['#ffc107', '#198754', '#dc3545', '#6c757d'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } }
+            }
+        });
+    }
+
+    // Llama al endpoint para traer datos y pasarlos a los renderers
+    async function fetchGraficas() {
+        try {
+            const resp = await fetch('index.php?action=graficas_informes', {
+                method: 'GET',
+                credentials: 'same-origin',
+                headers: { 'Accept': 'application/json' }
+            });
+            if (!resp.ok) throw new Error('Error al obtener datos de gráficas: ' + resp.status);
+            const json = await resp.json();
+
+            // json.tipos y json.estados deberían ser objetos { label: total, ... }
+            const tiposObj = json.tipos || {};
+            const estadosObj = json.estados || {};
+
+            const labelsTipo = Object.keys(tiposObj);
+            const dataTipo = Object.values(tiposObj);
+
+            const labelsEstado = Object.keys(estadosObj);
+            const dataEstado = Object.values(estadosObj);
+
+            renderInformesChart(labelsTipo, dataTipo);
+            renderEstadoChart(labelsEstado, dataEstado);
+        } catch (err) {
+            console.error(err);
+            // En caso de error puedes mostrar un mensaje o renderizar gráficos vacíos
+        }
+    }
+
+    // Inicializa: si la vista tiene datos PHP en $estadisticas, los podemos usar como fallback
+    // (estos valores se definen por PHP al renderizar la página; si no existen, fetchGraficas los obtendrá)
+    try {
+        const datosTipoPHP = <?php echo json_encode($estadisticas['informes_por_tipo'] ?? [], JSON_UNESCAPED_UNICODE); ?>;
+        const datosEstadoPHP = <?php echo json_encode($estadisticas['informes_por_estado'] ?? [], JSON_UNESCAPED_UNICODE); ?>;
+        const hasPHPData = Object.keys(datosTipoPHP).length > 0 || Object.keys(datosEstadoPHP).length > 0;
+
+        if (hasPHPData) {
+            renderInformesChart(Object.keys(datosTipoPHP), Object.values(datosTipoPHP));
+            renderEstadoChart(Object.keys(datosEstadoPHP), Object.values(datosEstadoPHP));
+        } else {
+            // Si no hay datos iniciales, hacemos fetch
+            fetchGraficas();
+        }
+    } catch (e) {
+        // Si la inyección JSON da error, hacemos fetch
+        fetchGraficas();
+    }
+
+    // Función expuesta al botón "Actualizar"
+    window.actualizar = function() {
+        fetchGraficas();
+    };
+});
+</script>
+
     <script src="../public/css/jsBoostrap/bootstrap.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 </html>

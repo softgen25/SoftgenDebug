@@ -49,7 +49,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                                         <td><strong><?php echo htmlspecialchars($informe['id_servicio']); ?></strong></td>
                                         <td><?php echo date('d/m/Y', strtotime($informe['ser_fecha'])); ?></td>
                                         <td><?php echo htmlspecialchars($informe['nombre_cliente'] ?? 'N/A'); ?></td>
-                                        <td><?php echo htmlspecialchars($informe['nombre_tecnico'] ?? 'N/A'); ?></td>
+                                        <td><?php echo htmlspecialchars($informe['nombre_tecnico'] ?? 'N/A'). '' . ($informe['apellido_tecnico'] ?? ''); ?></td>
                                         <td><?php echo htmlspecialchars($informe['ser_tipo_servicio']); ?></td>
                                         <td>
                                             <?php 
