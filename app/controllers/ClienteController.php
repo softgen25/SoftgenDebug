@@ -16,7 +16,6 @@ class ClienteController {
         // Asumimos que ClienteModel.php ya está cargado en index.php
         $this->clienteModel = new Cliente($db);
     }
-
     /**
      * Muestra la lista de clientes con paginación y búsqueda.
      */
@@ -61,6 +60,7 @@ class ClienteController {
             }
 
             // 🔹 Si no existe, lo creamos
+
             $this->clienteModel->crearCliente($datos);
             header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
             exit();
@@ -104,9 +104,11 @@ class ClienteController {
      * Procesa la eliminación de un cliente.
      */
     public function eliminarCliente() {
-        $this->verificarAdmin();
-        $id = $_GET['id'] ?? null;
-        if ($id) {
+    $this->verificarAdmin();
+    $id = $_GET['id'] ?? null;
+
+    if ($id) {
+        try {
             $exito = $this->clienteModel->eliminar($id);
             if ($exito) {
                 header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
@@ -116,9 +118,19 @@ class ClienteController {
             }
         } else {
             header('Location: /softgenn/public/index.php?action=gestionar_clientes');
-        }
-        exit();
-    }
+
+                // Caso raro: no eliminó pero tampoco lanzó excepción
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
+            }
+        } catch (\PDOException $e) {
+            // Verificamos si es error de clave foránea (1451)
+            if (isset($e->errorInfo[1]) && $e->errorInfo[1] == 1451) {
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=eliminar_fallido');
+            } else {
+                // Otro error inesperado
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
+            }
+
 
     /**
      * Función de ayuda para verificar si el usuario es administrador.
@@ -130,4 +142,3 @@ class ClienteController {
         }
     }
 }
-

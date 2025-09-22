@@ -4,11 +4,16 @@
 
 namespace App\Controllers;
 
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__. '../../models/UsuarioModel.php';
 require_once __DIR__. '../../models/Tecnico.php';
 
+
 use App\Models\Tecnico;
 use App\Models\UsuarioModel;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use PDO;
 
 class UsuarioController {
@@ -25,6 +30,10 @@ class UsuarioController {
      */
     public function mostrarLogin() {
         require_once '../app/views/usuario/login.php';
+    }
+
+    public function soporte(){
+        require_once '../app/views/usuario/soporte';
     }
 
     /**
@@ -207,7 +216,7 @@ class UsuarioController {
         }
     }
 
-    public function eliminarUsuario() {
+     public function eliminarUsuario() {
         $this->verificarAdmin();
         $id = $_GET['id'] ?? null;
 
@@ -237,7 +246,10 @@ class UsuarioController {
     }
 
     private function verificarAdmin() {
-        if (session_status() == PHP_SESSION_NONE) { session_start(); }
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
             header('Location: /softgenn1/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
@@ -254,22 +266,16 @@ class UsuarioController {
 
 
 
+
     // Mostrar formulario de solicitud de restablecimiento de contraseña
     public function mostrarFormularioSolicitud() {
         require_once '../app/views/usuario/solicitar_reset.php';
     }
 
     public function procesarSolicitud() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['usu_correo'];
-            $usuario = $this->usuarioModel->buscarPorCorreo($email);
-
-            if ($usuario) {
-                // Generar un token seguro
-                $token = bin2hex(random_bytes(16));
-                
-                // Guardar el token en la BD
-                $this->usuarioModel->guardarTokenReset($email, $token);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = $_POST['usu_correo'];
+        $usuario = $this->usuarioModel->buscarPorCorreo($email);
 
                 // Enviar el correo electrónico
                 $enlace = "/softGenn/public/index.php?action=mostrar_formulario_reset&token=" . $token;
@@ -286,9 +292,51 @@ class UsuarioController {
             } else {
                 // Redirigir con error si el correo no existe
                 header('Location: /softgenn1/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
-            }
-        }
-    }
+
+        if ($usuario) {
+            // Generar un token seguro
+            $token = bin2hex(random_bytes(16));
+            
+            // Guardar el token en la BD
+            $this->usuarioModel->guardarTokenReset($email, $token);
+
+            // Preparar datos del correo
+            $enlace = "/softGenn/public/index.php?action=mostrar_formulario_reset&token=" . $token;
+            $asunto = "Recuperación de Contraseña - SoftGen";
+
+            // ---------- Envío de correo con PHPMailer ----------
+            try {
+                // Cargar PHPMailer
+                $mail = new PHPMailer(true);
+
+                // Configuración del servidor SMTP
+                $mail->isSMTP();
+                $mail->Host = 'smtp.hostinger.com';   // Servidor SMTP de Hostinger
+                $mail->SMTPAuth = true;
+                $mail->Username = 'softgen@softgenproject.pro'; // TU correo en Hostinger
+                $mail->Password = 'Softgen123*';        // Contraseña de ese correo
+                $mail->SMTPSecure = 'ssl';                // o 'tls' si usas puerto 587
+                $mail->Port = 465;                        // 465 = SSL, 587 = TLS
+
+                // Remitente y destinatario
+                $mail->setFrom('softgen@softgenproject.pro', 'Soporte SoftGen');
+                $mail->addAddress($email);
+
+                // Contenido
+                $mail->isHTML(true);
+                $mail->Subject = $asunto;
+                $mail->Body    = "
+                    <p>Hola,</p>
+                    <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
+                    <p><a href='https://tudominio.com$enlace'>$enlace</a></p>
+                    <p>Este enlace expirará en 1 hora.</p>
+                ";
+
+                // Enviar
+                $mail->send();
+                echo "Te hemos enviado un correo con las instrucciones para restablecer tu contraseña.";
+            } catch (Exception $e) {
+                echo "No se pudo enviar el correo. Error: {$mail->ErrorInfo}";
 
     public function mostrarFormularioReset() {
         $token = $_GET['token'] ?? '';
@@ -324,4 +372,3 @@ class UsuarioController {
         }
     }
 }
-

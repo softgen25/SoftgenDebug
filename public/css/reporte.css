@@ -1,20 +1,15 @@
- /* --- ESTILOS GENERALES Y FUENTES --- */
+
         @page {
             margin-header: 15mm;
             margin-footer: 15mm;
             header: html_myHeader;
             footer: html_myFooter;
         }
-
-        .encabezado{
-            margin-bottom: 90px;
-        }
-
         body {
             font-family: 'Saira', sans-serif;
             font-size: 11px;
             color: #333;
-            margin-top: 20px;
+
         }
         h1, h2, h3, h4 {
             font-weight: 600;
@@ -91,9 +86,6 @@
             border-left: 4px solid #135787;
             margin-bottom: 10px;
         }
-        .data-box p { margin: 0; padding: 2px 0; }
 
-        .spacer {
-            height: 130px; /* Ajusta este valor según la altura de tu primera página */
-            margin-bottom: 0px;
+        .data-box p { margin: 0; padding: 2px 0; 
         }

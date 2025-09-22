@@ -30,6 +30,7 @@ document.addEventListener ('DOMContentLoaded', function() {
                     allFieldsValid = false;
                 } else {
                     input.classList.remove('is-invalid');
+
                 }
             });
 
@@ -50,6 +51,7 @@ document.addEventListener ('DOMContentLoaded', function() {
     // Manejar clics en el botón "Anterior"
     form.querySelectorAll('.prev-btn').forEach(button => {
         button.addEventListener('click', () => {
+
             if (currentStep > 0) {
                 currentStep--;
                 showStep(currentStep);

@@ -58,6 +58,7 @@ class ServicioModel {
 
         // PASO 2: Crear la Inspección General y obtener su ID.
         $stmtInspeccion = $this->db->prepare("INSERT INTO inspeccion_general (ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_refrigerante, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire, ig_amperios1, ig_amperios2, ig_amperios3, ig_voltaje1, ig_voltaje2, ig_voltaje3, ig_temp_suministro, ig_temp_retorno) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
         $stmtInspeccion->execute([
             isset($datos['ig_goteos']) ? 1 : 0, isset($datos['ig_gabinete']) ? 1 : 0,
             isset($datos['ig_filtro']) ? 1 : 0, isset($datos['ig_drenaje']) ? 1 : 0,
