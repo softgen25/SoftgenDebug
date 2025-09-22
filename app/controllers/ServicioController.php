@@ -32,7 +32,7 @@ class ServicioController {
 
     public function mostrarFormularioCrear() {
         if (!isset($_SESSION['id_usuario'])) {
-            header('Location: /softGenn/public/index.php?action=login');
+            header('Location: /softgenn/public/index.php?action=login');
             exit();
         }
 
@@ -65,10 +65,10 @@ class ServicioController {
         $nuevoServicioId = $this->servicioModel->guardarInformeCompleto($datos, $rutasFotos);
 
         if ($nuevoServicioId) {
-            header('Location: /softGenn/public/index.php?action=generar_pdf&id=' . $nuevoServicioId);
+            header('Location: /softgenn/public/index.php?action=generar_pdf&id=' . $nuevoServicioId);
         } else {
             // Si el modelo devuelve false, es que hubo un error grave.
-            header('Location: /softGenn/public/index.php?action=crear_informe&error=' . urlencode('Error crítico al guardar en la base de datos. Revise los logs.'));
+            header('Location: /softgenn/public/index.php?action=crear_informe&error=' . urlencode('Error crítico al guardar en la base de datos. Revise los logs.'));
         }
         exit();
     }
@@ -87,19 +87,19 @@ class ServicioController {
         $html = ob_get_clean();
 
         try {
-    $mpdf = new \Mpdf\Mpdf([
+        $mpdf = new \Mpdf\Mpdf([
         'mode'   => 'utf-8',
         'format' => 'A4',
         // IMPORTANTE en Windows/XAMPP → dale una carpeta temporal propia
         'tempDir' => __DIR__ . '/../../tmp'
-    ]);
+        ]);
 
-    $mpdf->WriteHTML($html);
-    $mpdf->Output('Informe_Servicio_' . $id . '.pdf', 'I');
-    exit();
-} catch (\Mpdf\MpdfException $e) {
-    die("Error al generar el PDF: " . $e->getMessage());
-}
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('Informe_Servicio_' . $id . '.pdf', 'I');
+        exit();
+        } catch (\Mpdf\MpdfException $e) {
+        die("Error al generar el PDF: " . $e->getMessage());
+        }
     }
     
     private function guardarFirma($dataBase64, $prefix, $directorio) {

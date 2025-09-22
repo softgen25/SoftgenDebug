@@ -18,14 +18,13 @@ function estadoMecanico($value) {
 
 </head>
 <body>
-
     <!-- ENCABEZADO PERSONALIZADO PARA MPDF -->
-    <htmlpageheader name="myHeader">
+    <htmlpageheader class="encabezado mb-4" name="myHeader"  >
         <table width="100%">
             <tr>
                 <td width="50%" style="vertical-align: middle;">
                     <!-- Asegúrate de que la ruta a tu logo sea correcta -->
-                    <img src="../../public/img/Logo_reporte.png" width="180" alt="Logo">
+                    <img src="../public/img/Logocompleto.png" width="190" alt="Logo">
                 </td>
                 <td width="50%" style="text-align: right; vertical-align: middle;">
                     <h1>INFORME DE SERVICIO TÉCNICO</h1>
@@ -34,24 +33,14 @@ function estadoMecanico($value) {
                 </td>
             </tr>
         </table>
-        <hr>
     </htmlpageheader>
-
+    <br>
+    <br>
+    <br>
+    <br>
     <!-- PIE DE PÁGINA PERSONALIZADO PARA MPDF -->
-    <htmlpagefooter name="myFooter">
-        <hr>
-        <table width="100%">
-            <tr>
-                <td width="33%">SoftGenn</td>
-                <td width="33%" align="center">Página {PAGENO} de {nbpg}</td>
-                <td width="33%" style="text-align: right;">www.softgenn.com</td>
-            </tr>
-        </table>
-    </htmlpagefooter>
-
     <!-- CUERPO DEL DOCUMENTO -->
     <div class="container">
-
         <h2>1. Información General</h2>
         <div class="two-columns section section-light">
             <div class="col-left">
@@ -74,7 +63,7 @@ function estadoMecanico($value) {
             <div class="clear"></div>
         </div>
 
-        <h2>2. Equipo(s) Intervenido(s)</h2>
+        <h2 >2. Equipo(s) Intervenido(s)</h2>
         <?php if (!empty($equipos)): ?>
             <table class="table-striped">
                 <thead>
@@ -101,6 +90,7 @@ function estadoMecanico($value) {
         <?php else: ?>
             <p>No se registraron equipos para este servicio.</p>
         <?php endif; ?>
+        <br>
 
         <h2>3. Checklist de Inspección y Mediciones</h2>
         <div class="two-columns">
@@ -121,18 +111,25 @@ function estadoMecanico($value) {
             <div class="col-right">
                 <div class="data-box">
                     <h4>Mediciones Eléctricas y de Temperatura</h4>
-                    <p><span class="label">Amperaje (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios'] ?? 'N/A') ?></p>
-                    <p><span class="label">Voltaje (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje'] ?? 'N/A') ?></p>
+                    <p><span class="label">Amperaje 1 (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios1'] ?? 'N/A') ?></p>
+                    <p><span class="label">Amperaje 2 (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios2'] ?? 'N/A') ?></p>
+                    <p><span class="label">Amperaje 3 (A):</span> <?= htmlspecialchars($inspeccion['ig_amperios3'] ?? 'N/A') ?></p>
+                    <p><span class="label">Voltaje 1 (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje1'] ?? 'N/A') ?></p>
+                    <p><span class="label">Voltaje 2 (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje2'] ?? 'N/A') ?></p>
+                    <p><span class="label">Voltaje 3 (V):</span> <?= htmlspecialchars($inspeccion['ig_voltaje3'] ?? 'N/A') ?></p>
                     <p><span class="label">Temp. Suministro (°C):</span> <?= htmlspecialchars($inspeccion['ig_temp_suministro'] ?? 'N/A') ?></p>
                     <p><span class="label">Temp. Retorno (°C):</span> <?= htmlspecialchars($inspeccion['ig_temp_retorno'] ?? 'N/A') ?></p>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
+        <br>
 
-        <h2>4. Revisión Mecánica</h2>
-        <table class="table-bordered table-striped">
-             <thead>
+        <div class="spacer"></div>
+
+        <h2>4. Revisión Mecánica </h2>
+        <table class="tabla-4 table-bordered table-striped">
+            <thead>
                 <tr>
                     <th>Componente</th><th>Estado</th>
                     <th>Componente</th><th>Estado</th>
@@ -175,6 +172,17 @@ function estadoMecanico($value) {
             </div>
             <div class="clear"></div>
         </div>
+
+    <htmlpagefooter name="myFooter">
+        <hr>
+        <table width="100%">
+            <tr>
+                <td width="33%">SoftGenn</td>
+                <td width="33%" align="center">Página {PAGENO} de {nbpg}</td>
+                <td width="33%" style="text-align: right;">www.softgenn.com</td>
+            </tr>
+        </table>
+    </htmlpagefooter>
 
     </div>
 </body>

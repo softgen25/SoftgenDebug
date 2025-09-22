@@ -1,98 +1,82 @@
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("El archivo formulariojs.js se ha cargado y ejecutado.");
-
+document.addEventListener ('DOMContentLoaded', function() {
+    const form = document.getElementById('formularioReporte');
     const steps = document.querySelectorAll('.step');
-    const nextButtons = document.querySelectorAll('.next-btn');
-    const prevButtons = document.querySelectorAll('.prev-btn');
-    
-    console.log("Pasos encontrados:", steps.length);
-    console.log("Botones 'Siguiente' encontrados:", nextButtons.length);
-    console.log("Botones 'Anterior' encontrados:", prevButtons.length);
-    
-    if (nextButtons.length === 0) {
-        console.error("¡No se encontró ningún botón con la clase '.next-btn'! Revisa el HTML.");
-    }
+    const progressBar = document.getElementById('progressBar');
+    let currentStep = 0; // El índice del paso actual (0-indexed)
 
-    let currentStep = 0;
-
-    function updateStepDisplay() {
-        steps.forEach(step => step.style.display = 'none');
-        if (steps[currentStep]) {
-            steps[currentStep].style.display = 'block';
-        }
-    }
-
-    function validateCurrentStep() {
-        const currentStepElement = steps[currentStep];
-        const requiredFields = currentStepElement.querySelectorAll('[required]');
-        let allValid = true;
-        let invalidFields = [];
-
-        requiredFields.forEach(field => {
-            // Usa checkValidity() para validar campos vacíos y el patrón
-            if (!field.checkValidity()) {
-                allValid = false;
-                field.classList.add('is-invalid');
-                invalidFields.push(field);
-            } else {
-                field.classList.remove('is-invalid');
-            }
+    // Función para actualizar la visibilidad de los pasos
+    function showStep(stepIndex) {
+        steps.forEach((step, index) => {
+            step.classList.toggle('active', index === stepIndex);
         });
+        const progress = ((stepIndex + 1) / steps.length) * 100;
+        progressBar.style.width = progress + '%';
+        progressBar.textContent = `Paso ${stepIndex + 1} de ${steps.length}`;
+    }
+
+    // Manejar clics en el botón "Siguiente"
+    form.querySelectorAll('.next-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            // Validación para campos requeridos y su patrón en el paso actual
+            let requiredInputs = steps[currentStep].querySelectorAll('[required]');
         
-        if (!allValid) {
-            alert('Por favor, completa todos los campos obligatorios con el formato correcto.');
-            // Opcional: enfoca el primer campo inválido
-            if (invalidFields.length > 0) {
-                invalidFields[0].focus();
-            }
-        }
+            let allFieldsValid = true;
 
-        const inputsWithPattern = document.querySelectorAll('input[pattern]');
-
-        inputsWithPattern.forEach(input => {
-        // Añade un 'event listener' para el evento 'input'
-        input.addEventListener('input', function() {
-            // El 'pattern' se compila en una RegExp automáticamente
-            const patternRegex = new RegExp(this.pattern);
-            let sanitizedValue = '';
-
-            // Itera sobre cada carácter en el valor del input
-            for (let char of this.value) {
-                // Si el carácter coincide con el patrón, lo añade al nuevo valor
-                if (patternRegex.test(char)) {
-                    sanitizedValue += char;
+            requiredInputs.forEach(input => {
+                // Ahora usamos checkValidity() que revisa si el campo está vacío
+                // o si no cumple con el 'pattern'
+                if (!input.checkValidity()) {
+                    input.classList.add('is-invalid');
+                    allFieldsValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
                 }
+            });
+
+            // Si la validación falla, se muestra la alerta y se detiene la función
+            if (!allFieldsValid) {
+                alert('Por favor, completa todos los campos requeridos con el formato correcto antes de avanzar.');
+                return; // Detiene la ejecución para no avanzar de paso
             }
-            // Actualiza el valor del input con los caracteres válidos
-            this.value = sanitizedValue;
-        });
-    });
 
-        return allValid;
-    }
-
-    // Un solo listener para los botones "Siguiente"
-    nextButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            console.log("¡Clic en el botón 'Siguiente' detectado!");
-            if (validateCurrentStep()) {
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    updateStepDisplay();
-                }
+            // Si la validación es exitosa y no es el último paso
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
             }
         });
     });
 
-    prevButtons.forEach(button => {
+    // Manejar clics en el botón "Anterior"
+    form.querySelectorAll('.prev-btn').forEach(button => {
         button.addEventListener('click', () => {
-            console.log(" ¡Clic en el botón 'Anterior' detectado!");
             if (currentStep > 0) {
                 currentStep--;
-                updateStepDisplay();
+                showStep(currentStep);
             }
         });
     });
+    
+    // Configura el manejador para el envío final del formulario
+    form.addEventListener('submit', function (event) {
+        // La lógica de validación del último paso se ejecutará aquí
+        const lastStepInputs = steps[steps.length - 1].querySelectorAll('[required]');
+        let lastStepValid = true;
+        
+        lastStepInputs.forEach(input => {
+            if (!input.checkValidity()) {
+                input.classList.add('is-invalid');
+                lastStepValid = false;
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
 
-    updateStepDisplay();
+        if (!lastStepValid) {
+            alert('Por favor, completa todos los campos requeridos antes de finalizar el reporte.');
+            event.preventDefault(); // Detiene el envío si el último paso no es válido
+        }
+    });
+
+    showStep(currentStep);
 });

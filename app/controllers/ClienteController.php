@@ -16,6 +16,7 @@ class ClienteController {
         // Asumimos que ClienteModel.php ya está cargado en index.php
         $this->clienteModel = new Cliente($db);
     }
+
     /**
      * Muestra la lista de clientes con paginación y búsqueda.
      */
@@ -55,14 +56,13 @@ class ClienteController {
             // 🔹 Validar si el correo ya existe
             if ($this->clienteModel->existeCorreoCliente($datos['contacto_correo'])) {
                 // Redirigimos con un error
-                header('Location: /softGenn/public/index.php?action=mostrar_crear_cliente&status=correo_existente_cliente');
+                header('Location: /softgenn/public/index.php?action=mostrar_crear_cliente&status=correo_existente_cliente');
                 exit();
             }
 
             // 🔹 Si no existe, lo creamos
-
             $this->clienteModel->crearCliente($datos);
-            header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
+            header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
             exit();
         }
     }
@@ -92,9 +92,9 @@ class ClienteController {
             $exito = $this->clienteModel->actualizar($id, $datos);
 
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=editado');
+                header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=editado');
             } else {
-                header('Location: /softGenn/public/index.php?action=mostrar_editar_cliente&id=' . $id . '&error=1');
+                header('Location: /softgenn/public/index.php?action=mostrar_editar_cliente&id=' . $id . '&error=1');
             }
             exit();
         }
@@ -104,31 +104,20 @@ class ClienteController {
      * Procesa la eliminación de un cliente.
      */
     public function eliminarCliente() {
-    $this->verificarAdmin();
-    $id = $_GET['id'] ?? null;
-
-    if ($id) {
-        try {
+        $this->verificarAdmin();
+        $id = $_GET['id'] ?? null;
+        if ($id) {
             $exito = $this->clienteModel->eliminar($id);
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
+                header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
             } else {
-                // Caso raro: no eliminó pero tampoco lanzó excepción
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
+                // Este error ocurre si el cliente tiene informes asociados
+                header('Location: /softgenn/public/index.php?action=gestionar_clientes&error=eliminar_fallido');
             }
-        } catch (\PDOException $e) {
-            // Verificamos si es error de clave foránea (1451)
-            if (isset($e->errorInfo[1]) && $e->errorInfo[1] == 1451) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=eliminar_fallido');
-            } else {
-                // Otro error inesperado
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
-            }
+        } else {
+            header('Location: /softgenn/public/index.php?action=gestionar_clientes');
         }
-    } else {
-        header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
-    }
-    exit();
+        exit();
     }
 
     /**
@@ -136,7 +125,7 @@ class ClienteController {
      */
     private function verificarAdmin() {
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softgenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }

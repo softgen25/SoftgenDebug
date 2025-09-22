@@ -44,16 +44,12 @@ if (!isset($_SESSION['id_usuario'])) {
 <header>
     <div class="bg-primary">
         <?php
-            // CORRECCIÓN: Rutas de inclusión robustas usando __DIR__
             include __DIR__ . '/../../../public/headerandfoother/header1.php';
         ?>
     </div>
 </header>
 
 <div class="container mt-5 mb-5 shadow p-4 rounded"  style="background-color: #ffffffff;">
-    <!-- 
-        CORRECCIÓN 1: La acción apunta a 'guardar_informe' y se añade 'enctype' para la subida de archivos.
-    -->
     <form id="formularioReporte" action="?action=guardar_informe" method="post" enctype="multipart/form-data" class="form-container">
         <h2 class="mb-4 text-center">Crear Reporte de Servicio</h2>
         <div class="progress mb-4" style="height: 25px;">
@@ -100,11 +96,11 @@ if (!isset($_SESSION['id_usuario'])) {
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="sitio" class="form-label">Sitio</label>
-                    <input type="text" class="form-control" id="sitio" name="ubi_sitio" placeholder="Ej: Oficina Principal, Bodega" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
+                    <input type="text" class="form-control" id="sitio" name="ubi_sitio" placeholder="Ej: Oficina Principal, Bodega" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="ciudad" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" id="ciudad" name="ubi_ciudad" placeholder="Ej: Bucaramanga" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
+                    <input type="text" class="form-control" id="ciudad" name="ubi_ciudad" placeholder="Ej: Bucaramanga" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$">
                 </div>
             </div>
             <div class="row">
@@ -123,13 +119,13 @@ if (!isset($_SESSION['id_usuario'])) {
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="barrio" class="form-label">Barrio</label>
-                    <input type="text" class="form-control" id="barrio" name="ubi_barrio" placeholder="Ej: Cabecera" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
+                    <input type="text" class="form-control" id="barrio" name="ubi_barrio" placeholder="Ej: Cabecera" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$">
                 </div>  
             </div>
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="localidad" class="form-label">Localidad</label>
-                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+">
+                    <input type="text" class="form-control" id="localidad" name="ubi_localidad" placeholder="Ej: Piedecuesta" required pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="calle" class="form-label">Dirección (Calle, Carrera, Número)</label>
@@ -194,13 +190,6 @@ if (!isset($_SESSION['id_usuario'])) {
                     <hr class="mt-4">
                 </div>   
             </div>
-            <div class="row mt-3">
-                <div class="col-12 text-center">
-                    <button type="button" id="add-equipo-btn" class="btn btn-outline-dark">
-                        <i class="bi bi-plus-circle me-2"></i>Añadir Otro Equipo
-                    </button>
-                </div>
-            </div>
             <div class="text-center mt-4">
                 <button type="button" class="btn prev-btn" style="background-color:#135787; color: #ffffff"><i class="bi bi-caret-left-fill"></i> Anterior</button>
                 <button type="button" class="btn next-btn" style="background-color:#135787; color: #ffffff">Siguiente <i class="bi bi-caret-right-fill"></i></button>
@@ -216,7 +205,7 @@ if (!isset($_SESSION['id_usuario'])) {
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_filtro" value="1"> <label class="form-check-label ms-2">Filtro</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_drenaje" value="1"> <label class="form-check-label ms-2">Drenaje</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_serpentin" value="1"> <label class="form-check-label ms-2">Serpentin</label></div>
-                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_refrigerante" value="1"> <label class="form-check-label ms-2">Fuga de Refrigerante</label></div>
+                <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_refrigerante" value="1"> <label class="form-check-label ms-2">Estado de Refrigerante</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_vibracion" value="1"> <label class="form-check-label ms-2">Vibración Anormal</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_tablero_electrico" value="1"> <label class="form-check-label ms-2">Tablero Electrico</label></div>
                 <div class="col-md-4 col-6 mb-2"><input type="checkbox" class="form-check-input" name="ig_aislamiento_gabinete" value="1"> <label class="form-check-label ms-2">Aislamiento</label></div>
@@ -225,8 +214,12 @@ if (!isset($_SESSION['id_usuario'])) {
             <hr>
             <h5 class="mb-3 mt-3">Datos Eléctricos y de Temperatura</h5>
             <div class="row">
-                <div class="col-md-3 mb-3"><label class="form-label">Amperios</label><input type="number" step="0.01" class="form-control" name="ig_amperios" placeholder="Ej: 5.25" required></div>
-                <div class="col-md-3 mb-3"><label class="form-label">Voltaje</label><input type="number" step="0.01" class="form-control" name="ig_voltaje" placeholder="Ej: 220" required></div>
+                <div class="col-md-3 mb-3"><label class="form-label">Amperios 1</label><input type="number" step="0.01" class="form-control" name="ig_amperios1" placeholder="Ej: 5.25" required></div>
+                <div class="col-md-3 mb-3"><label class="form-label">Amperios 2</label><input type="number" step="0.01" class="form-control" name="ig_amperios2" placeholder="Ej: 5.25" required></div>
+                <div class="col-md-3 mb-3"><label class="form-label">Amperios 3</label><input type="number" step="0.01" class="form-control" name="ig_amperios3" placeholder="Ej: 5.25" required></div>
+                <div class="col-md-3 mb-3"><label class="form-label">Voltaje 1</label><input type="number" step="0.01" class="form-control" name="ig_voltaje1" placeholder="Ej: 220" required></div>
+                <div class="col-md-3 mb-3"><label class="form-label">Voltaje 2</label><input type="number" step="0.01" class="form-control" name="ig_voltaje2" placeholder="Ej: 220" required></div>
+                <div class="col-md-3 mb-3"><label class="form-label">Voltaje 3</label><input type="number" step="0.01" class="form-control" name="ig_voltaje3" placeholder="Ej: 220" required></div>
                 <div class="col-md-3 mb-3"><label class="form-label">Temp. Suministro (°C)</label><input type="number" step="0.01" class="form-control" name="ig_temp_suministro" placeholder="Ej: 18.5" required></div>
                 <div class="col-md-3 mb-3"><label class="form-label">Temp. Retorno (°C)</label><input type="number" step="0.01" class="form-control" name="ig_temp_retorno" placeholder="Ej: 25.0" required></div>
             </div>
