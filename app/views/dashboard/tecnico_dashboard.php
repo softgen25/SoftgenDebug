@@ -87,7 +87,7 @@
                         <h5 class="card-title">Soporte</h5>
                         <p class="card-text">Datos de técnicos</p>
                         <!-- ENLACE FUNCIONAL -->
-                        <a href="/softGenn/public/index.php?action=soporte" class="btn stretched-link" style="background-color: #135787; color: white">Ir soporte</a>
+                        <a href="/softgenn/app/views/usuario/soporte.php" class="btn stretched-link" style="background-color: #135787; color: white">Ir soporte</a>
                     </div>
                 </div>
             </div>
