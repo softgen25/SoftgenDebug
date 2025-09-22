@@ -4,11 +4,16 @@
 
 namespace App\Controllers;
 
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__. '../../models/UsuarioModel.php';
 require_once __DIR__. '../../models/Tecnico.php';
 
+
 use App\Models\Tecnico;
 use App\Models\UsuarioModel;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 use PDO;
 
 class UsuarioController {
@@ -25,6 +30,10 @@ class UsuarioController {
      */
     public function mostrarLogin() {
         require_once '../app/views/usuario/login.php';
+    }
+
+    public function soporte(){
+        require_once '../app/views/usuario/soporte';
     }
 
     /**
@@ -65,9 +74,9 @@ class UsuarioController {
 
                 // --- ¡NUEVA LÓGICA DE REDIRECCIÓN! ---
                 if ($usuario['id_rol'] == 1) { // 1 = Administrador
-                    header('Location: /softgenn/public/index.php?action=dashboard_admin');
+                    header('Location: /softGenn/public/index.php?action=dashboard_admin');
                 } else if ($usuario['id_rol'] == 2) { // 2 = Tecnico
-                    header('Location: /softgenn/public/index.php?action=dashboard_tecnico');
+                    header('Location: /softGenn/public/index.php?action=dashboard_tecnico');
                 } else {
                     // Para otros roles o por si acaso
                     header('Location: index.php?action=login&error=' . urlencode('Rol no reconocido.'));
@@ -174,13 +183,13 @@ class UsuarioController {
             // 🔹 Validar si el correo ya existe
             if ($this->usuarioModel->existeCorreo($datos['usu_correo'])) {
                 // Redirigimos con un error
-                header('Location: /softgenn1/public/index.php?action=mostrar_crear_usuario&status=correo_existente');
+                header('Location: /softGenn/public/index.php?action=mostrar_crear_usuario&status=correo_existente');
                 exit();
             }
 
             // 🔹 Si no existe, lo creamos
             $this->usuarioModel->crearUsuario($datos);
-            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=creado_usuario');
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=creado_usuario');
             exit();
         }
     }
@@ -202,18 +211,18 @@ class UsuarioController {
             $id = $_POST['id_usuario'];
             $datos = $_POST;
             $this->usuarioModel->actualizarUsuario($id, $datos);
-            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=editado');
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=editado');
             exit();
         }
     }
 
-    public function eliminarUsuario() {
+     public function eliminarUsuario() {
         $this->verificarAdmin();
         $id = $_GET['id'] ?? null;
 
         // Validar que venga el id
         if (!$id) {
-            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode('Id de usuario no definido.'));
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode('Id de usuario no definido.'));
             exit();
         }
 
@@ -221,7 +230,7 @@ class UsuarioController {
             $this->usuarioModel->eliminarUsuario($id);
 
             // Redirigir con éxito
-            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=eliminado');
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=eliminado');
             exit();
         } catch (\PDOException $e) {
             $error_msg = 'Ocurrió un error inesperado al intentar eliminar el usuario.';
@@ -231,26 +240,21 @@ class UsuarioController {
                 $error_msg = 'No se puede eliminar este usuario porque está relacionado con uno o más servicios. Elimine los servicios relacionados primero.';
             }
 
-            header('Location: /softgenn1/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode($error_msg));
+            header('Location: /softGenn/public/index.php?action=gestionar_usuarios&status=error&error_msg=' . urlencode($error_msg));
             exit();
         }       
     }
 
     private function verificarAdmin() {
-        if (session_status() == PHP_SESSION_NONE) { session_start(); }
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softgenn1/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }
-     private function verificartecnico(){
-        if (session_start() == PHP_SESSION_NONE) {session_start();}
-        if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] !=2){
-            header('location: /softgenn1/public/index.php?action=login&error=' . urlencode('Access no autorizado'));
-            exit();
-        }
-
-     }
 
 
 
@@ -260,35 +264,62 @@ class UsuarioController {
     }
 
     public function procesarSolicitud() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['usu_correo'];
-            $usuario = $this->usuarioModel->buscarPorCorreo($email);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = $_POST['usu_correo'];
+        $usuario = $this->usuarioModel->buscarPorCorreo($email);
 
-            if ($usuario) {
-                // Generar un token seguro
-                $token = bin2hex(random_bytes(16));
-                
-                // Guardar el token en la BD
-                $this->usuarioModel->guardarTokenReset($email, $token);
+        if ($usuario) {
+            // Generar un token seguro
+            $token = bin2hex(random_bytes(16));
+            
+            // Guardar el token en la BD
+            $this->usuarioModel->guardarTokenReset($email, $token);
 
-                // Enviar el correo electrónico
-                $enlace = "/softGenn/public/index.php?action=mostrar_formulario_reset&token=" . $token;
-                $asunto = "Recuperación de Contraseña - SoftGen";
-                $cuerpo = "Hola, haz clic en el siguiente enlace para restablecer tu contraseña: " . $enlace;
-                
-                // --- IMPORTANTE: LÓGICA DE ENVÍO DE CORREO ---
-                // La función mail() de PHP puede no funcionar en un entorno local como XAMPP.
-                // Se recomienda usar una librería como PHPMailer.
-                // mail($email, $asunto, $cuerpo);
+            // Preparar datos del correo
+            $enlace = "/softGenn/public/index.php?action=mostrar_formulario_reset&token=" . $token;
+            $asunto = "Recuperación de Contraseña - SoftGen";
 
-                // Por ahora, para pruebas, mostraremos el enlace en pantalla.
-                echo "Correo enviado (simulación). <a href='$enlace'>Haz clic aquí para resetear</a>";
-            } else {
-                // Redirigir con error si el correo no existe
-                header('Location: /softgenn1/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
+            // ---------- Envío de correo con PHPMailer ----------
+            try {
+                // Cargar PHPMailer
+                $mail = new PHPMailer(true);
+
+                // Configuración del servidor SMTP
+                $mail->isSMTP();
+                $mail->Host = 'smtp.hostinger.com';   // Servidor SMTP de Hostinger
+                $mail->SMTPAuth = true;
+                $mail->Username = 'softgen@softgenproject.pro'; // TU correo en Hostinger
+                $mail->Password = 'Softgen123*';        // Contraseña de ese correo
+                $mail->SMTPSecure = 'ssl';                // o 'tls' si usas puerto 587
+                $mail->Port = 465;                        // 465 = SSL, 587 = TLS
+
+                // Remitente y destinatario
+                $mail->setFrom('softgen@softgenproject.pro', 'Soporte SoftGen');
+                $mail->addAddress($email);
+
+                // Contenido
+                $mail->isHTML(true);
+                $mail->Subject = $asunto;
+                $mail->Body    = "
+                    <p>Hola,</p>
+                    <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
+                    <p><a href='https://tudominio.com$enlace'>$enlace</a></p>
+                    <p>Este enlace expirará en 1 hora.</p>
+                ";
+
+                // Enviar
+                $mail->send();
+                echo "Te hemos enviado un correo con las instrucciones para restablecer tu contraseña.";
+            } catch (Exception $e) {
+                echo "No se pudo enviar el correo. Error: {$mail->ErrorInfo}";
             }
+
+        } else {
+            // Redirigir con error si el correo no existe
+            header('Location: /softGenn/public/index.php?action=solicitar_reset&error=' . urlencode('El correo no está registrado.'));
         }
     }
+}
 
     public function mostrarFormularioReset() {
         $token = $_GET['token'] ?? '';
@@ -317,11 +348,10 @@ class UsuarioController {
                 // Eliminamos el token para que no se pueda volver a usar.
                 $this->usuarioModel->eliminarToken($email);
                 
-                header('Location: /softgenn1/public/index.php?action=login&status=reset_exitoso');
+                header('Location: /softGenn/public/index.php?action=login&status=reset_exitoso');
             } else {
                 die("Error de validación. Inténtalo de nuevo.");
             }
         }
     }
 }
-

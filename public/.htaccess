@@ -1,0 +1,17 @@
+# public/.htaccess
+Options -Indexes
+RewriteEngine On
+
+# Si tu proyecto está en un subdirectorio en localhost, ajusta RewriteBase,
+# por ejemplo: /softGenn/public/
+# En producción en Hostinger normalmente será "/"
+RewriteBase /
+
+# Evitar que index.php aparezca en la URL (redirección limpia)
+RewriteCond %{THE_REQUEST} \s/index\.php[^\s]* [NC]
+RewriteRule ^index\.php(.*)$ /$1 [R=301,L]
+
+# Si el archivo o directorio NO existe, redirigir todo a index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]

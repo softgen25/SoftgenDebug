@@ -1,5 +1,10 @@
 <?php
 // config/config.php
+if ($_SERVER['HTTP_HOST'] === 'localhost') {
+    define('BASE_URL', '/softGenn/public/');
+} else {
+    define('BASE_URL', '/');
+}
 
 // --- Configuración de Credenciales de la Base de Datos ---
 define('DB_HOST', '127.0.0.1'); 

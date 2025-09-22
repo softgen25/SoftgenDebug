@@ -73,6 +73,23 @@ class ServicioController {
         exit();
     }
 
+    public function gestionarInformes() {
+        // Verificar si el usuario ha iniciado sesión y tiene el rol correcto (ej. administrador)
+        if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
+            header('Location: /softGenn/public/index.php?action=login');
+            exit();
+        }
+
+        $busqueda = $_GET['busqueda'] ?? '';
+        $pagina = $_GET['pagina'] ?? 1;
+
+        // Obtener los informes desde el modelo
+        $informes = $this->servicioModel->obtenerInformesConPaginacion($busqueda, $pagina, 10);
+        $totalPaginas = $this->servicioModel->contarInformes($busqueda, 10);
+        
+        require_once '../app/views/informes/gestion_informes.php';
+    }
+
     public function generarPdf() {
         $id = $_GET['id'] ?? null;
         if (!$id) { die("ID de informe no especificado."); }
@@ -128,4 +145,15 @@ class ServicioController {
         }
         return $rutas;
     }
+    public function graficasInformes()
+{
+    $tipos = $this->servicioModel->obtenerConteoPorTipoServicio();
+    $estados = $this->servicioModel->obtenerConteoPorEstado();
+
+    header('Content-Type: application/json');
+    echo json_encode([
+        'tipos' => $tipos,
+        'estados' => $estados
+    ]);
+}
 }

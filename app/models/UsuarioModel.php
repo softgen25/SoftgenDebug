@@ -132,21 +132,27 @@ class UsuarioModel {
     private function verificarAdmin() {
         if (session_status() == PHP_SESSION_NONE) { session_start(); }
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softgenn1/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }
     // --- Método para verificar contraseña ---
 
     public function guardarTokenReset($email, $token) {
-        // MUY IMPORTANTE: Guardamos un HASH del token, no el token en texto plano.
-        $tokenHash = password_hash($token, PASSWORD_DEFAULT);
-        $expiraEn = date('Y-m-d H:i:s', strtotime('+1 hour')); // El token es válido por 1 hora.
+    $tokenHash = password_hash($token, PASSWORD_DEFAULT);
+    $expiraEn = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-        $sql = "INSERT INTO password_resets (usu_correo, token, expires_at) VALUES (?, ?, ?)";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$email, $tokenHash, $expiraEn]);
+    $sql = "INSERT INTO password_resets (usu_correo, token, expires_at) VALUES (?, ?, ?)";
+    $stmt = $this->db->prepare($sql);
+    $ok = $stmt->execute([$email, $tokenHash, $expiraEn]);
+
+    if (!$ok) {
+        var_dump($stmt->errorInfo()); // debug si falla
     }
+
+    return $ok;
+}
+
 
     /**
      * Busca un token válido en la base de datos.
@@ -154,16 +160,17 @@ class UsuarioModel {
      * @return array|false Los datos del token si es válido, o false si no.
      */
     public function buscarTokenValido($token) {
-        $todosLosTokens = $this->db->query("SELECT * FROM password_resets WHERE expires_at > NOW()")->fetchAll();
-        
-        foreach ($todosLosTokens as $tokenData) {
-            // Comparamos el token del usuario con el hash guardado en la BD.
-            if (password_verify($token, $tokenData['token'])) {
-                return $tokenData;
-            }
+    $todosLosTokens = $this->db
+        ->query("SELECT * FROM password_resets WHERE expires_at > NOW()")
+        ->fetchAll();
+
+    foreach ($todosLosTokens as $tokenData) {
+        if (password_verify($token, $tokenData['token'])) {
+            return $tokenData;
         }
-        return false;
     }
+    return false;
+}
 
     /**
      * Actualiza la contraseña de un usuario.
