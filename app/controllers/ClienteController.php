@@ -63,7 +63,6 @@ class ClienteController {
 
             $this->clienteModel->crearCliente($datos);
             header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
-            funcionesDebug
             exit();
         }
     }
@@ -105,20 +104,31 @@ class ClienteController {
      * Procesa la eliminación de un cliente.
      */
     public function eliminarCliente() {
-        $this->verificarAdmin();
-        $id = $_GET['id'] ?? null;
-        if ($id) {
+    $this->verificarAdmin();
+    $id = $_GET['id'] ?? null;
+
+    if ($id) {
+        try {
             $exito = $this->clienteModel->eliminar($id);
             if ($exito) {
                 header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
             } else {
-                // Este error ocurre si el cliente tiene informes asociados
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&error=eliminar_fallido');
+                // Caso raro: no eliminó pero tampoco lanzó excepción
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
             }
-        } else {
-            header('Location: /softGenn/public/index.php?action=gestionar_clientes');
+        } catch (\PDOException $e) {
+            // Verificamos si es error de clave foránea (1451)
+            if (isset($e->errorInfo[1]) && $e->errorInfo[1] == 1451) {
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=eliminar_fallido');
+            } else {
+                // Otro error inesperado
+                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
+            }
         }
-        exit();
+    } else {
+        header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=error');
+    }
+    exit();
     }
 
     /**
@@ -131,4 +141,3 @@ class ClienteController {
         }
     }
 }
-
