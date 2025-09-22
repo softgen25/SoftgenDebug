@@ -181,25 +181,23 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
 <div class="container-fluid">
     <div class="row g-4 mb-4">
         <div class="col-lg-6">
-            <div class="card stat-card" style="height: 435px;">
+            <div class="card stat-card" style="height: 400px;">
                 <div class="card-body d-flex flex-column shadow">
                     <h5 class="card-title">Informes por Tipo de Servicio</h5>
                     <div class="flex-grow-1" style="position: relative;">
                         <canvas id="informesChart"></canvas> 
                     </div>
-                    <button onclick="actualizar()" class="btn mt-3 w-50 align-self-center mb-3" style="background-color: #135787; color: #ffff;">Actualizar tabla</button>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6">
-            <div class="card stat-card">
+            <div class="card stat-card" style="height: 400px;">
                 <div class="card-body d-flex flex-column shadow">
                     <h5 class="card-title">Estado de Servicios</h5>
-                    <div style="position: relative; max-width: 400px; margin: 0 auto;">
+                    <div style="position: relative; max-width: 450px; margin: 0 auto;">
                         <canvas id="estadoServiciosChart"></canvas>
                     </div>
-                    <button onclick="actualizar()" class="btn mt-3 mb-3 w-50 align-self-center" style="background-color: #135787; color: #ffff;">Actualizar tabla</button>
                 </div>
             </div>
         </div>
