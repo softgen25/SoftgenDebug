@@ -10,6 +10,7 @@ use App\Models\EmpresaModel;
 use Mpdf\Mpdf;
 use PDO;
 
+
 require_once __DIR__ . '/../models/ServicioModel.php';
 require_once __DIR__ . '/../models/Cliente.php';
 require_once __DIR__ . '/../models/Ubicacion.php';
@@ -31,7 +32,7 @@ class ServicioController {
 
     public function mostrarFormularioCrear() {
         if (!isset($_SESSION['id_usuario'])) {
-            header('Location: /softGenn/public/index.php?action=login');
+            header('Location: /softgenn/public/index.php?action=login');
             exit();
         }
 
@@ -44,21 +45,32 @@ class ServicioController {
         require_once '../app/views/informes/crear_informe.php';
     }
 
-    public function gestionarInformes() {
-        // Verificar si el usuario ha iniciado sesión y tiene el rol correcto (ej. administrador)
-        if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login');
-            exit();
+    public function guardarInforme() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            die("Acceso no permitido.");
         }
 
-        $busqueda = $_GET['busqueda'] ?? '';
-        $pagina = $_GET['pagina'] ?? 1;
+        $datos = $_POST;
+        $uploadDir = '../public/uploads/';
 
-        // Obtener los informes desde el modelo
-        $informes = $this->servicioModel->obtenerInformesConPaginacion($busqueda, $pagina, 10);
-        $totalPaginas = $this->servicioModel->contarInformes($busqueda, 10);
+        // CORRECCIÓN: Se comprueba si las firmas existen antes de procesarlas.
+        $datos['ser_firma_tecnico'] = $this->guardarFirma($datos['ser_firma_tecnico'] ?? null, 'firma_tecnico_', $uploadDir . 'firmas/');
+        $datos['ser_firma_cliente'] = $this->guardarFirma($datos['ser_firma_cliente'] ?? null, 'firma_cliente_', $uploadDir . 'firmas/');
         
-        require_once '../app/views/informes/gestion_informes.php';
+        $rutasFotos = [];
+        if (!empty($_FILES['fotos']['name'][0])) {
+            $rutasFotos = $this->guardarFotos($_FILES['fotos'], $datos['foto_descripciones'] ?? [], $uploadDir . 'fotos/');
+        }
+        
+        $nuevoServicioId = $this->servicioModel->guardarInformeCompleto($datos, $rutasFotos);
+
+        if ($nuevoServicioId) {
+            header('Location: /softgenn/public/index.php?action=generar_pdf&id=' . $nuevoServicioId);
+        } else {
+            // Si el modelo devuelve false, es que hubo un error grave.
+            header('Location: /softgenn/public/index.php?action=crear_informe&error=' . urlencode('Error crítico al guardar en la base de datos. Revise los logs.'));
+        }
+        exit();
     }
 
     public function generarPdf() {
@@ -75,19 +87,19 @@ class ServicioController {
         $html = ob_get_clean();
 
         try {
-    $mpdf = new \Mpdf\Mpdf([
+        $mpdf = new \Mpdf\Mpdf([
         'mode'   => 'utf-8',
         'format' => 'A4',
         // IMPORTANTE en Windows/XAMPP → dale una carpeta temporal propia
         'tempDir' => __DIR__ . '/../../tmp'
-    ]);
+        ]);
 
-    $mpdf->WriteHTML($html);
-    $mpdf->Output('Informe_Servicio_' . $id . '.pdf', 'I');
-    exit();
-} catch (\Mpdf\MpdfException $e) {
-    die("Error al generar el PDF: " . $e->getMessage());
-}
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('Informe_Servicio_' . $id . '.pdf', 'I');
+        exit();
+        } catch (\Mpdf\MpdfException $e) {
+        die("Error al generar el PDF: " . $e->getMessage());
+        }
     }
     
     private function guardarFirma($dataBase64, $prefix, $directorio) {
@@ -116,17 +128,4 @@ class ServicioController {
         }
         return $rutas;
     }
-
- public function graficasInformes()
-{
-    $tipos = $this->servicioModel->obtenerConteoPorTipoServicio();
-    $estados = $this->servicioModel->obtenerConteoPorEstado();
-
-    header('Content-Type: application/json');
-    echo json_encode([
-        'tipos' => $tipos,
-        'estados' => $estados
-    ]);
-}
-
 }

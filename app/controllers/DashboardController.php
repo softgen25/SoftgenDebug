@@ -17,7 +17,7 @@ class DashboardController {
     public function showAdminDashboard() {
         // Medida de seguridad
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso denegado.'));
+            header('Location: /softgenn/public/index.php?action=login&error=' . urlencode('Acceso denegado.'));
             exit();
         }
 
@@ -36,7 +36,7 @@ class DashboardController {
     public function showTecnicoDashboard() {
         // Medida de seguridad
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 2) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso denegado.'));
+            header('Location: /softgenn/public/index.php?action=login&error=' . urlencode('Acceso denegado.'));
             exit();
         }
 

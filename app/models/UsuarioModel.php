@@ -132,7 +132,7 @@ class UsuarioModel {
     private function verificarAdmin() {
         if (session_status() == PHP_SESSION_NONE) { session_start(); }
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softgenn1/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }

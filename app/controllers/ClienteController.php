@@ -56,13 +56,13 @@ class ClienteController {
             // 🔹 Validar si el correo ya existe
             if ($this->clienteModel->existeCorreoCliente($datos['contacto_correo'])) {
                 // Redirigimos con un error
-                header('Location: /softGenn/public/index.php?action=mostrar_crear_cliente&status=correo_existente_cliente');
+                header('Location: /softgenn/public/index.php?action=mostrar_crear_cliente&status=correo_existente_cliente');
                 exit();
             }
 
             // 🔹 Si no existe, lo creamos
             $this->clienteModel->crearCliente($datos);
-            header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
+            header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=creado_cliente');
             exit();
         }
     }
@@ -92,9 +92,9 @@ class ClienteController {
             $exito = $this->clienteModel->actualizar($id, $datos);
 
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=editado');
+                header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=editado');
             } else {
-                header('Location: /softGenn/public/index.php?action=mostrar_editar_cliente&id=' . $id . '&error=1');
+                header('Location: /softgenn/public/index.php?action=mostrar_editar_cliente&id=' . $id . '&error=1');
             }
             exit();
         }
@@ -109,13 +109,13 @@ class ClienteController {
         if ($id) {
             $exito = $this->clienteModel->eliminar($id);
             if ($exito) {
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
+                header('Location: /softgenn/public/index.php?action=gestionar_clientes&status=cliente_eliminado');
             } else {
                 // Este error ocurre si el cliente tiene informes asociados
-                header('Location: /softGenn/public/index.php?action=gestionar_clientes&error=eliminar_fallido');
+                header('Location: /softgenn/public/index.php?action=gestionar_clientes&error=eliminar_fallido');
             }
         } else {
-            header('Location: /softGenn/public/index.php?action=gestionar_clientes');
+            header('Location: /softgenn/public/index.php?action=gestionar_clientes');
         }
         exit();
     }
@@ -125,7 +125,7 @@ class ClienteController {
      */
     private function verificarAdmin() {
         if (!isset($_SESSION['id_rol']) || $_SESSION['id_rol'] != 1) {
-            header('Location: /softGenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
+            header('Location: /softgenn/public/index.php?action=login&error=' . urlencode('Acceso no autorizado.'));
             exit();
         }
     }

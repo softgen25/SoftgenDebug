@@ -11,8 +11,8 @@ class inspeccion_general {
     }
 
     public function crear(array $data) {
-        $query = "INSERT INTO inspeccion_general (id_servicio, ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_refrigerante, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire, ig_amperios, ig_voltaje, ig_temp_suministro, ig_temp_retorno) 
-                  VALUES (:id_servicio, :ig_goteos, :ig_gabinete, :ig_filtro, :ig_drenaje, :ig_serpentin, :ig_refrigerante, :ig_vibracion, :ig_tablero_electrico, :ig_aislamiento_gabinete, :ig_flujo_aire, :ig_amperios, :ig_voltaje, :ig_temp_suministro, :ig_temp_retorno)";
+        $query = "INSERT INTO inspeccion_general (id_servicio, ig_goteos, ig_gabinete, ig_filtro, ig_drenaje, ig_serpentin, ig_refrigerante, ig_vibracion, ig_tablero_electrico, ig_aislamiento_gabinete, ig_flujo_aire, ig_amperios1, ig_amperios2, ig_amperios2, ig_voltaje1, ig_voltaje2, ig_voltaje3, ig_temp_suministro, ig_temp_retorno) 
+                  VALUES (:id_servicio, :ig_goteos, :ig_gabinete, :ig_filtro, :ig_drenaje, :ig_serpentin, :ig_refrigerante, :ig_vibracion, :ig_tablero_electrico, :ig_aislamiento_gabinete, :ig_flujo_aire, :ig_amperios1, :ig_amperios2, :ig_amperios3, :ig_voltaje1, :ig_voltaje2, :ig_voltaje3, :ig_temp_suministro, :ig_temp_retorno)";
         
         $stmt = $this->db->prepare($query);
 
@@ -27,8 +27,13 @@ class inspeccion_general {
         $stmt->bindValue(':ig_tablero_electrico', isset($data['ig_tablero_electrico']) ? 1 : 0, PDO::PARAM_INT);
         $stmt->bindValue(':ig_aislamiento_gabinete', isset($data['ig_aislamiento_gabinete']) ? 1 : 0, PDO::PARAM_INT);
         $stmt->bindValue(':ig_flujo_aire', isset($data['ig_flujo_aire']) ? 1 : 0, PDO::PARAM_INT);
-        $stmt->bindValue(':ig_amperios', $data['ig_amperios']);
-        $stmt->bindValue(':ig_voltaje', $data['ig_voltaje']);
+        $stmt->bindValue(':ig_amperios1', $data['ig_amperios1']);
+        $stmt->bindValue(':ig_amperios2', $data['ig_amperios2']);
+        $stmt->bindValue(':ig_amperios3', $data['ig_amperios3']);
+        $stmt->bindValue(':ig_voltaje1', $data['ig_voltaje1']);
+        $stmt->bindValue(':ig_voltaje2', $data['ig_voltaje2']);
+        $stmt->bindValue(':ig_voltaje3', $data['ig_voltaje3']);
+
         $stmt->bindValue(':ig_temp_suministro', $data['ig_temp_suministro']);
         $stmt->bindValue(':ig_temp_retorno', $data['ig_temp_retorno']);
 
