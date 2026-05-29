@@ -187,20 +187,17 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['id_rol'] != 1) {
                     <div class="flex-grow-1" style="position: relative;">
                         <canvas id="informesChart"></canvas> 
                     </div>
-                    <button onclick="actualizar()" class="btn mt-3 w-50 align-self-center mb-3" style="background-color: #135787; color: #ffff;">Actualizar tabla</button>
                 </div>
             </div>
         </div>
 
         <div class="col-lg-6">
             <div class="card stat-card">
-                <div class="card-body d-flex flex-column shadow">
-                    <h5 class="card-title">Estado de Servicios</h5>
+                <div class="card-body d-flex flex-column shadow" style="height: 435px;">
+                    <h4 class="card-title">Estado de los Servicios</h4>
                     <div style="position: relative; max-width: 400px; margin: 0 auto;">
                         <canvas id="estadoServiciosChart"></canvas>
                     </div>
-                    <button onclick="actualizar()" class="btn mt-3 mb-3 w-50 align-self-center" style="background-color: #135787; color: #ffff;">Actualizar tabla</button>
-                </div>
             </div>
         </div>
     </div>

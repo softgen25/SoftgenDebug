@@ -291,7 +291,7 @@ class UsuarioController {
                 $mail->Username = 'softgen@softgenproject.pro'; // TU correo en Hostinger
                 $mail->Password = 'Softgen123*';        // Contraseña de ese correo
                 $mail->SMTPSecure = 'ssl';                // o 'tls' si usas puerto 587
-                $mail->Port = 465;                        // 465 = SSL, 587 = TLS
+                $mail->Port = '587';                        // 465 = SSL, 587 = TLS
 
                 // Remitente y destinatario
                 $mail->setFrom('softgen@softgenproject.pro', 'Soporte SoftGen');

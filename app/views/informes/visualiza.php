@@ -10,6 +10,10 @@
     <link href= "https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+    <link rel="icon" type="image/png" sizes="16x16" href="public/img/Logo Favicon 16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="public/img/Logo favicon 1.0.png">
+    <link rel="icon" type="image/png" sizes="180x180" href="public/img/Logo Favicon 180x180.png">
+
     <link rel="stylesheet" href="../public/css/styles.css">
     <link rel="stylesheet" href="../public/css/cssBoostrap/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/visualizacion.css">
@@ -32,8 +36,9 @@
     </nav>
     <div class="step active" id="step1">
         <section>
-            <div class="container-fluid">
-                <h4 class="mb-3">Detalles de los informes</h4>
+            <div class="container text-center">
+                <h2 class="mb-3">Pronto aqui encontraras tus informes</h2>
+                <img src="../public/img/data.gif" alt="">
             </div>
         </section>
     </div>
